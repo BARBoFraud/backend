@@ -13,34 +13,13 @@ export class AuthService {
     ) {}
 
     async loginUser(userLoginDto: UserLoginDto) {
-        const user = await this.usersService.findByEmail(userLoginDto.email);
-
+        const user = await this.usersService.validateUser(userLoginDto.email, userLoginDto.password);
         if (!user) {
             throw new HttpException(
-                { error: 'User does not exist' },
+                { error: 'Invalid credentials or user inactive' },
                 HttpStatus.UNAUTHORIZED
             );
         }
-
-        const hashedPassword = user.password;
-        const salt = user.salt;
-        const hash = sha256(userLoginDto.password);
-        const newHash = sha256(hash + salt);
-
-        if (newHash !== hashedPassword) {
-            throw new HttpException(
-                { error: 'Incorrect password' },
-                HttpStatus.UNAUTHORIZED
-            );
-        }
-
-        if (!user.active) {
-            throw new HttpException(
-                { error: 'User is not active' },
-                HttpStatus.UNAUTHORIZED
-            );
-        }
-
         const profile: UserProfile = {
             id: user.id,
             name: user.name,
@@ -48,13 +27,8 @@ export class AuthService {
             lastName2: user.last_name2,
             email: user.email
         };
-
-        const accessToken =
-            await this.tokenService.generateAccessToken(profile);
-
-        const refreshToken =
-            await this.tokenService.generateRefreshToken(profile);
-
+        const accessToken = await this.tokenService.generateAccessToken(profile);
+        const refreshToken = await this.tokenService.generateRefreshToken(profile);
         return {
             access_token: accessToken,
             refresh_token: refreshToken
