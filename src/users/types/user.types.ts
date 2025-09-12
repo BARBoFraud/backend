@@ -15,4 +15,5 @@ export type UserDb = {
     email: string;
     password: string;
     salt: string;
+    active: boolean;
 };

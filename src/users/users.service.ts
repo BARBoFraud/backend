@@ -34,4 +34,8 @@ export class UsersService {
 
         return { message: `User inserted with id: ${newId}` };
     }
+
+    async findByEmail(email: string) {
+        return await this.usersRepository.findByEmail(email);
+    }
 }
