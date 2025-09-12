@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { DbService } from 'src/db/db.service';
+import { DbService } from '../db/db.service';
 import { CreateUserData, UserDb } from './types/user.types';
 import { ResultSetHeader } from 'mysql2';
 
