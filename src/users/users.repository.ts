@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
-import { CreateUserData, User } from './types/user.types';
+import { CreateUserData, UserDb } from './types/user.types';
 import { ResultSetHeader } from 'mysql2';
 
 @Injectable()
@@ -33,17 +33,17 @@ export class UsersRepository {
         }
     }
 
-    async findByEmail(email: string): Promise<User | null> {
+    async findByEmail(email: string): Promise<UserDb | null> {
         const sql = `SELECT * FROM user WHERE email = ?`;
         const [result] = await this.dbService.getPool().query(sql, [email]);
-        const users = result as User[];
+        const users = result as UserDb[];
         return users[0] || null;
     }
 
-    async findById(id: number): Promise<User | null> {
+    async findById(id: number): Promise<UserDb | null> {
         const sql = `SELECT * FROM user WHERE id = ?`;
         const [result] = await this.dbService.getPool().query(sql, [id]);
-        const users = result as User[];
+        const users = result as UserDb[];
         return users[0] || null;
     }
 }
