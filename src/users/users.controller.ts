@@ -28,6 +28,6 @@ export class UsersController {
     @ApiOperation({ summary: 'Obtener el perfil de usuario con jwt' })
     @ApiBearerAuth()
     getProfile(@Req() req: UserAuthenticatedRequest) {
-        return { profile: req.user.id };
+        return this.usersService.findById(req.user.id);
     }
 }

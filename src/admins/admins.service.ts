@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AdminsRepository } from './admins.repository';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { genSalt, sha256 } from 'src/utils/hash/hash.util';
+import { AdminDb } from './types/admin.types';
 
 @Injectable()
 export class AdminsService {
@@ -30,5 +31,23 @@ export class AdminsService {
         });
 
         return { message: `User inserted with id ${newId}` };
+    }
+
+    async validateAdmin(
+        username: string,
+        password: string
+    ): Promise<AdminDb | null> {
+        const admin = await this.adminsRepository.findByUsername(username);
+        if (!admin) return null;
+        const hashedPassword = admin.password;
+        const salt = admin.salt;
+        const hash = sha256(password);
+        const newHash = sha256(hash + salt);
+        if (newHash !== hashedPassword) return null;
+        return admin;
+    }
+
+    async findById(id: number) {
+        return await this.adminsRepository.findById(id);
     }
 }
