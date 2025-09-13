@@ -37,38 +37,48 @@ export class TokenService {
     }
 
     async verifyAccessToken(token: string): Promise<AccessTokenPayload> {
-        const payload = await this.jwtService.verifyAsync<AccessTokenPayload>(
-            token,
-            {
-                secret: process.env.JWT_SECRET
-            }
-        );
+        try {
+            const payload =
+                await this.jwtService.verifyAsync<AccessTokenPayload>(token, {
+                    secret: process.env.JWT_SECRET
+                });
 
-        if (payload.type !== 'access') {
+            if (payload.type !== 'access') {
+                throw new HttpException(
+                    { error: 'Invalid token type, expected access' },
+                    HttpStatus.UNAUTHORIZED
+                );
+            }
+
+            return payload;
+        } catch {
             throw new HttpException(
-                { error: 'Invalid token type, expected access' },
+                { error: 'Invalid or expired access token' },
                 HttpStatus.UNAUTHORIZED
             );
         }
-
-        return payload;
     }
 
     async verifyRefreshToken(token: string): Promise<RefreshTokenPayload> {
-        const payload = await this.jwtService.verifyAsync<RefreshTokenPayload>(
-            token,
-            {
-                secret: process.env.JWT_SECRET
-            }
-        );
+        try {
+            const payload =
+                await this.jwtService.verifyAsync<RefreshTokenPayload>(token, {
+                    secret: process.env.JWT_SECRET
+                });
 
-        if (payload.type !== 'refresh') {
+            if (payload.type !== 'refresh') {
+                throw new HttpException(
+                    { error: 'Invalid token type, expected refresh' },
+                    HttpStatus.UNAUTHORIZED
+                );
+            }
+
+            return payload;
+        } catch {
             throw new HttpException(
-                { error: 'Invalid token type, expected refresh' },
+                { error: 'Invalid or expired refresh token' },
                 HttpStatus.UNAUTHORIZED
             );
         }
-
-        return payload;
     }
 }
