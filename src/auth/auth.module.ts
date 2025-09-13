@@ -3,9 +3,10 @@ import { TokenService } from './tokens.service';
 import { UsersModule } from 'src/users/users.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { AdminsModule } from 'src/admins/admins.module';
 
 @Module({
-    imports: [UsersModule],
+    imports: [UsersModule, AdminsModule],
     providers: [TokenService, AuthService],
     controllers: [AuthController],
     exports: [TokenService, AuthService]
