@@ -6,13 +6,13 @@ export interface UserProfile {
     email: string;
 }
 
-export interface AccessTokenPayload {
+export interface UserAccessTokenPayload {
     sub: number;
     type: 'access';
     profile: UserProfile;
 }
 
-export interface RefreshTokenPayload {
+export interface UserRefreshTokenPayload {
     sub: number;
     type: 'refresh';
 }

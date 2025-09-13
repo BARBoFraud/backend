@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {
-    AccessTokenPayload,
-    RefreshTokenPayload,
+    UserAccessTokenPayload,
+    UserRefreshTokenPayload,
     UserProfile
 } from './types/auth.types';
 
@@ -11,7 +11,7 @@ export class TokenService {
     constructor(private readonly jwtService: JwtService) {}
 
     async generateAccessToken(profile: UserProfile): Promise<string> {
-        const payload: AccessTokenPayload = {
+        const payload: UserAccessTokenPayload = {
             sub: profile.id,
             type: 'access',
             profile
@@ -24,7 +24,7 @@ export class TokenService {
     }
 
     async generateRefreshToken(profile: UserProfile): Promise<string> {
-        const payload: RefreshTokenPayload = {
+        const payload: UserRefreshTokenPayload = {
             sub: profile.id,
             type: 'refresh'
         };
@@ -35,12 +35,15 @@ export class TokenService {
         });
     }
 
-    async verifyAccessToken(token: string): Promise<AccessTokenPayload> {
+    async verifyAccessToken(token: string): Promise<UserAccessTokenPayload> {
         try {
             const payload =
-                await this.jwtService.verifyAsync<AccessTokenPayload>(token, {
-                    secret: process.env.JWT_SECRET
-                });
+                await this.jwtService.verifyAsync<UserAccessTokenPayload>(
+                    token,
+                    {
+                        secret: process.env.JWT_SECRET
+                    }
+                );
 
             if (payload.type !== 'access') {
                 throw new HttpException(
@@ -58,12 +61,15 @@ export class TokenService {
         }
     }
 
-    async verifyRefreshToken(token: string): Promise<RefreshTokenPayload> {
+    async verifyRefreshToken(token: string): Promise<UserRefreshTokenPayload> {
         try {
             const payload =
-                await this.jwtService.verifyAsync<RefreshTokenPayload>(token, {
-                    secret: process.env.JWT_SECRET
-                });
+                await this.jwtService.verifyAsync<UserRefreshTokenPayload>(
+                    token,
+                    {
+                        secret: process.env.JWT_SECRET
+                    }
+                );
 
             if (payload.type !== 'refresh') {
                 throw new HttpException(

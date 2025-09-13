@@ -1,10 +1,10 @@
-import { AccessTokenPayload } from '../../auth/types/auth.types';
+import { UserAccessTokenPayload } from '../../auth/types/auth.types';
 import { Request } from 'express';
 
 export interface AuthenticatedUser {
-    profile: AccessTokenPayload['profile'];
+    profile: UserAccessTokenPayload['profile'];
 }
 
-export interface AuthenticatedRequest extends Request {
+export interface UserAuthenticatedRequest extends Request {
     user: AuthenticatedUser;
 }

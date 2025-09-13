@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { TokenService } from '../../auth/tokens.service';
-import { AuthenticatedRequest } from '../interfaces/authenticated-requests';
+import { UserAuthenticatedRequest } from '../interfaces/authenticated-requests';
 
 // Codigo basado en documentacion de nestjs
 
@@ -17,7 +17,7 @@ export class UsersAuthGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context
             .switchToHttp()
-            .getRequest<AuthenticatedRequest>();
+            .getRequest<UserAuthenticatedRequest>();
         const token = this.extractTokenFromHeader(request);
         if (!token) {
             throw new HttpException(
