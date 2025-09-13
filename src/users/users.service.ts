@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
+import { UserDb } from './types/user.types';
 
 @Injectable()
 export class UsersService {
@@ -43,7 +44,10 @@ export class UsersService {
         return await this.usersRepository.findById(id);
     }
 
-    async validateUser(email: string, password: string) {
+    async validateUser(
+        email: string,
+        password: string
+    ): Promise<UserDb | null> {
         const user = await this.usersRepository.findByEmail(email);
         if (!user) return null;
         const hashedPassword = user.password;

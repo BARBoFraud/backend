@@ -18,7 +18,7 @@ export class AuthService {
         );
         if (!user) {
             throw new HttpException(
-                { error: 'Invalid credentials or user inactive' },
+                { error: 'Invalid credentials' },
                 HttpStatus.UNAUTHORIZED
             );
         }
