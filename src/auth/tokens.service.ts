@@ -1,20 +1,20 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {
-    UserAccessTokenPayload,
-    UserRefreshTokenPayload,
-    UserProfile
+    AccessTokenPayload,
+    ActorType,
+    RefreshTokenPayload
 } from './types/auth.types';
 
 @Injectable()
 export class TokenService {
     constructor(private readonly jwtService: JwtService) {}
 
-    async generateAccessToken(profile: UserProfile): Promise<string> {
-        const payload: UserAccessTokenPayload = {
-            sub: profile.id,
+    async generateAccessToken(id: number, actor: ActorType): Promise<string> {
+        const payload: AccessTokenPayload = {
+            sub: id,
             type: 'access',
-            profile
+            actor
         };
 
         return this.jwtService.signAsync(payload, {
@@ -23,10 +23,11 @@ export class TokenService {
         });
     }
 
-    async generateRefreshToken(profile: UserProfile): Promise<string> {
-        const payload: UserRefreshTokenPayload = {
-            sub: profile.id,
-            type: 'refresh'
+    async generateRefreshToken(id: number, actor: ActorType): Promise<string> {
+        const payload: RefreshTokenPayload = {
+            sub: id,
+            type: 'refresh',
+            actor
         };
 
         return this.jwtService.signAsync(payload, {
@@ -35,55 +36,39 @@ export class TokenService {
         });
     }
 
-    async verifyAccessToken(token: string): Promise<UserAccessTokenPayload> {
-        try {
-            const payload =
-                await this.jwtService.verifyAsync<UserAccessTokenPayload>(
-                    token,
-                    {
-                        secret: process.env.JWT_SECRET
-                    }
-                );
-
-            if (payload.type !== 'access') {
-                throw new HttpException(
-                    { error: 'Invalid token type, expected access' },
-                    HttpStatus.UNAUTHORIZED
-                );
+    async verifyAccessToken(token: string): Promise<AccessTokenPayload> {
+        const payload = await this.jwtService.verifyAsync<AccessTokenPayload>(
+            token,
+            {
+                secret: process.env.JWT_SECRET
             }
+        );
 
-            return payload;
-        } catch {
+        if (payload.type !== 'access') {
             throw new HttpException(
-                { error: 'Invalid or expired access token' },
+                { error: 'Invalid token type, expected access' },
                 HttpStatus.UNAUTHORIZED
             );
         }
+
+        return payload;
     }
 
-    async verifyRefreshToken(token: string): Promise<UserRefreshTokenPayload> {
-        try {
-            const payload =
-                await this.jwtService.verifyAsync<UserRefreshTokenPayload>(
-                    token,
-                    {
-                        secret: process.env.JWT_SECRET
-                    }
-                );
-
-            if (payload.type !== 'refresh') {
-                throw new HttpException(
-                    { error: 'Invalid token type, expected refresh' },
-                    HttpStatus.UNAUTHORIZED
-                );
+    async verifyRefreshToken(token: string): Promise<RefreshTokenPayload> {
+        const payload = await this.jwtService.verifyAsync<RefreshTokenPayload>(
+            token,
+            {
+                secret: process.env.JWT_SECRET
             }
+        );
 
-            return payload;
-        } catch {
+        if (payload.type !== 'refresh') {
             throw new HttpException(
-                { error: 'Invalid or expired refresh token' },
+                { error: 'Invalid token type, expected refresh' },
                 HttpStatus.UNAUTHORIZED
             );
         }
+
+        return payload;
     }
 }

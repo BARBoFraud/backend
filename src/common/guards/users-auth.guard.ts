@@ -9,24 +9,36 @@ import { Request } from 'express';
 import { TokenService } from '../../auth/tokens.service';
 import { UserAuthenticatedRequest } from '../interfaces/authenticated-requests';
 
-// Codigo basado en documentacion de nestjs
-
 @Injectable()
 export class UsersAuthGuard implements CanActivate {
-    constructor(private readonly authService: TokenService) {}
+    constructor(private readonly tokenService: TokenService) {}
+
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context
             .switchToHttp()
             .getRequest<UserAuthenticatedRequest>();
+
         const token = this.extractTokenFromHeader(request);
         if (!token) {
             throw new HttpException(
-                { error: 'Token not found in request header' },
+                { error: 'Token not found' },
                 HttpStatus.UNAUTHORIZED
             );
         }
-        const payload = await this.authService.verifyAccessToken(token);
-        request.user = payload;
+
+        const payload = await this.tokenService.verifyAccessToken(token);
+
+        if (payload.actor !== 'user') {
+            throw new HttpException(
+                { error: 'Not authorized as user' },
+                HttpStatus.FORBIDDEN
+            );
+        }
+
+        request.user = {
+            id: payload.sub,
+            actor: payload.actor
+        };
         return true;
     }
 

@@ -1,18 +1,13 @@
-export interface UserProfile {
-    id: number;
-    name: string;
-    lastName1: string;
-    lastName2: string;
-    email: string;
-}
+export type ActorType = 'user' | 'admin';
 
-export interface UserAccessTokenPayload {
+export interface AccessTokenPayload {
     sub: number;
     type: 'access';
-    profile: UserProfile;
+    actor: ActorType;
 }
 
-export interface UserRefreshTokenPayload {
+export interface RefreshTokenPayload {
     sub: number;
     type: 'refresh';
+    actor: ActorType;
 }

@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserProfile } from './types/auth.types';
 import { RefreshTokenDto, UserLoginDto } from './dto/user-login.dto';
 import { UsersService } from 'src/users/users.service';
 import { TokenService } from './tokens.service';
@@ -22,27 +21,31 @@ export class AuthService {
                 HttpStatus.UNAUTHORIZED
             );
         }
-        const profile: UserProfile = {
-            id: user.id,
-            name: user.name,
-            lastName1: user.last_name1,
-            lastName2: user.last_name2,
-            email: user.email
-        };
-        const accessToken =
-            await this.tokenService.generateAccessToken(profile);
-        const refreshToken =
-            await this.tokenService.generateRefreshToken(profile);
+        const accessToken = await this.tokenService.generateAccessToken(
+            user.id,
+            'user'
+        );
+        const refreshToken = await this.tokenService.generateRefreshToken(
+            user.id,
+            'user'
+        );
         return {
             access_token: accessToken,
             refresh_token: refreshToken
         };
     }
 
-    async refreshToken(refreshTokenDto: RefreshTokenDto) {
+    async refreshUserToken(refreshTokenDto: RefreshTokenDto) {
         const payload = await this.tokenService.verifyRefreshToken(
             refreshTokenDto.refresh_token
         );
+
+        if (payload.actor !== 'user') {
+            throw new HttpException(
+                { error: 'Invalid token actor' },
+                HttpStatus.UNAUTHORIZED
+            );
+        }
 
         const user = await this.usersService.findById(payload.sub);
         if (!user) {
@@ -52,16 +55,10 @@ export class AuthService {
             );
         }
 
-        const profile: UserProfile = {
-            id: user.id,
-            name: user.name,
-            lastName1: user.last_name1,
-            lastName2: user.last_name2,
-            email: user.email
-        };
-
-        const accessToken =
-            await this.tokenService.generateAccessToken(profile);
+        const accessToken = await this.tokenService.generateAccessToken(
+            user.id,
+            'user'
+        );
 
         return {
             access_token: accessToken

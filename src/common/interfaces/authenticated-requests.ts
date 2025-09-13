@@ -1,8 +1,8 @@
-import { UserAccessTokenPayload } from '../../auth/types/auth.types';
 import { Request } from 'express';
 
 export interface AuthenticatedUser {
-    profile: UserAccessTokenPayload['profile'];
+    id: number;
+    actor: 'user' | 'admin';
 }
 
 export interface UserAuthenticatedRequest extends Request {
