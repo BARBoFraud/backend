@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserLoginDto } from './dto/user-login.dto';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { TokenService } from './tokens.service';
-import { AdminsService } from 'src/admins/admins.service';
+import { AdminsService } from '../admins/admins.service';
 import { AdminLoginDto } from './dto/admin-login.dto';
 import { UserRefreshDto } from './dto/user-refresh.dto';
 

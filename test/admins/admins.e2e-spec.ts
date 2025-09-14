@@ -5,7 +5,7 @@ import { AppModule } from '../../src/app.module';
 
 describe('UsersController (e2e)', () => {
     let app: INestApplication;
-    let testEmail: string;
+    let username: string;
     const testPassword = '12345678';
     let accessToken: string;
     let refreshToken: string;
@@ -18,22 +18,19 @@ describe('UsersController (e2e)', () => {
         app = moduleFixture.createNestApplication();
         await app.init();
 
-        testEmail = `test-${Date.now()}@example.com`;
+        username = `test-${Date.now()}`;
     });
 
     afterAll(async () => {
         await app.close();
     });
 
-    it('should register a user', async () => {
+    it('should register an admin', async () => {
         const res = await request
             .default(app.getHttpServer())
-            .post('/users/register')
+            .post('/admins/register')
             .send({
-                name: 'Test',
-                last_name1: 'Fortnite',
-                last_name2: 'Fortnite',
-                email: testEmail,
+                username: username,
                 password: testPassword
             });
 
@@ -41,28 +38,12 @@ describe('UsersController (e2e)', () => {
         expect(res.body).toHaveProperty('message');
     });
 
-    it('should not register a duplicated user', async () => {
+    it('should login the new admin', async () => {
         const res = await request
             .default(app.getHttpServer())
-            .post('/users/register')
+            .post('/auth/admins/login')
             .send({
-                name: 'Test',
-                last_name1: 'Fortnite',
-                last_name2: 'Fortnite',
-                email: testEmail,
-                password: testPassword
-            });
-
-        expect(res.status).toBe(409);
-        expect(res.body).toHaveProperty('error');
-    });
-
-    it('should login the new user', async () => {
-        const res = await request
-            .default(app.getHttpServer())
-            .post('/auth/users/login')
-            .send({
-                email: testEmail,
+                username: username,
                 password: testPassword
             });
 
@@ -72,12 +53,12 @@ describe('UsersController (e2e)', () => {
         refreshToken = res.body.refresh_token;
     });
 
-    it('should not login an incorrect user', async () => {
+    it('should not login an incorrect admin', async () => {
         const res = await request
             .default(app.getHttpServer())
-            .post('/auth/users/login')
+            .post('/auth/admins/login')
             .send({
-                email: testEmail,
+                username: username,
                 password: testPassword + 'aaa'
             });
 
@@ -85,10 +66,10 @@ describe('UsersController (e2e)', () => {
         expect(res.body).toHaveProperty('error');
     });
 
-    it('should refresh the access token of a user', async () => {
+    it('should refresh the access token of an admin', async () => {
         const res = await request
             .default(app.getHttpServer())
-            .post('/auth/users/refresh')
+            .post('/auth/admins/refresh')
             .send({
                 refresh_token: refreshToken
             });
@@ -98,22 +79,21 @@ describe('UsersController (e2e)', () => {
         accessToken = res.body.access_token;
     });
 
-    it('should get the profile of the user', async () => {
+    it('should get the profile of the admin', async () => {
         const res = await request
             .default(app.getHttpServer())
-            .get('/users/profile')
+            .get('/admins/profile')
             .set('Authorization', `Bearer ${accessToken}`);
 
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty('id');
-        expect(res.body).toHaveProperty('name');
-        expect(res.body).toHaveProperty('last_name1');
+        expect(res.body).toHaveProperty('username');
     });
 
     it('should not accept an incorrect token type', async () => {
         const res = await request
             .default(app.getHttpServer())
-            .get('/users/profile')
+            .get('/admins/profile')
             .set('Authorization', `Bearer ${refreshToken}`);
 
         expect(res.status).toBe(401);

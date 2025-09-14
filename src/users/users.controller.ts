@@ -7,8 +7,8 @@ import {
     ApiResponse,
     ApiTags
 } from '@nestjs/swagger';
-import { UsersAuthGuard } from 'src/common/guards/users-auth.guard';
-import type { UserAuthenticatedRequest } from 'src/common/interfaces/authenticated-requests';
+import { UsersAuthGuard } from '../common/guards/users-auth.guard';
+import type { UserAuthenticatedRequest } from '../common/interfaces/authenticated-requests';
 
 @ApiTags('Modulo de usuarios')
 @Controller('users')

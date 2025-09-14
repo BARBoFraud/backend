@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AdminsService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
-import { AdminsAuthGuard } from 'src/common/guards/admins-auth.guard';
-import type { UserAuthenticatedRequest } from 'src/common/interfaces/authenticated-requests';
+import { AdminsAuthGuard } from '../common/guards/admins-auth.guard';
+import type { UserAuthenticatedRequest } from '../common/interfaces/authenticated-requests';
 
 @Controller('admins')
 export class AdminsController {
@@ -10,7 +10,6 @@ export class AdminsController {
 
     @Post('/register')
     async createAdmin(@Body() createAdminDto: CreateAdminDto) {
-        console.log(createAdminDto.username);
         return await this.adminsService.createAdmin(createAdminDto);
     }
 

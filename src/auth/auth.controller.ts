@@ -9,7 +9,7 @@ import { UserRefreshDto } from './dto/user-refresh.dto';
 @ApiTags('Modulo de autenticacion')
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) {}
+    constructor(private readonly authService: AuthService) { }
 
     @Post('/users/login')
     @ApiOperation({ summary: 'Login de usuario, regresa tokens JWT' })

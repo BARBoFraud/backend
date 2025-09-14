@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AdminsRepository } from './admins.repository';
 import { CreateAdminDto } from './dto/create-admin.dto';
-import { genSalt, sha256 } from 'src/utils/hash/hash.util';
+import { genSalt, sha256 } from '../utils/hash/hash.util';
 import { AdminDb } from './types/admin.types';
 
 @Injectable()

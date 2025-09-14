@@ -8,7 +8,7 @@ import {
 
 @Injectable()
 export class TokenService {
-    constructor(private readonly jwtService: JwtService) {}
+    constructor(private readonly jwtService: JwtService) { }
 
     async generateAccessToken(id: number, actor: ActorType): Promise<string> {
         const payload: AccessTokenPayload = {
