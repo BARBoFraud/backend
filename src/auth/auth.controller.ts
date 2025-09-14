@@ -9,7 +9,7 @@ import { UserRefreshDto } from './dto/user-refresh.dto';
 @ApiTags('Modulo de autenticacion')
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) { }
+    constructor(private readonly authService: AuthService) {}
 
     @Post('/users/login')
     @ApiOperation({ summary: 'Login de usuario, regresa tokens JWT' })
@@ -23,7 +23,9 @@ export class AuthController {
     }
 
     @Post('/users/refresh')
-    @ApiOperation({ summary: 'Refresh de access token, regresa nuevo token' })
+    @ApiOperation({
+        summary: 'Refresh de access token de usuario, regresa nuevo token'
+    })
     @ApiResponse({ status: 201, description: 'Refrescado correctamente' })
     @ApiResponse({ status: 401, description: 'Refresh token invalido' })
     async refresh(@Body() refreshTokenDto: UserRefreshDto) {
@@ -31,11 +33,22 @@ export class AuthController {
     }
 
     @Post('/admins/login')
+    @ApiOperation({ summary: 'Login de admin, regresa tokens JWT' })
+    @ApiResponse({
+        status: 401,
+        description: 'Credenciales incorrectas'
+    })
+    @ApiResponse({ status: 201, description: 'Inicio de sesion exitoso' })
     async adminLogin(@Body() adminLoginDto: AdminLoginDto) {
         return await this.authService.loginAdmin(adminLoginDto);
     }
 
     @Post('/admins/refresh')
+    @ApiOperation({
+        summary: 'Refresh de access token de admin, regresa nuevo token'
+    })
+    @ApiResponse({ status: 201, description: 'Refrescado correctamente' })
+    @ApiResponse({ status: 401, description: 'Refresh token invalido' })
     async adminRefresh(@Body() adminRefreshDto: AdminRefreshDto) {
         return await this.authService.refreshAdminToken(adminRefreshDto);
     }

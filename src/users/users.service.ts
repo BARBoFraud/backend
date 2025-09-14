@@ -36,12 +36,28 @@ export class UsersService {
         return { message: `User inserted with id: ${newId}` };
     }
 
-    async findByEmail(email: string) {
-        return await this.usersRepository.findByEmail(email);
+    async findByEmail(email: string): Promise<UserDb> {
+        const user = await this.usersRepository.findByEmail(email);
+        if (!user) {
+            throw new HttpException(
+                { error: 'User not found' },
+                HttpStatus.UNAUTHORIZED
+            );
+        }
+
+        return user;
     }
 
-    async findById(id: number) {
-        return await this.usersRepository.findById(id);
+    async findById(id: number): Promise<UserDb> {
+        const user = await this.usersRepository.findById(id);
+        if (!user) {
+            throw new HttpException(
+                { error: 'User not found' },
+                HttpStatus.UNAUTHORIZED
+            );
+        }
+
+        return user;
     }
 
     async validateUser(

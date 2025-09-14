@@ -26,6 +26,9 @@ export class UsersController {
     @Get('/profile')
     @UseGuards(UsersAuthGuard)
     @ApiOperation({ summary: 'Obtener el perfil de usuario con jwt' })
+    @ApiResponse({ status: 200, description: 'Perfil obtenido correctamente' })
+    @ApiResponse({ status: 401, description: 'No se encontro al usuario' })
+    @ApiResponse({ status: 403, description: 'Usuario no autorizado' })
     @ApiBearerAuth()
     getProfile(@Req() req: UserAuthenticatedRequest) {
         return this.usersService.findById(req.user.id);

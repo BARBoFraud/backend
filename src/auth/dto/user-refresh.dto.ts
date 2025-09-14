@@ -4,7 +4,7 @@ export class UserRefreshDto {
     @ApiProperty({
         example:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyOCIsInR5cGUiOiJh',
-        description: 'Refresh token asignado por api'
+        description: 'Refresh token de usuario asignado en login'
     })
     refresh_token: string;
 }
