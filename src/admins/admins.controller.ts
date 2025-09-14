@@ -3,7 +3,12 @@ import { AdminsService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { AdminsAuthGuard } from '../common/guards/admins-auth.guard';
 import type { UserAuthenticatedRequest } from '../common/interfaces/authenticated-requests';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags
+} from '@nestjs/swagger';
 
 @ApiTags('Modulo de administradores')
 @Controller('admins')
@@ -22,6 +27,7 @@ export class AdminsController {
 
     @Get('/profile')
     @UseGuards(AdminsAuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Obtener el perfil de administrador con jwt' })
     @ApiResponse({ status: 200, description: 'Perfil obtenido correctamente' })
     @ApiResponse({ status: 401, description: 'No se encontro al usuario' })
