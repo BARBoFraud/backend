@@ -7,6 +7,7 @@ describe('UsersController (e2e)', () => {
     let app: INestApplication;
     let username: string;
     const testPassword = '12345678';
+    let adminAccessToken: string;
     let accessToken: string;
     let refreshToken: string;
 
@@ -25,10 +26,26 @@ describe('UsersController (e2e)', () => {
         await app.close();
     });
 
+    it('should login an existent admin', async () => {
+        const res = await request
+            .default(app.getHttpServer())
+            .post('/auth/admins/login')
+            .send({
+                username: 'admin',
+                password: 'admin'
+            });
+
+        expect(res.status).toBe(201);
+        expect(res.body).toHaveProperty('access_token');
+        expect(res.body).toHaveProperty('refresh_token');
+        adminAccessToken = res.body.access_token;
+    });
+
     it('should register an admin', async () => {
         const res = await request
             .default(app.getHttpServer())
-            .post('/admins/register')
+            .post('/admins/create')
+            .set('Authorization', `Bearer ${adminAccessToken}`)
             .send({
                 username: username,
                 password: testPassword

@@ -15,11 +15,20 @@ import {
 export class AdminsController {
     constructor(private readonly adminsService: AdminsService) {}
 
-    @Post('/register')
+    @Post('/create')
     @ApiOperation({ summary: 'Endpoint de registro de administradores' })
+    @UseGuards(AdminsAuthGuard)
     @ApiResponse({
         status: 201,
         description: 'Administrador creado correctamente'
+    })
+    @ApiResponse({
+        status: 401,
+        description: 'No autorizado por JWT'
+    })
+    @ApiResponse({
+        status: 409,
+        description: 'Ya existe un admin con ese usuario'
     })
     async createAdmin(@Body() createAdminDto: CreateAdminDto) {
         return await this.adminsService.createAdmin(createAdminDto);
