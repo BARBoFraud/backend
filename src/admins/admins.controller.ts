@@ -11,7 +11,7 @@ import {
 } from '@nestjs/swagger';
 
 @ApiTags('Modulo de administradores')
-@Controller('admins')
+@Controller({ path: 'admins', version: '1' })
 export class AdminsController {
     constructor(private readonly adminsService: AdminsService) {}
 

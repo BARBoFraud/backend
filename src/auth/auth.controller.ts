@@ -7,7 +7,7 @@ import { AdminRefreshDto } from './dto/admin-refresh.dto';
 import { UserRefreshDto } from './dto/user-refresh.dto';
 
 @ApiTags('Modulo de autenticacion')
-@Controller('auth')
+@Controller({ path: 'auth', version: '1' })
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 

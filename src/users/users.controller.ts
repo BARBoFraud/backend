@@ -11,7 +11,7 @@ import { UsersAuthGuard } from '../common/guards/users-auth.guard';
 import type { UserAuthenticatedRequest } from '../common/interfaces/authenticated-requests';
 
 @ApiTags('Modulo de usuarios')
-@Controller('users')
+@Controller({ path: '/users', version: '1' })
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
