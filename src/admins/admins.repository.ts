@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { DbService } from '../db/db.service';
 import { ResultSetHeader } from 'mysql2';
 import { AdminDb, CreateAdminData } from './types/admin.types';
@@ -12,21 +12,14 @@ export class AdminsRepository {
             INSERT INTO admin(username, password, salt) VALUES
                 (?,?,?)
         `;
-        try {
-            const [result] = await this.dbService
-                .getPool()
-                .query<ResultSetHeader>(sql, [
-                    admin.username,
-                    admin.password,
-                    admin.salt
-                ]);
-            return result.insertId;
-        } catch {
-            throw new HttpException(
-                { error: 'Database error' },
-                HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
+        const [result] = await this.dbService
+            .getPool()
+            .query<ResultSetHeader>(sql, [
+                admin.username,
+                admin.password,
+                admin.salt
+            ]);
+        return result.insertId;
     }
 
     async findByUsername(username: string): Promise<AdminDb | null> {
@@ -41,5 +34,13 @@ export class AdminsRepository {
         const [result] = await this.dbService.getPool().query(sql, [id]);
         const admins = result as AdminDb[];
         return admins[0] || null;
+    }
+
+    async deleteAdmin(id: number): Promise<number> {
+        const sql = 'DELETE FROM admin WHERE id = ?';
+        const [result] = await this.dbService
+            .getPool()
+            .query<ResultSetHeader>(sql, [id]);
+        return result.affectedRows;
     }
 }

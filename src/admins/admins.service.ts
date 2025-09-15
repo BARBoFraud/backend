@@ -47,6 +47,25 @@ export class AdminsService {
         return admin;
     }
 
+    async deleteAdmin(username: string) {
+        const admin = await this.adminsRepository.findByUsername(username);
+        if (!admin) {
+            throw new HttpException(
+                { error: 'Admin not found' },
+                HttpStatus.CONFLICT
+            );
+        }
+
+        const affectedRows = await this.adminsRepository.deleteAdmin(admin.id);
+
+        if (affectedRows === 0) {
+            throw new HttpException(
+                { error: 'Admin was not deleted' },
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
     async findById(id: number) {
         return await this.adminsRepository.findById(id);
     }
