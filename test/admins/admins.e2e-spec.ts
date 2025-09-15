@@ -116,4 +116,14 @@ describe('UsersController (e2e)', () => {
         expect(res.status).toBe(401);
         expect(res.body).toHaveProperty('error');
     });
+
+    it('should eliminate an admin', async () => {
+        const res = await request
+            .default(app.getHttpServer())
+            .delete(`/admins/delete/${username}`)
+            .set('Authorization', `Bearer ${adminAccessToken}`);
+
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty('message');
+    });
 });
