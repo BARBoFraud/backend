@@ -1,9 +1,9 @@
 import {
     CanActivate,
     ExecutionContext,
-    HttpException,
-    HttpStatus,
-    Injectable
+    ForbiddenException,
+    Injectable,
+    UnauthorizedException
 } from '@nestjs/common';
 import { Request } from 'express';
 import { TokenService } from '../../auth/tokens.service';
@@ -20,19 +20,13 @@ export class UsersAuthGuard implements CanActivate {
 
         const token = this.extractTokenFromHeader(request);
         if (!token) {
-            throw new HttpException(
-                { error: 'Token not found' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new UnauthorizedException('Token not found');
         }
 
         const payload = await this.tokenService.verifyAccessToken(token);
 
         if (payload.actor !== 'user') {
-            throw new HttpException(
-                { error: 'Not authorized as user' },
-                HttpStatus.FORBIDDEN
-            );
+            throw new ForbiddenException('User type not found');
         }
 
         request.user = {
