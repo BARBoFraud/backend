@@ -51,10 +51,12 @@ export class AdminsController {
     @Delete('/delete/:username')
     @UseGuards(AdminsAuthGuard)
     @ApiBearerAuth()
-    @ApiResponse({ status: 200, description: 'Admin eliminado correctamente' })
+    @ApiOperation({
+        summary:
+            'Endpoint para eliminar a un administrador desde la cuenta de otro'
+    })
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Admin no encontrado' })
-    @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
     @ApiResponse({ status: 200, description: 'Administrador eliminado' })
     async deleteAdmin(@Param('username') username: string) {
         await this.adminsService.deleteAdmin(username);
