@@ -31,14 +31,8 @@ export class AdminsController {
         status: 201,
         description: 'Administrador creado correctamente'
     })
-    @ApiResponse({
-        status: 401,
-        description: 'No autorizado por JWT'
-    })
-    @ApiResponse({
-        status: 409,
-        description: 'Ya existe un admin con ese usuario'
-    })
+    @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
+    @ApiResponse({ status: 409, description: 'Username ya registrado' })
     async createAdmin(@Body() createAdminDto: CreateAdminDto) {
         return await this.adminsService.createAdmin(createAdminDto);
     }
@@ -48,8 +42,8 @@ export class AdminsController {
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Obtener el perfil de administrador con jwt' })
     @ApiResponse({ status: 200, description: 'Perfil obtenido correctamente' })
-    @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
-    @ApiResponse({ status: 403, description: 'Tipo de usuario no autorizado' })
+    @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
+    @ApiResponse({ status: 404, description: 'Admin no encontrado' })
     getProfile(@Req() req: UserAuthenticatedRequest) {
         return this.adminsService.findById(req.user.id);
     }
@@ -57,7 +51,9 @@ export class AdminsController {
     @Delete('/delete/:username')
     @UseGuards(AdminsAuthGuard)
     @ApiBearerAuth()
-    @ApiResponse({ status: 403, description: 'Tipo de usuario no autorizado' })
+    @ApiResponse({ status: 200, description: 'Admin eliminado correctamente' })
+    @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
+    @ApiResponse({ status: 404, description: 'Admin no encontrado' })
     @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
     @ApiResponse({ status: 200, description: 'Administrador eliminado' })
     async deleteAdmin(@Param('username') username: string) {
