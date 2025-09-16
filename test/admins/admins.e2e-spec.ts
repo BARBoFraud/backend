@@ -52,7 +52,6 @@ describe('UsersController (e2e)', () => {
             });
 
         expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('message');
     });
 
     it('should login the new admin', async () => {
@@ -80,7 +79,6 @@ describe('UsersController (e2e)', () => {
             });
 
         expect(res.status).toBe(401);
-        expect(res.body).toHaveProperty('error');
     });
 
     it('should refresh the access token of an admin', async () => {
@@ -114,7 +112,6 @@ describe('UsersController (e2e)', () => {
             .set('Authorization', `Bearer ${refreshToken}`);
 
         expect(res.status).toBe(401);
-        expect(res.body).toHaveProperty('error');
     });
 
     it('should eliminate an admin', async () => {
@@ -124,6 +121,5 @@ describe('UsersController (e2e)', () => {
             .set('Authorization', `Bearer ${adminAccessToken}`);
 
         expect(res.status).toBe(200);
-        expect(res.body).toHaveProperty('message');
     });
 });

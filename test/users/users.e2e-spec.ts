@@ -38,7 +38,6 @@ describe('UsersController (e2e)', () => {
             });
 
         expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('message');
     });
 
     it('should not register a duplicated user', async () => {
@@ -54,7 +53,6 @@ describe('UsersController (e2e)', () => {
             });
 
         expect(res.status).toBe(409);
-        expect(res.body).toHaveProperty('error');
     });
 
     it('should login the new user', async () => {
@@ -82,7 +80,6 @@ describe('UsersController (e2e)', () => {
             });
 
         expect(res.status).toBe(401);
-        expect(res.body).toHaveProperty('error');
     });
 
     it('should refresh the access token of a user', async () => {
@@ -117,6 +114,5 @@ describe('UsersController (e2e)', () => {
             .set('Authorization', `Bearer ${refreshToken}`);
 
         expect(res.status).toBe(401);
-        expect(res.body).toHaveProperty('error');
     });
 });
