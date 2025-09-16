@@ -7,19 +7,18 @@ import { AdminDb, CreateAdminData } from './types/admin.types';
 export class AdminsRepository {
     constructor(private readonly dbService: DbService) {}
 
-    async createAdmin(admin: CreateAdminData): Promise<number> {
+    async createAdmin(admin: CreateAdminData) {
         const sql = `
             INSERT INTO admin(username, password, salt) VALUES
                 (?,?,?)
         `;
-        const [result] = await this.dbService
+        await this.dbService
             .getPool()
             .query<ResultSetHeader>(sql, [
                 admin.username,
                 admin.password,
                 admin.salt
             ]);
-        return result.insertId;
     }
 
     async findByUsername(username: string): Promise<AdminDb | null> {
@@ -36,11 +35,8 @@ export class AdminsRepository {
         return admins[0] || null;
     }
 
-    async deleteAdmin(id: number): Promise<number> {
+    async deleteAdmin(id: number) {
         const sql = 'DELETE FROM admin WHERE id = ?';
-        const [result] = await this.dbService
-            .getPool()
-            .query<ResultSetHeader>(sql, [id]);
-        return result.affectedRows;
+        await this.dbService.getPool().query<ResultSetHeader>(sql, [id]);
     }
 }

@@ -1,9 +1,9 @@
 import {
     CanActivate,
     ExecutionContext,
-    HttpException,
-    HttpStatus,
-    Injectable
+    ForbiddenException,
+    Injectable,
+    UnauthorizedException
 } from '@nestjs/common';
 import { Request } from 'express';
 import { TokenService } from '../../auth/tokens.service';
@@ -20,19 +20,13 @@ export class AdminsAuthGuard implements CanActivate {
 
         const token = this.extractTokenFromHeader(request);
         if (!token) {
-            throw new HttpException(
-                { error: 'Token not found' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new UnauthorizedException('Token no encontrado');
         }
 
         const payload = await this.tokenService.verifyAccessToken(token);
 
         if (payload.actor !== 'admin') {
-            throw new HttpException(
-                { error: 'Not authorized as admin' },
-                HttpStatus.FORBIDDEN
-            );
+            throw new ForbiddenException('Tipo de usuario no admitido');
         }
 
         request.user = {

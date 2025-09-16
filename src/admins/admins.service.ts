@@ -1,4 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException
+} from '@nestjs/common';
 import { AdminsRepository } from './admins.repository';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
@@ -14,23 +18,18 @@ export class AdminsService {
         );
 
         if (existingAdmin) {
-            throw new HttpException(
-                { error: 'Admin already exists' },
-                HttpStatus.CONFLICT
-            );
+            throw new ConflictException('Username already in use');
         }
 
         const hash = sha256(createAdminDto.password);
         const salt = genSalt();
         const hashed_password = sha256(hash + salt);
 
-        const newId = await this.adminsRepository.createAdmin({
+        await this.adminsRepository.createAdmin({
             username: createAdminDto.username,
             password: hashed_password,
             salt
         });
-
-        return { message: `User inserted with id ${newId}` };
     }
 
     async validateAdmin(
@@ -50,20 +49,10 @@ export class AdminsService {
     async deleteAdmin(username: string) {
         const admin = await this.adminsRepository.findByUsername(username);
         if (!admin) {
-            throw new HttpException(
-                { error: 'Admin not found' },
-                HttpStatus.CONFLICT
-            );
+            throw new NotFoundException('Admin not found');
         }
 
-        const affectedRows = await this.adminsRepository.deleteAdmin(admin.id);
-
-        if (affectedRows === 0) {
-            throw new HttpException(
-                { error: 'Admin was not deleted' },
-                HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
+        await this.adminsRepository.deleteAdmin(admin.id);
     }
 
     async findById(id: number) {

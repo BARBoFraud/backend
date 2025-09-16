@@ -1,4 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+    Injectable,
+    NotFoundException,
+    UnauthorizedException
+} from '@nestjs/common';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UsersService } from '../users/users.service';
 import { TokenService } from './tokens.service';
@@ -20,10 +24,7 @@ export class AuthService {
             userLoginDto.password
         );
         if (!user) {
-            throw new HttpException(
-                { error: 'Invalid credentials' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new UnauthorizedException('Credenciales incorrectas');
         }
         const accessToken = await this.tokenService.generateAccessToken(
             user.id,
@@ -45,18 +46,12 @@ export class AuthService {
         );
 
         if (payload.actor !== 'user') {
-            throw new HttpException(
-                { error: 'Invalid token actor' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new UnauthorizedException('Tipo de usuario no permitido');
         }
 
         const user = await this.usersService.findById(payload.sub);
         if (!user) {
-            throw new HttpException(
-                { error: 'User not found' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new NotFoundException('Usuario no encontrado');
         }
 
         const accessToken = await this.tokenService.generateAccessToken(
@@ -75,10 +70,7 @@ export class AuthService {
             dto.password
         );
         if (!admin) {
-            throw new HttpException(
-                { error: 'Invalid credentials' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new UnauthorizedException('Credenciales incorrectas');
         }
 
         const accessToken = await this.tokenService.generateAccessToken(
@@ -102,18 +94,12 @@ export class AuthService {
         );
 
         if (payload.actor !== 'admin') {
-            throw new HttpException(
-                { error: 'Invalid token actor' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new UnauthorizedException('Tipo de usuario no permitido');
         }
 
         const admin = await this.adminsService.findById(payload.sub);
         if (!admin) {
-            throw new HttpException(
-                { error: 'Admin not found' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new NotFoundException('Administrador no encontrado');
         }
 
         const accessToken = await this.tokenService.generateAccessToken(

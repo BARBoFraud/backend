@@ -1,4 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException
+} from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
@@ -14,17 +18,14 @@ export class UsersService {
         );
 
         if (existingUser) {
-            throw new HttpException(
-                { error: 'Email already in use' },
-                HttpStatus.CONFLICT
-            );
+            throw new ConflictException('Email already in use');
         }
 
         const hash = sha256(createUserDto.password);
         const salt = genSalt();
         const hashed_password = sha256(hash + salt);
 
-        const newId = await this.usersRepository.createUser({
+        await this.usersRepository.createUser({
             name: createUserDto.name,
             last_name1: createUserDto.last_name1,
             last_name2: createUserDto.last_name2,
@@ -32,17 +33,12 @@ export class UsersService {
             password: hashed_password,
             salt
         });
-
-        return { message: `User inserted with id: ${newId}` };
     }
 
     async findByEmail(email: string): Promise<UserDb> {
         const user = await this.usersRepository.findByEmail(email);
         if (!user) {
-            throw new HttpException(
-                { error: 'User not found' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new NotFoundException('User not found');
         }
 
         return user;
@@ -51,10 +47,7 @@ export class UsersService {
     async findById(id: number): Promise<UserDb> {
         const user = await this.usersRepository.findById(id);
         if (!user) {
-            throw new HttpException(
-                { error: 'User not found' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new NotFoundException('User not found');
         }
 
         return user;
