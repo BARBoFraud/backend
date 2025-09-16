@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {
     AccessTokenPayload,
@@ -44,18 +44,12 @@ export class TokenService {
                 });
 
             if (payload.type !== 'access') {
-                throw new HttpException(
-                    { error: 'Invalid token type, expected access' },
-                    HttpStatus.UNAUTHORIZED
-                );
+                throw new UnauthorizedException('Invalid token type');
             }
 
             return payload;
         } catch {
-            throw new HttpException(
-                { error: 'Invalid or expired access token' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new UnauthorizedException('Invalid or expired access token');
         }
     }
 
@@ -67,18 +61,12 @@ export class TokenService {
                 });
 
             if (payload.type !== 'refresh') {
-                throw new HttpException(
-                    { error: 'Invalid token type, expected refresh' },
-                    HttpStatus.UNAUTHORIZED
-                );
+                throw new UnauthorizedException('Invalid token type');
             }
 
             return payload;
         } catch {
-            throw new HttpException(
-                { error: 'Invalid or expired refresh token' },
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new UnauthorizedException('Invalid or expired refresh token');
         }
     }
 }
