@@ -50,7 +50,7 @@ export class AdminsService {
         return admin;
     }
 
-    async deleteAdmin(username: string) {
+    async deleteAdmin(username: string): Promise<void> {
         const admin = await this.adminsRepository.findOneByOrFail({
             username: username
         });
@@ -58,7 +58,7 @@ export class AdminsService {
         await this.adminsRepository.delete(admin.id);
     }
 
-    async findById(id: number) {
+    async findById(id: number): Promise<Admin> {
         return await this.adminsRepository.findOneByOrFail({ id: id });
     }
 }
