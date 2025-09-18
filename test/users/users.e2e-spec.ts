@@ -104,7 +104,7 @@ describe('UsersController (e2e)', () => {
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty('id');
         expect(res.body).toHaveProperty('name');
-        expect(res.body).toHaveProperty('last_name1');
+        expect(res.body).toHaveProperty('lastName1');
     });
 
     it('should not accept an incorrect token type', async () => {

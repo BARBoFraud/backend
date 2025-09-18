@@ -1,8 +1,4 @@
-import {
-    ConflictException,
-    Injectable,
-    NotFoundException
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
 import { InjectRepository } from '@nestjs/typeorm';

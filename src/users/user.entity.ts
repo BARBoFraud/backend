@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Reporte } from 'src/reporte/reporte.entity';
-import { Like } from 'src/like/like.entity';
-import { Comment } from 'src/comment/comment.entity';
+import { Reporte } from '../reporte/reporte.entity';
+import { Like } from '../like/like.entity';
+import { Comment } from '../comment/comment.entity';
 
 @Entity()
 export class User {

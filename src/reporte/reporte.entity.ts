@@ -6,11 +6,11 @@ import {
     OneToMany,
     JoinColumn
 } from 'typeorm';
-import { User } from 'src/users/user.entity';
-import { Category } from 'src/category/category.entity';
-import { Status } from 'src/status/status.entity';
-import { Like } from 'src/like/like.entity';
-import { Comment } from 'src/comment/comment.entity';
+import { User } from '../users/user.entity';
+import { Category } from '../category/category.entity';
+import { Status } from '../status/status.entity';
+import { Like } from '../like/like.entity';
+import { Comment } from '../comment/comment.entity';
 
 @Entity()
 export class Reporte {
