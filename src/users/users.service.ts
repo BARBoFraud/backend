@@ -1,21 +1,21 @@
-import {
-    ConflictException,
-    Injectable,
-    NotFoundException
-} from '@nestjs/common';
-import { UsersRepository } from './users.repository';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
-import { UserDb } from './types/user.types';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
-    constructor(private readonly usersRepository: UsersRepository) {}
+    constructor(
+        @InjectRepository(User)
+        private usersRepository: Repository<User>
+    ) {}
 
-    async createUser(createUserDto: CreateUserDto) {
-        const existingUser = await this.usersRepository.findByEmail(
-            createUserDto.email
-        );
+    async createUser(createUserDto: CreateUserDto): Promise<void> {
+        const existingUser = await this.usersRepository.findOneBy({
+            email: createUserDto.email
+        });
 
         if (existingUser) {
             throw new ConflictException('Email already in use');
@@ -25,39 +25,30 @@ export class UsersService {
         const salt = genSalt();
         const hashed_password = sha256(hash + salt);
 
-        await this.usersRepository.createUser({
+        const newUser = this.usersRepository.create({
             name: createUserDto.name,
-            last_name1: createUserDto.last_name1,
-            last_name2: createUserDto.last_name2,
+            lastName1: createUserDto.last_name1,
+            lastName2: createUserDto.last_name2,
             email: createUserDto.email,
             password: hashed_password,
             salt
         });
+
+        await this.usersRepository.save(newUser);
     }
 
-    async findByEmail(email: string): Promise<UserDb> {
-        const user = await this.usersRepository.findByEmail(email);
-        if (!user) {
-            throw new NotFoundException('User not found');
-        }
-
-        return user;
+    async findByEmail(email: string): Promise<User> {
+        return await this.usersRepository.findOneByOrFail({ email: email });
     }
 
-    async findById(id: number): Promise<UserDb> {
-        const user = await this.usersRepository.findById(id);
-        if (!user) {
-            throw new NotFoundException('User not found');
-        }
-
-        return user;
+    async findById(id: number): Promise<User> {
+        return await this.usersRepository.findOneByOrFail({ id: id });
     }
 
-    async validateUser(
-        email: string,
-        password: string
-    ): Promise<UserDb | null> {
-        const user = await this.usersRepository.findByEmail(email);
+    async validateUser(email: string, password: string): Promise<User | null> {
+        const user = await this.usersRepository.findOneByOrFail({
+            email: email
+        });
         if (!user) return null;
         const hashedPassword = user.password;
         const salt = user.salt;

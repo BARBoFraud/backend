@@ -3,19 +3,23 @@ import {
     Injectable,
     NotFoundException
 } from '@nestjs/common';
-import { AdminsRepository } from './admins.repository';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
-import { AdminDb } from './types/admin.types';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Admin } from './admin.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AdminsService {
-    constructor(private readonly adminsRepository: AdminsRepository) {}
+    constructor(
+        @InjectRepository(Admin)
+        private adminsRepository: Repository<Admin>
+    ) {}
 
-    async createAdmin(createAdminDto: CreateAdminDto) {
-        const existingAdmin = await this.adminsRepository.findByUsername(
-            createAdminDto.username
-        );
+    async createAdmin(createAdminDto: CreateAdminDto): Promise<void> {
+        const existingAdmin = await this.adminsRepository.findOneBy({
+            username: createAdminDto.username
+        });
 
         if (existingAdmin) {
             throw new ConflictException('Username already in use');
@@ -25,18 +29,22 @@ export class AdminsService {
         const salt = genSalt();
         const hashed_password = sha256(hash + salt);
 
-        await this.adminsRepository.createAdmin({
+        const newAdmin = this.adminsRepository.create({
             username: createAdminDto.username,
             password: hashed_password,
             salt
         });
+
+        await this.adminsRepository.save(newAdmin);
     }
 
     async validateAdmin(
         username: string,
         password: string
-    ): Promise<AdminDb | null> {
-        const admin = await this.adminsRepository.findByUsername(username);
+    ): Promise<Admin | null> {
+        const admin = await this.adminsRepository.findOneByOrFail({
+            username: username
+        });
         if (!admin) return null;
         const hashedPassword = admin.password;
         const salt = admin.salt;
@@ -47,15 +55,14 @@ export class AdminsService {
     }
 
     async deleteAdmin(username: string) {
-        const admin = await this.adminsRepository.findByUsername(username);
-        if (!admin) {
-            throw new NotFoundException('Admin not found');
-        }
+        const admin = await this.adminsRepository.findOneByOrFail({
+            username: username
+        });
 
-        await this.adminsRepository.deleteAdmin(admin.id);
+        await this.adminsRepository.delete(admin.id);
     }
 
     async findById(id: number) {
-        return await this.adminsRepository.findById(id);
+        return await this.adminsRepository.findOneByOrFail({ id: id });
     }
 }
