@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryColumn, JoinColumn } from 'typeorm';
-import { User } from '../users/user.entity';
-import { Reporte } from '../reporte/reporte.entity';
+import { User } from './user.entity';
+import { Reporte } from './reporte.entity';
 
 @Entity()
 export class Like {

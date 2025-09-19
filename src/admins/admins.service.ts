@@ -2,7 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Admin } from './admin.entity';
+import { Admin } from '../entities/admin.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

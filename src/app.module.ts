@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
-import { Admin } from './admins/admin.entity';
+import { User } from './entities//user.entity';
+import { Admin } from './entities/admin.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AdminsModule } from './admins/admins.module';
-import { Category } from './category/category.entity';
-import { Comment } from './comment/comment.entity';
-import { Like } from './like/like.entity';
-import { Reporte } from './reporte/reporte.entity';
-import { Status } from './status/status.entity';
+import { Category } from './entities//category.entity';
+import { Comment } from './entities/comment.entity';
+import { Like } from './entities/like.entity';
+import { Reporte } from './entities/reporte.entity';
+import { Status } from './entities/status.entity';
 
 @Module({
     imports: [
