@@ -1,9 +1,14 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    UnprocessableEntityException
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -27,8 +32,8 @@ export class UsersService {
 
         const newUser = this.usersRepository.create({
             name: createUserDto.name,
-            lastName1: createUserDto.last_name1,
-            lastName2: createUserDto.last_name2,
+            lastName1: createUserDto.lastName1,
+            lastName2: createUserDto.lastName2,
             email: createUserDto.email,
             password: hashed_password,
             salt
@@ -46,7 +51,7 @@ export class UsersService {
     }
 
     async validateUser(email: string, password: string): Promise<User | null> {
-        const user = await this.usersRepository.findOneByOrFail({
+        const user = await this.usersRepository.findOneBy({
             email: email
         });
         if (!user) return null;
@@ -57,5 +62,20 @@ export class UsersService {
         if (newHash !== hashedPassword) return null;
         if (!user.active) return null;
         return user;
+    }
+
+    async updateUser(id: number, updateUserDto: UpdateUserDto) {
+        await this.usersRepository.findOneByOrFail({ id: id });
+
+        const hasUpdates = Object.values(updateUserDto).some(
+            (value) => value != null && value != undefined
+        );
+
+        if (!hasUpdates) {
+            throw new UnprocessableEntityException(
+                'Todos los campos estan vacios'
+            );
+        }
+        await this.usersRepository.update(id, updateUserDto);
     }
 }

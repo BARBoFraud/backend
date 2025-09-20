@@ -5,5 +5,5 @@ export class AdminRefreshDto {
         example: '01923shkjfdlaskfa',
         description: 'Refresh token de admin asignado en el login'
     })
-    refresh_token: string;
+    refreshToken: string;
 }

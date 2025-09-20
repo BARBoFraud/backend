@@ -35,14 +35,14 @@ export class AuthService {
             'user'
         );
         return {
-            access_token: accessToken,
-            refresh_token: refreshToken
+            accessToken,
+            refreshToken
         };
     }
 
     async refreshUserToken(refreshTokenDto: UserRefreshDto) {
         const payload = await this.tokenService.verifyRefreshToken(
-            refreshTokenDto.refresh_token
+            refreshTokenDto.refreshToken
         );
 
         if (payload.actor !== 'user') {
@@ -60,7 +60,7 @@ export class AuthService {
         );
 
         return {
-            access_token: accessToken
+            accessToken
         };
     }
 
@@ -83,14 +83,14 @@ export class AuthService {
         );
 
         return {
-            access_token: accessToken,
-            refresh_token: refreshToken
+            accessToken,
+            refreshToken
         };
     }
 
     async refreshAdminToken(refreshTokenDto: UserRefreshDto) {
         const payload = await this.tokenService.verifyRefreshToken(
-            refreshTokenDto.refresh_token
+            refreshTokenDto.refreshToken
         );
 
         if (payload.actor !== 'admin') {
@@ -108,7 +108,7 @@ export class AuthService {
         );
 
         return {
-            access_token: accessToken
+            accessToken
         };
     }
 }

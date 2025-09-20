@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Post,
+    Put,
+    Req,
+    UseGuards
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
@@ -9,6 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { UsersAuthGuard } from '../common/guards/users-auth.guard';
 import type { UserAuthenticatedRequest } from '../common/interfaces/authenticated-requests';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('Modulo de usuarios')
 @Controller({ path: '/users', version: '1' })
@@ -32,5 +41,23 @@ export class UsersController {
     @ApiBearerAuth()
     getProfile(@Req() req: UserAuthenticatedRequest) {
         return this.usersService.findById(req.user.id);
+    }
+
+    @Put('/update')
+    @UseGuards(UsersAuthGuard)
+    @ApiOperation({
+        summary: 'Endpoint para modificar los datos de un usuario'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Perfil actualizado correctamente'
+    })
+    @ApiResponse({ status: 401, description: 'Token invalido o expirado' })
+    @ApiResponse({ status: 422, description: 'Todos los campos vacios' })
+    updateProfile(
+        @Req() req: UserAuthenticatedRequest,
+        @Body() updateUserDto: UpdateUserDto
+    ) {
+        return this.usersService.updateUser(req.user.id, updateUserDto);
     }
 }
