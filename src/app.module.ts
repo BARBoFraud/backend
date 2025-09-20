@@ -12,6 +12,7 @@ import { Comment } from './entities/comment.entity';
 import { Like } from './entities/like.entity';
 import { Reporte } from './entities/reporte.entity';
 import { Status } from './entities/status.entity';
+import { InitializationService } from './common/services/initialization.service';
 
 @Module({
     imports: [
@@ -36,6 +37,7 @@ import { Status } from './entities/status.entity';
         AuthModule,
         AdminsModule
     ],
-    controllers: []
+    controllers: [],
+    providers: [InitializationService]
 })
 export class AppModule {}

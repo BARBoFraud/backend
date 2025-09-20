@@ -14,13 +14,13 @@ export class User {
     name: string;
 
     @Column({
-        name: 'last_name1',
+        name: 'last_name_1',
         length: 64
     })
     lastName1: string;
 
     @Column({
-        name: 'last_name2',
+        name: 'last_name_2',
         length: 64
     })
     lastName2: string;

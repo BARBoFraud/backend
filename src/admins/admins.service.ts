@@ -12,6 +12,35 @@ export class AdminsService {
         private adminsRepository: Repository<Admin>
     ) {}
 
+    async countAdmins(): Promise<number> {
+        return await this.adminsRepository.count();
+    }
+
+    async createDefaultAdmin(): Promise<void> {
+        const defaultUsername = 'admin';
+        const defaultPassword = 'admin';
+
+        const existingAdmin = await this.adminsRepository.findOneBy({
+            username: defaultUsername
+        });
+
+        if (existingAdmin) {
+            return;
+        }
+
+        const hash = sha256(defaultPassword);
+        const salt = genSalt();
+        const hashed_password = sha256(hash + salt);
+
+        const defaultAdmin = this.adminsRepository.create({
+            username: defaultUsername,
+            password: hashed_password,
+            salt
+        });
+
+        await this.adminsRepository.save(defaultAdmin);
+    }
+
     async createAdmin(createAdminDto: CreateAdminDto): Promise<void> {
         const existingAdmin = await this.adminsRepository.findOneBy({
             username: createAdminDto.username

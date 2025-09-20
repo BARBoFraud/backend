@@ -60,6 +60,5 @@ export class AdminsController {
     @ApiResponse({ status: 200, description: 'Administrador eliminado' })
     async deleteAdmin(@Param('username') username: string) {
         await this.adminsService.deleteAdmin(username);
-        return { message: 'Administrador eliminado' };
     }
 }
