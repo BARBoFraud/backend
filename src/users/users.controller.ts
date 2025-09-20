@@ -2,8 +2,8 @@ import {
     Body,
     Controller,
     Get,
+    Patch,
     Post,
-    Put,
     Req,
     UseGuards
 } from '@nestjs/common';
@@ -43,7 +43,7 @@ export class UsersController {
         return this.usersService.findById(req.user.id);
     }
 
-    @Put('/update')
+    @Patch('/update')
     @UseGuards(UsersAuthGuard)
     @ApiOperation({
         summary: 'Endpoint para modificar los datos de un usuario'
@@ -54,6 +54,7 @@ export class UsersController {
     })
     @ApiResponse({ status: 401, description: 'Token invalido o expirado' })
     @ApiResponse({ status: 422, description: 'Todos los campos vacios' })
+    @ApiBearerAuth()
     updateProfile(
         @Req() req: UserAuthenticatedRequest,
         @Body() updateUserDto: UpdateUserDto

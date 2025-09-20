@@ -36,9 +36,9 @@ describe('UsersController (e2e)', () => {
             });
 
         expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('access_token');
-        expect(res.body).toHaveProperty('refresh_token');
-        adminAccessToken = res.body.access_token;
+        expect(res.body).toHaveProperty('accessToken');
+        expect(res.body).toHaveProperty('refreshToken');
+        adminAccessToken = res.body.accessToken;
     });
 
     it('should register an admin', async () => {
@@ -64,9 +64,9 @@ describe('UsersController (e2e)', () => {
             });
 
         expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('access_token');
-        expect(res.body).toHaveProperty('refresh_token');
-        refreshToken = res.body.refresh_token;
+        expect(res.body).toHaveProperty('accessToken');
+        expect(res.body).toHaveProperty('refreshToken');
+        refreshToken = res.body.refreshToken;
     });
 
     it('should not login an incorrect admin', async () => {
@@ -86,12 +86,12 @@ describe('UsersController (e2e)', () => {
             .default(app.getHttpServer())
             .post('/auth/admins/refresh')
             .send({
-                refresh_token: refreshToken
+                refreshToken: refreshToken
             });
 
         expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('access_token');
-        accessToken = res.body.access_token;
+        expect(res.body).toHaveProperty('accessToken');
+        accessToken = res.body.accessToken;
     });
 
     it('should get the profile of the admin', async () => {

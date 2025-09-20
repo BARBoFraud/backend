@@ -31,8 +31,8 @@ describe('UsersController (e2e)', () => {
             .post('/users/register')
             .send({
                 name: 'Test',
-                last_name1: 'Fortnite',
-                last_name2: 'Fortnite',
+                lastName1: 'Fortnite',
+                lastName2: 'Fortnite',
                 email: testEmail,
                 password: testPassword
             });
@@ -46,8 +46,8 @@ describe('UsersController (e2e)', () => {
             .post('/users/register')
             .send({
                 name: 'Test',
-                last_name1: 'Fortnite',
-                last_name2: 'Fortnite',
+                lastName1: 'Fortnite',
+                lastName2: 'Fortnite',
                 email: testEmail,
                 password: testPassword
             });
@@ -65,9 +65,9 @@ describe('UsersController (e2e)', () => {
             });
 
         expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('access_token');
-        expect(res.body).toHaveProperty('refresh_token');
-        refreshToken = res.body.refresh_token;
+        expect(res.body).toHaveProperty('accessToken');
+        expect(res.body).toHaveProperty('refreshToken');
+        refreshToken = res.body.refreshToken;
     });
 
     it('should not login an incorrect user', async () => {
@@ -87,12 +87,12 @@ describe('UsersController (e2e)', () => {
             .default(app.getHttpServer())
             .post('/auth/users/refresh')
             .send({
-                refresh_token: refreshToken
+                refreshToken: refreshToken
             });
 
         expect(res.status).toBe(201);
-        expect(res.body).toHaveProperty('access_token');
-        accessToken = res.body.access_token;
+        expect(res.body).toHaveProperty('accessToken');
+        accessToken = res.body.accessToken;
     });
 
     it('should get the profile of the user', async () => {
@@ -114,5 +114,17 @@ describe('UsersController (e2e)', () => {
             .set('Authorization', `Bearer ${refreshToken}`);
 
         expect(res.status).toBe(401);
+    });
+
+    it('should modify the data of a user', async () => {
+        const res = await request
+            .default(app.getHttpServer())
+            .patch('/users/update')
+            .send({
+                name: 'TestModify'
+            })
+            .set('Authorization', `Bearer ${accessToken}`);
+
+        expect(res.status).toBe(200);
     });
 });
