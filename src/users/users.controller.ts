@@ -16,7 +16,7 @@ import {
     ApiTags
 } from '@nestjs/swagger';
 import { UsersAuthGuard } from '../common/guards/users-auth.guard';
-import type { UserAuthenticatedRequest } from '../common/interfaces/authenticated-requests';
+import type { AuthenticatedRequest } from '../common/interfaces/authenticated-requests';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('Modulo de usuarios')
@@ -39,7 +39,7 @@ export class UsersController {
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     @ApiBearerAuth()
-    getProfile(@Req() req: UserAuthenticatedRequest) {
+    getProfile(@Req() req: AuthenticatedRequest) {
         return this.usersService.findById(req.user.id);
     }
 
@@ -56,7 +56,7 @@ export class UsersController {
     @ApiResponse({ status: 422, description: 'Todos los campos vacios' })
     @ApiBearerAuth()
     updateProfile(
-        @Req() req: UserAuthenticatedRequest,
+        @Req() req: AuthenticatedRequest,
         @Body() updateUserDto: UpdateUserDto
     ) {
         return this.usersService.updateUser(req.user.id, updateUserDto);

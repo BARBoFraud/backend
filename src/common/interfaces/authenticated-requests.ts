@@ -5,6 +5,6 @@ export interface AuthenticatedUser {
     actor: 'user' | 'admin';
 }
 
-export interface UserAuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
     user: AuthenticatedUser;
 }

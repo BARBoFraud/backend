@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { TokenService } from '../../auth/tokens.service';
-import { UserAuthenticatedRequest } from '../interfaces/authenticated-requests';
+import { AuthenticatedRequest } from '../interfaces/authenticated-requests';
 
 @Injectable()
 export class AdminsAuthGuard implements CanActivate {
@@ -16,7 +16,7 @@ export class AdminsAuthGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context
             .switchToHttp()
-            .getRequest<UserAuthenticatedRequest>();
+            .getRequest<AuthenticatedRequest>();
 
         const token = this.extractTokenFromHeader(request);
         if (!token) {

@@ -11,7 +11,7 @@ import {
 import { AdminsService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { AdminsAuthGuard } from '../common/guards/admins-auth.guard';
-import type { UserAuthenticatedRequest } from '../common/interfaces/authenticated-requests';
+import type { AuthenticatedRequest } from '../common/interfaces/authenticated-requests';
 import {
     ApiBearerAuth,
     ApiOperation,
@@ -44,7 +44,7 @@ export class AdminsController {
     @ApiResponse({ status: 200, description: 'Perfil obtenido correctamente' })
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Admin no encontrado' })
-    getProfile(@Req() req: UserAuthenticatedRequest) {
+    getProfile(@Req() req: AuthenticatedRequest) {
         return this.adminsService.findById(req.user.id);
     }
 
