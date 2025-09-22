@@ -61,4 +61,17 @@ export class AdminsController {
     async deleteAdmin(@Param('username') username: string) {
         await this.adminsService.deleteAdmin(username);
     }
+
+    @Get('/list')
+    @ApiBearerAuth()
+    @UseGuards(AdminsAuthGuard)
+    @ApiOperation({
+        summary:
+            'Endpoint para obtener a los administradores registrados en db, menos el activo'
+    })
+    @ApiResponse({ status: 200, description: 'Admins obtenidos correctamente' })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    async getAdminList(@Req() req: AuthenticatedRequest) {
+        return await this.adminsService.getAdminList(req.user.id);
+    }
 }

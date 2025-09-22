@@ -3,7 +3,7 @@ import { CreateAdminDto } from './dto/create-admin.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Admin } from '../entities/admin.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 
 @Injectable()
 export class AdminsService {
@@ -89,5 +89,14 @@ export class AdminsService {
 
     async findById(id: number): Promise<Admin> {
         return await this.adminsRepository.findOneByOrFail({ id: id });
+    }
+
+    async getAdminList(id: number): Promise<Admin[]> {
+        return await this.adminsRepository.find({
+            select: ['id', 'username'],
+            where: {
+                id: Not(id)
+            }
+        });
     }
 }
