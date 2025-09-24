@@ -33,6 +33,7 @@ export class AdminsController {
     })
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 409, description: 'Username ya registrado' })
+    @ApiBearerAuth()
     async createAdmin(@Body() createAdminDto: CreateAdminDto) {
         return await this.adminsService.createAdmin(createAdminDto);
     }
