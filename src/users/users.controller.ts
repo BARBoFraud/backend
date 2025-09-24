@@ -39,8 +39,8 @@ export class UsersController {
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     @ApiBearerAuth()
-    getProfile(@Req() req: AuthenticatedRequest) {
-        return this.usersService.findById(req.user.id);
+    async getProfile(@Req() req: AuthenticatedRequest) {
+        return await this.usersService.findById(req.user.id);
     }
 
     @Patch('/update')
@@ -55,10 +55,26 @@ export class UsersController {
     @ApiResponse({ status: 401, description: 'Token invalido o expirado' })
     @ApiResponse({ status: 422, description: 'Todos los campos vacios' })
     @ApiBearerAuth()
-    updateProfile(
+    async updateProfile(
         @Req() req: AuthenticatedRequest,
         @Body() updateUserDto: UpdateUserDto
     ) {
-        return this.usersService.updateUser(req.user.id, updateUserDto);
+        await this.usersService.updateUser(req.user.id, updateUserDto);
+    }
+
+    @Patch('/deactivate')
+    @UseGuards(UsersAuthGuard)
+    @ApiOperation({
+        summary: 'Endpoint para desactivar la cuenta de un usuario'
+    })
+    @ApiResponse({
+        status: 201,
+        description: 'Usuario desactivado correctamente'
+    })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+    @ApiBearerAuth()
+    async deactivateUser(@Req() req: AuthenticatedRequest) {
+        await this.usersService.deactivateUser(req.user.id);
     }
 }

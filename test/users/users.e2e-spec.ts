@@ -127,4 +127,13 @@ describe('UsersController (e2e)', () => {
 
         expect(res.status).toBe(200);
     });
+
+    it('should deactivate a user', async () => {
+        const res = await request
+            .default(app.getHttpServer())
+            .patch('/users/deactivate')
+            .set('Authorization', `Bearer ${accessToken}`);
+
+        expect(res.status).toBe(200);
+    });
 });

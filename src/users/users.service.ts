@@ -1,6 +1,7 @@
 import {
     ConflictException,
     Injectable,
+    NotFoundException,
     UnprocessableEntityException
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -64,7 +65,7 @@ export class UsersService {
         return user;
     }
 
-    async updateUser(id: number, updateUserDto: UpdateUserDto) {
+    async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<void> {
         await this.usersRepository.findOneByOrFail({ id: id });
 
         const hasUpdates = Object.values(updateUserDto).some(
@@ -77,5 +78,13 @@ export class UsersService {
             );
         }
         await this.usersRepository.update(id, updateUserDto);
+    }
+
+    async deactivateUser(id: number): Promise<void> {
+        const user = await this.usersRepository.findOneBy({ id: id });
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado');
+        }
+        await this.usersRepository.update(id, { active: false });
     }
 }
