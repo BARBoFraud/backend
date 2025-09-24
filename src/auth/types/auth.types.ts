@@ -11,3 +11,12 @@ export interface RefreshTokenPayload {
     type: 'refresh';
     actor: ActorType;
 }
+
+export type TokenPair = {
+    accessToken: string;
+    refreshToken: string;
+};
+
+export type RefreshResponse = {
+    accessToken: string;
+};

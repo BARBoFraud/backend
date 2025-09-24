@@ -63,10 +63,7 @@ export class AdminsService {
         await this.adminsRepository.save(newAdmin);
     }
 
-    async validateAdmin(
-        username: string,
-        password: string
-    ): Promise<Admin | null> {
+    async validateAdmin(username: string, password: string): Promise<Admin | null> {
         const admin = await this.adminsRepository.findOneByOrFail({
             username: username
         });

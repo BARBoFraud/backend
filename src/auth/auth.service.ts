@@ -9,6 +9,7 @@ import { TokenService } from './tokens.service';
 import { AdminsService } from '../admins/admins.service';
 import { AdminLoginDto } from './dto/admin-login.dto';
 import { UserRefreshDto } from './dto/user-refresh.dto';
+import { RefreshResponse, TokenPair } from './types/auth.types';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
         private readonly adminsService: AdminsService
     ) {}
 
-    async loginUser(userLoginDto: UserLoginDto) {
+    async loginUser(userLoginDto: UserLoginDto): Promise<TokenPair> {
         const user = await this.usersService.validateUser(
             userLoginDto.email,
             userLoginDto.password
@@ -40,7 +41,9 @@ export class AuthService {
         };
     }
 
-    async refreshUserToken(refreshTokenDto: UserRefreshDto) {
+    async refreshUserToken(
+        refreshTokenDto: UserRefreshDto
+    ): Promise<RefreshResponse> {
         const payload = await this.tokenService.verifyRefreshToken(
             refreshTokenDto.refreshToken
         );
@@ -64,7 +67,7 @@ export class AuthService {
         };
     }
 
-    async loginAdmin(dto: AdminLoginDto) {
+    async loginAdmin(dto: AdminLoginDto): Promise<TokenPair> {
         const admin = await this.adminsService.validateAdmin(
             dto.username,
             dto.password
@@ -88,7 +91,9 @@ export class AuthService {
         };
     }
 
-    async refreshAdminToken(refreshTokenDto: UserRefreshDto) {
+    async refreshAdminToken(
+        refreshTokenDto: UserRefreshDto
+    ): Promise<RefreshResponse> {
         const payload = await this.tokenService.verifyRefreshToken(
             refreshTokenDto.refreshToken
         );
