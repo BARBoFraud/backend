@@ -49,7 +49,7 @@ export class AdminsController {
         return this.adminsService.findById(req.user.id);
     }
 
-    @Delete('/delete/:username')
+    @Delete('/delete/:id')
     @UseGuards(AdminsAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({
@@ -59,8 +59,8 @@ export class AdminsController {
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Admin no encontrado' })
     @ApiResponse({ status: 200, description: 'Administrador eliminado' })
-    async deleteAdmin(@Param('username') username: string) {
-        await this.adminsService.deleteAdmin(username);
+    async deleteAdmin(@Param('id') id: number) {
+        await this.adminsService.deleteAdmin(id);
     }
 
     @Get('/list')

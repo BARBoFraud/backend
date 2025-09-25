@@ -27,7 +27,7 @@ export class InitializationService implements OnModuleInit {
             'Llamada',
             'Correo electronico'
         ];
-        const statuses = ['Pendiente', 'Aceptado', 'Rechazado'];
+        const status = ['Pendiente', 'Aceptado', 'Rechazado'];
 
         for (const categoryName of categories) {
             const exists = await this.categoriesRepository.findOneBy({
@@ -40,7 +40,7 @@ export class InitializationService implements OnModuleInit {
             }
         }
 
-        for (const statusName of statuses) {
+        for (const statusName of status) {
             const exists = await this.statusRepository.findOneBy({
                 name: statusName
             });

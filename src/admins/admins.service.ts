@@ -79,12 +79,8 @@ export class AdminsService {
         return admin;
     }
 
-    async deleteAdmin(username: string): Promise<void> {
-        const admin = await this.adminsRepository.findOneByOrFail({
-            username: username
-        });
-
-        await this.adminsRepository.delete(admin.id);
+    async deleteAdmin(id: number): Promise<void> {
+        await this.adminsRepository.delete(id);
     }
 
     async findById(id: number): Promise<Admin> {
