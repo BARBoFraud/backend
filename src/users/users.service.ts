@@ -1,7 +1,6 @@
 import {
     ConflictException,
     Injectable,
-    NotFoundException,
     UnprocessableEntityException
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
