@@ -43,10 +43,6 @@ export class UsersService {
         await this.usersRepository.save(newUser);
     }
 
-    async findByEmail(email: string): Promise<User> {
-        return await this.usersRepository.findOneByOrFail({ email: email });
-    }
-
     async findById(id: number): Promise<User> {
         return await this.usersRepository.findOneByOrFail({ id: id });
     }
@@ -66,8 +62,6 @@ export class UsersService {
     }
 
     async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<void> {
-        await this.usersRepository.findOneByOrFail({ id: id });
-
         const hasUpdates = Object.values(updateUserDto).some(
             (value) => value != null && value != undefined
         );
@@ -81,10 +75,6 @@ export class UsersService {
     }
 
     async deactivateUser(id: number): Promise<void> {
-        const user = await this.usersRepository.findOneBy({ id: id });
-        if (!user) {
-            throw new NotFoundException('Usuario no encontrado');
-        }
         await this.usersRepository.update(id, { active: false });
     }
 }
