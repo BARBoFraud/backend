@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Reporte } from './reporte.entity';
+import { Report } from './report.entity';
 
 @Entity()
 export class Category {
@@ -11,6 +11,6 @@ export class Category {
     })
     name: string;
 
-    @OneToMany(() => Reporte, (reporte) => reporte.category)
-    reportes: Reporte[];
+    @OneToMany(() => Report, (reporte) => reporte.category)
+    reportes: Report[];
 }

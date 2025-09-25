@@ -13,7 +13,7 @@ import { Like } from './like.entity';
 import { Comment } from './comment.entity';
 
 @Entity()
-export class Reporte {
+export class Report {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
@@ -52,10 +52,11 @@ export class Reporte {
     idStatus: number;
 
     @Column({
+        name: 'created_at',
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP'
     })
-    date: Date;
+    createdAt: Date;
 
     @Column({
         type: 'tinytext'
@@ -63,10 +64,10 @@ export class Reporte {
     description: string;
 
     @Column({
-        type: 'blob',
+        type: 'mediumtext',
         nullable: true
     })
-    image: Buffer;
+    image: string;
 
     @Column({
         type: 'text',

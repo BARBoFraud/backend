@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Reporte } from './reporte.entity';
+import { Report } from './report.entity';
 import { Like } from './like.entity';
 import { Comment } from './comment.entity';
 
@@ -46,8 +46,8 @@ export class User {
     })
     active: boolean;
 
-    @OneToMany(() => Reporte, (reporte) => reporte.user)
-    reportes: Reporte[];
+    @OneToMany(() => Report, (reporte) => reporte.user)
+    reportes: Report[];
 
     @OneToMany(() => Like, (like) => like.user)
     likes: Like[];

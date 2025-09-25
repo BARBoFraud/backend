@@ -10,7 +10,7 @@ import { AdminsModule } from './admins/admins.module';
 import { Category } from './entities//category.entity';
 import { Comment } from './entities/comment.entity';
 import { Like } from './entities/like.entity';
-import { Reporte } from './entities/reporte.entity';
+import { Report } from './entities/report.entity';
 import { Status } from './entities/status.entity';
 import { InitializationService } from './common/services/initialization.service';
 
@@ -30,7 +30,7 @@ import { InitializationService } from './common/services/initialization.service'
             username: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
-            entities: [Admin, User, Category, Comment, Like, Reporte, Status],
+            entities: [Admin, User, Category, Comment, Like, Report, Status],
             synchronize: true
         }),
         UsersModule,

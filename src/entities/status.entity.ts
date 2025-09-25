@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Reporte } from './reporte.entity';
+import { Report } from './report.entity';
 
 @Entity()
 export class Status {
@@ -11,6 +11,6 @@ export class Status {
     })
     name: string;
 
-    @OneToMany(() => Reporte, (reporte) => reporte.status)
-    reportes: Reporte[];
+    @OneToMany(() => Report, (reporte) => reporte.status)
+    reportes: Report[];
 }

@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryColumn, Column, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
-import { Reporte } from './reporte.entity';
+import { Report } from './report.entity';
 
 @Entity()
 export class Comment {
@@ -25,9 +25,9 @@ export class Comment {
     })
     user: User;
 
-    @ManyToOne(() => Reporte, (reporte) => reporte.comments)
+    @ManyToOne(() => Report, (reporte) => reporte.comments)
     @JoinColumn({
         name: 'id_report'
     })
-    report: Reporte;
+    report: Report;
 }

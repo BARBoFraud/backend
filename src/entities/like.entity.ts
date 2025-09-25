@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryColumn, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
-import { Reporte } from './reporte.entity';
+import { Report } from './report.entity';
 
 @Entity()
 export class Like {
@@ -20,9 +20,9 @@ export class Like {
     })
     user: User;
 
-    @ManyToOne(() => Reporte, (reporte) => reporte.likes)
+    @ManyToOne(() => Report, (reporte) => reporte.likes)
     @JoinColumn({
         name: 'id_report'
     })
-    report: Reporte;
+    report: Report;
 }
