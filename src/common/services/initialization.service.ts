@@ -1,9 +1,9 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AdminsService } from '../../admins/admins.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from 'src/entities/category.entity';
+import { Category } from '../../entities/category.entity';
 import { Repository } from 'typeorm';
-import { Status } from 'src/entities/status.entity';
+import { Status } from '../../entities/status.entity';
 
 @Injectable()
 export class InitializationService implements OnModuleInit {

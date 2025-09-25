@@ -10,6 +10,7 @@ describe('UsersController (e2e)', () => {
     let adminAccessToken: string;
     let accessToken: string;
     let refreshToken: string;
+    let createdAdminId: number;
 
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -114,10 +115,21 @@ describe('UsersController (e2e)', () => {
         expect(res.status).toBe(401);
     });
 
+    it('should get the other admins', async () => {
+        const res = await request
+            .default(app.getHttpServer())
+            .get('/admins/list')
+            .set('Authorization', `Bearer ${adminAccessToken}`);
+
+        expect(res.status).toBe(200);
+
+        createdAdminId = res.body[0].id;
+    });
+
     it('should eliminate an admin', async () => {
         const res = await request
             .default(app.getHttpServer())
-            .delete(`/admins/delete/${username}`)
+            .delete(`/admins/delete/${createdAdminId}`)
             .set('Authorization', `Bearer ${adminAccessToken}`);
 
         expect(res.status).toBe(200);
