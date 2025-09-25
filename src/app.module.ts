@@ -33,6 +33,7 @@ import { InitializationService } from './common/services/initialization.service'
             entities: [Admin, User, Category, Comment, Like, Report, Status],
             synchronize: true
         }),
+        TypeOrmModule.forFeature([Category, Status]),
         UsersModule,
         AuthModule,
         AdminsModule
