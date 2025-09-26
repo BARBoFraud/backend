@@ -6,7 +6,7 @@ import { ReportsService } from './reports.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Modulo de reportes')
-@Controller('reports')
+@Controller({ path: 'reports', version: '1' })
 export class ReportsController {
     constructor(private readonly reportsService: ReportsService) {}
     @Post('/create')
