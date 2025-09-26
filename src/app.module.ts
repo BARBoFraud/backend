@@ -13,6 +13,8 @@ import { Like } from './entities/like.entity';
 import { Report } from './entities/report.entity';
 import { Status } from './entities/status.entity';
 import { InitializationService } from './common/services/initialization.service';
+import { FilesModule } from './files/files.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
     imports: [
@@ -36,7 +38,9 @@ import { InitializationService } from './common/services/initialization.service'
         TypeOrmModule.forFeature([Category, Status]),
         UsersModule,
         AuthModule,
-        AdminsModule
+        AdminsModule,
+        FilesModule,
+        ReportsModule
     ],
     controllers: [],
     providers: [InitializationService]
