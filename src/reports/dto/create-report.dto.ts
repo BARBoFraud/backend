@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateReportDto {
     @ApiProperty({
@@ -6,42 +6,42 @@ export class CreateReportDto {
         description: 'Categoria del reporte'
     })
     category: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         example: 'Me estafaron jaja',
         description: 'Descripcion del reporte'
     })
     description: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         example: 'www.estafas.com',
         description: 'Url de la pagina web implicada'
     })
     url: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         example: 'SuperEstafas',
         description: 'Nombre de la pagina web'
     })
     website: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         example: 'Instagram',
         description: 'Red social en la que ocurrio el incidente'
     })
     socialMedia: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         example: '5627452471',
         description: 'Numero telefonico desde el que ocurrio el incidente'
     })
     phoneNumber: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         example: 'superestafadorXx',
         description: 'username del estafador del incidente'
     })
     username: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         example: 'Estafogente@gmail.com',
         description: 'correo del estafador del incidente'
     })
     email: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         example: '123132213123.png',
         description: 'Id de la imagen obtenido por el file upload'
     })

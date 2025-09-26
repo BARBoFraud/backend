@@ -36,7 +36,7 @@ export class ReportsService {
         });
 
         if (!status) {
-            throw new NotFoundException('No existe un status con ese nombre');
+            throw new NotFoundException('No existe un estatus con ese nombre');
         }
 
         const newReport = this.reportsRepository.create({
