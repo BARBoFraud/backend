@@ -63,6 +63,12 @@ export class UsersService {
         return user;
     }
 
+    async findById(id: number): Promise<User | null> {
+        const user = await this.usersRepository.findOneBy({ id: id });
+        if (!user) return null;
+        return user;
+    }
+
     async validateUser(email: string, password: string): Promise<User | null> {
         const user = await this.usersRepository.findOneBy({
             email: email
