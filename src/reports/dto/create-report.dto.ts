@@ -6,7 +6,7 @@ export class CreateReportDto {
         description: 'Categoria del reporte'
     })
     category: string;
-    @ApiPropertyOptional({
+    @ApiProperty({
         example: 'Me estafaron jaja',
         description: 'Descripcion del reporte'
     })
