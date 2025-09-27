@@ -55,4 +55,48 @@ export class ReportsService {
 
         await this.reportsRepository.save(newReport);
     }
+
+    async getSimpleHistory(id: number): Promise<any[]> {
+        const reports = await this.reportsRepository.find({
+            relations: ['category', 'status'],
+            where: {
+                idUser: id
+            },
+            select: {
+                id: true,
+                description: true,
+                url: true,
+                website: true,
+                socialMedia: true,
+                phoneNumber: true,
+                createdAt: true,
+                username: true,
+                email: true,
+                category: { name: true },
+                status: { name: true }
+            }
+        });
+
+        return reports.map((r) => {
+            const obj: Record<string, any> = {
+                id: r.id,
+                description: r.description,
+                url: r.url,
+                website: r.website,
+                socialMedia: r.socialMedia,
+                phoneNumber: r.phoneNumber,
+                createdAt: r.createdAt,
+                username: r.username,
+                email: r.email,
+                category: r.category.name,
+                status: r.status.name
+            };
+
+            return Object.fromEntries(
+                Object.entries(obj).filter(
+                    ([_, v]) => v !== null && v !== undefined
+                )
+            );
+        });
+    }
 }

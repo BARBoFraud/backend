@@ -5,9 +5,11 @@ import {
     UseInterceptors
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 
+@ApiTags('Modulo de carga de imagenes')
 @Controller({ version: '1', path: 'images' })
 export class ImagesController {
     @Post('/upload')
