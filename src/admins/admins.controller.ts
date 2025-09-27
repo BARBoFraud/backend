@@ -35,18 +35,25 @@ export class AdminsController {
     @ApiResponse({ status: 409, description: 'Username ya registrado' })
     @ApiBearerAuth()
     async createAdmin(@Body() createAdminDto: CreateAdminDto) {
-        return await this.adminsService.createAdmin(createAdminDto);
+        await this.adminsService.createAdmin(createAdminDto);
     }
 
     @Get('/profile')
     @UseGuards(AdminsAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Obtener el perfil de administrador con jwt' })
-    @ApiResponse({ status: 200, description: 'Perfil obtenido correctamente' })
+    @ApiResponse({
+        status: 200,
+        description: 'Perfil obtenido correctamente',
+        example: {
+            id: 1,
+            username: 'admin'
+        }
+    })
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Admin no encontrado' })
-    getProfile(@Req() req: AuthenticatedRequest) {
-        return this.adminsService.findById(req.user.id);
+    async getProfile(@Req() req: AuthenticatedRequest) {
+        return await this.adminsService.getProfile(req.user.id);
     }
 
     @Delete('/delete/:id')
@@ -70,7 +77,20 @@ export class AdminsController {
         summary:
             'Endpoint para obtener a los administradores registrados en db, menos el activo'
     })
-    @ApiResponse({ status: 200, description: 'Admins obtenidos correctamente' })
+    @ApiResponse({
+        status: 200,
+        description: 'Admins obtenidos correctamente',
+        example: [
+            {
+                id: 1,
+                username: 'admin1'
+            },
+            {
+                id: 2,
+                username: 'admin2'
+            }
+        ]
+    })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     async getAdminList(@Req() req: AuthenticatedRequest) {
         return await this.adminsService.getAdminList(req.user.id);

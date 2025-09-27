@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException
+} from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -81,6 +85,23 @@ export class AdminsService {
 
     async deleteAdmin(id: number): Promise<void> {
         await this.adminsRepository.delete(id);
+    }
+
+    async getProfile(id: number): Promise<Admin> {
+        const admin = await this.adminsRepository.findOne({
+            where: {
+                id: id
+            },
+            select: {
+                id: true,
+                username: true
+            }
+        });
+        if (!admin) {
+            throw new NotFoundException('Administrador no encontrado');
+        }
+
+        return admin;
     }
 
     async findById(id: number): Promise<Admin> {

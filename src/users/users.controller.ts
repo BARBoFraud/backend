@@ -29,13 +29,23 @@ export class UsersController {
     @ApiResponse({ status: 201, description: 'Usuario creado correctamente' })
     @ApiResponse({ status: 409, description: 'Email ya registrado' })
     async createUser(@Body() createUserDto: CreateUserDto) {
-        return this.usersService.createUser(createUserDto);
+        await this.usersService.createUser(createUserDto);
     }
 
     @Get('/profile')
     @UseGuards(UsersAuthGuard)
     @ApiOperation({ summary: 'Obtener el perfil de usuario con jwt' })
-    @ApiResponse({ status: 200, description: 'Perfil obtenido correctamente' })
+    @ApiResponse({
+        status: 200,
+        description: 'Perfil obtenido correctamente',
+        example: {
+            id: 1,
+            name: 'Leote',
+            lastName1: 'Olmos',
+            lastName2: 'Dieguez',
+            email: 'A01659348@tec.mx'
+        }
+    })
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     @ApiBearerAuth()

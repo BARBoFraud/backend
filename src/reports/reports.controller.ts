@@ -4,7 +4,6 @@ import { CreateReportDto } from './dto/create-report.dto';
 import type { AuthenticatedRequest } from 'src/common/interfaces/authenticated-requests';
 import { ReportsService } from './reports.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { deserialize } from 'v8';
 
 @ApiTags('Modulo de reportes')
 @Controller({ path: 'reports', version: '1' })
@@ -31,7 +30,22 @@ export class ReportsController {
     })
     @ApiResponse({
         status: 200,
-        description: 'Historial obtenido correctamente'
+        description: 'Historial obtenido correctamente',
+        example: [
+            {
+                id: 1,
+                description: 'Me estafaron ayuda',
+                url: 'www.estafas.com',
+                website: 'SuperEstafas',
+                socialMedia: 'Instagram',
+                phoneNumber: '5628129812',
+                createdAt: 'isostring',
+                username: 'leote',
+                email: 'leote@fortnite.com',
+                category: 'Red social',
+                status: 'Pendiente'
+            }
+        ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })

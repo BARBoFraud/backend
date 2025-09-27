@@ -13,17 +13,29 @@ export class AuthController {
 
     @Post('/users/login')
     @ApiOperation({ summary: 'Login de usuario, regresa tokens JWT' })
-    @ApiResponse({ status: 201, description: 'Inicio de sesión exitoso' })
+    @ApiResponse({
+        status: 201,
+        description: 'Inicio de sesión exitoso',
+        example: {
+            accessToken: 'alkfjafkjal1s32k',
+            refreshToken: 'aksdjaklsfhaoief'
+        }
+    })
     @ApiResponse({ status: 401, description: 'Credenciales incorrectas' })
     async userLogin(@Body() userLoginDto: UserLoginDto) {
         return await this.authService.loginUser(userLoginDto);
     }
-
     @Post('/users/refresh')
     @ApiOperation({
         summary: 'Refresh de access token de usuario, regresa nuevo token'
     })
-    @ApiResponse({ status: 201, description: 'Refrescado correctamente' })
+    @ApiResponse({
+        status: 201,
+        description: 'Refrescado correctamente',
+        example: {
+            accessToken: 'qdawdasf123123'
+        }
+    })
     @ApiResponse({
         status: 401,
         description: 'Refresh token inválido o tipo de usuario no permitido'
@@ -35,7 +47,14 @@ export class AuthController {
 
     @Post('/admins/login')
     @ApiOperation({ summary: 'Login de admin, regresa tokens JWT' })
-    @ApiResponse({ status: 201, description: 'Inicio de sesión exitoso' })
+    @ApiResponse({
+        status: 201,
+        description: 'Inicio de sesión exitoso',
+        example: {
+            accessToken: 'asfa2312tr91',
+            refreshToken: '123122r1f13f2'
+        }
+    })
     @ApiResponse({ status: 401, description: 'Credenciales incorrectas' })
     async adminLogin(@Body() adminLoginDto: AdminLoginDto) {
         return await this.authService.loginAdmin(adminLoginDto);
@@ -48,7 +67,10 @@ export class AuthController {
     @ApiResponse({ status: 201, description: 'Refrescado correctamente' })
     @ApiResponse({
         status: 401,
-        description: 'Refresh token inválido o tipo de usuario no permitido'
+        description: 'Refresh token inválido o tipo de usuario no permitido',
+        example: {
+            accessToken: '123vaw1511134'
+        }
     })
     @ApiResponse({ status: 404, description: 'Administrador no encontrado' })
     async adminRefresh(@Body() adminRefreshDto: AdminRefreshDto) {
