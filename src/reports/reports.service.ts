@@ -5,6 +5,7 @@ import { Report } from 'src/entities/report.entity';
 import { Status } from 'src/entities/status.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDto } from './dto/create-report.dto';
+import { FilteredShortReport } from './types/report.types';
 
 @Injectable()
 export class ReportsService {
@@ -56,7 +57,7 @@ export class ReportsService {
         await this.reportsRepository.save(newReport);
     }
 
-    async getSimpleHistory(id: number): Promise<any[]> {
+    async getSimpleHistory(id: number): Promise<FilteredShortReport[]> {
         const reports = await this.reportsRepository.find({
             relations: ['category', 'status'],
             where: {
@@ -78,25 +79,21 @@ export class ReportsService {
         });
 
         return reports.map((r) => {
-            const obj: Record<string, any> = {
+            const filtered: FilteredShortReport = {
                 id: r.id,
                 description: r.description,
-                url: r.url,
-                website: r.website,
-                socialMedia: r.socialMedia,
-                phoneNumber: r.phoneNumber,
-                createdAt: r.createdAt,
-                username: r.username,
-                email: r.email,
                 category: r.category.name,
-                status: r.status.name
+                status: r.status.name,
+                ...(r.url && { url: r.url }),
+                ...(r.website && { website: r.website }),
+                ...(r.socialMedia && { socialMedia: r.socialMedia }),
+                ...(r.phoneNumber && { phoneNumber: r.phoneNumber }),
+                ...(r.createdAt && { createdAt: r.createdAt.toISOString() }),
+                ...(r.username && { username: r.username }),
+                ...(r.email && { email: r.email })
             };
 
-            return Object.fromEntries(
-                Object.entries(obj).filter(
-                    ([_, v]) => v !== null && v !== undefined
-                )
-            );
+            return filtered;
         });
     }
 }
