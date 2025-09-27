@@ -40,7 +40,7 @@ export class UsersController {
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     @ApiBearerAuth()
     async getProfile(@Req() req: AuthenticatedRequest) {
-        return await this.usersService.findById(req.user.id);
+        return await this.usersService.getProfile(req.user.id);
     }
 
     @Patch('/update')

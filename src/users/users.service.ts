@@ -1,6 +1,7 @@
 import {
     ConflictException,
     Injectable,
+    NotFoundException,
     UnprocessableEntityException
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -42,8 +43,24 @@ export class UsersService {
         await this.usersRepository.save(newUser);
     }
 
-    async findById(id: number): Promise<User> {
-        return await this.usersRepository.findOneByOrFail({ id: id });
+    async getProfile(id: number): Promise<User> {
+        const user = await this.usersRepository.findOne({
+            where: {
+                id: id
+            },
+            select: {
+                id: true,
+                name: true,
+                lastName1: true,
+                lastName2: true,
+                email: true
+            }
+        });
+
+        if (!user) {
+            throw new NotFoundException('El usuario no fue encontrado');
+        }
+        return user;
     }
 
     async validateUser(email: string, password: string): Promise<User | null> {
