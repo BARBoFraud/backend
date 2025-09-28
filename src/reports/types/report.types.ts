@@ -1,13 +1,27 @@
-export interface FilteredShortReport {
+export interface ShortReport {
     id: number;
     description: string;
     url?: string;
     website?: string;
     socialMedia?: string;
     phoneNumber?: string;
-    createdAt?: string;
+    createdAt?: Date;
     username?: string;
     email?: string;
     category: string;
     status: string;
+}
+
+export interface HistoryReport {
+    id: number;
+    category: string;
+    status: string;
+    createdAt?: Date;
+    description?: string;
+    url?: string;
+    website?: string;
+    socialMedia?: string;
+    username?: string;
+    email?: string;
+    phoneNumber?: string;
 }

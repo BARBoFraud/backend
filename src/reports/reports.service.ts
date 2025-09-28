@@ -5,7 +5,7 @@ import { Report } from 'src/entities/report.entity';
 import { Status } from 'src/entities/status.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDto } from './dto/create-report.dto';
-import { FilteredShortReport } from './types/report.types';
+import { HistoryReport, ShortReport } from './types/report.types';
 
 @Injectable()
 export class ReportsService {
@@ -57,7 +57,7 @@ export class ReportsService {
         await this.reportsRepository.save(newReport);
     }
 
-    async getUserHistory(id: number): Promise<FilteredShortReport[]> {
+    async getUserHistory(id: number): Promise<ShortReport[]> {
         const reports = await this.reportsRepository.find({
             relations: ['category', 'status'],
             where: {
@@ -78,24 +78,57 @@ export class ReportsService {
             }
         });
 
-        return reports.map((r) => {
-            const filtered: FilteredShortReport = {
-                id: r.id,
-                description: r.description,
-                category: r.category.name,
-                status: r.status.name,
-                ...(r.url && { url: r.url }),
-                ...(r.website && { website: r.website }),
-                ...(r.socialMedia && { socialMedia: r.socialMedia }),
-                ...(r.phoneNumber && { phoneNumber: r.phoneNumber }),
-                ...(r.createdAt && { createdAt: r.createdAt.toISOString() }),
-                ...(r.username && { username: r.username }),
-                ...(r.email && { email: r.email })
-            };
-
-            return filtered;
-        });
+        return reports.map((r) => ({
+            id: r.id,
+            description: r.description,
+            category: r.category.name,
+            status: r.status.name,
+            url: r.url,
+            website: r.website,
+            socialMedia: r.socialMedia,
+            phoneNumber: r.phoneNumber,
+            createdAt: r.createdAt,
+            username: r.username,
+            email: r.email
+        }));
     }
 
-    // TODO: Editar un reporte
+    async getById(userId: number, reportId: number): Promise<HistoryReport> {
+        const report = await this.reportsRepository.findOne({
+            relations: ['category', 'status'],
+            where: {
+                id: reportId,
+                idUser: userId
+            },
+            select: {
+                id: true,
+                description: true,
+                url: true,
+                website: true,
+                socialMedia: true,
+                phoneNumber: true,
+                createdAt: true,
+                username: true,
+                email: true,
+                category: { name: true },
+                status: { name: true },
+                user: { name: true }
+            }
+        });
+
+        if (!report) {
+            throw new NotFoundException('Reporte no encontrado');
+        }
+
+        if (report.image) {
+            const baseUrl = 'http://localhost:3000';
+            report.image = `${baseUrl}/public/uploads/${report.image}`;
+        }
+
+        return {
+            ...report,
+            category: report.category.name,
+            status: report.status.name
+        };
+    }
 }

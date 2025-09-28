@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Post,
+    Req,
+    UseGuards
+} from '@nestjs/common';
 import { UsersAuthGuard } from 'src/common/guards/users-auth.guard';
 import { CreateReportDto } from './dto/create-report.dto';
 import type { AuthenticatedRequest } from 'src/common/interfaces/authenticated-requests';
@@ -58,5 +66,11 @@ export class ReportsController {
     @ApiBearerAuth()
     async getUserHistory(@Req() req: AuthenticatedRequest) {
         return await this.reportsService.getUserHistory(req.user.id);
+    }
+
+    @Get(':id')
+    @UseGuards(UsersAuthGuard)
+    async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
+        return this.reportsService.getById(req.user.id, id);
     }
 }
