@@ -57,7 +57,7 @@ export class ReportsService {
         await this.reportsRepository.save(newReport);
     }
 
-    async getSimpleHistory(id: number): Promise<FilteredShortReport[]> {
+    async getUserHistory(id: number): Promise<FilteredShortReport[]> {
         const reports = await this.reportsRepository.find({
             relations: ['category', 'status'],
             where: {
@@ -96,4 +96,6 @@ export class ReportsService {
             return filtered;
         });
     }
+
+    // TODO: Editar un reporte
 }

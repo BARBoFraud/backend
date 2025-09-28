@@ -13,7 +13,7 @@ import { Like } from './entities/like.entity';
 import { Report } from './entities/report.entity';
 import { Status } from './entities/status.entity';
 import { InitializationService } from './common/services/initialization.service';
-import { ImagesModule } from './files/files.module';
+import { ImagesModule } from './files/images.module';
 import { ReportsModule } from './reports/reports.module';
 
 @Module({

@@ -3,7 +3,12 @@ import { UsersAuthGuard } from 'src/common/guards/users-auth.guard';
 import { CreateReportDto } from './dto/create-report.dto';
 import type { AuthenticatedRequest } from 'src/common/interfaces/authenticated-requests';
 import { ReportsService } from './reports.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags
+} from '@nestjs/swagger';
 
 @ApiTags('Modulo de reportes')
 @Controller({ path: 'reports', version: '1' })
@@ -15,6 +20,7 @@ export class ReportsController {
     @ApiResponse({ status: 201, description: 'Reporte creado correctamente' })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiResponse({ status: 404, description: 'La categoria no existe' })
+    @ApiBearerAuth()
     async createReport(
         @Req() req: AuthenticatedRequest,
         @Body() createReportDto: CreateReportDto
@@ -49,7 +55,8 @@ export class ReportsController {
     })
     @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-    async getSimpleHistory(@Req() req: AuthenticatedRequest) {
-        return await this.reportsService.getSimpleHistory(req.user.id);
+    @ApiBearerAuth()
+    async getUserHistory(@Req() req: AuthenticatedRequest) {
+        return await this.reportsService.getUserHistory(req.user.id);
     }
 }
