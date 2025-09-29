@@ -12,11 +12,11 @@ import { Comment } from './entities/comment.entity';
 import { Like } from './entities/like.entity';
 import { Report } from './entities/report.entity';
 import { Status } from './entities/status.entity';
-import { InitializationService } from './common/services/initialization.service';
 import { ImagesModule } from './files/images.module';
 import { ReportsModule } from './reports/reports.module';
 import { StatusModule } from './status/status.module';
 import { CategoriesModule } from './categories/categories.module';
+import { InitializationModule } from './initialization/initialization.module';
 
 @Module({
     imports: [
@@ -44,9 +44,9 @@ import { CategoriesModule } from './categories/categories.module';
         ImagesModule,
         ReportsModule,
         StatusModule,
-        CategoriesModule
+        CategoriesModule,
+        InitializationModule
     ],
-    controllers: [],
-    providers: [InitializationService]
+    controllers: []
 })
 export class AppModule {}
