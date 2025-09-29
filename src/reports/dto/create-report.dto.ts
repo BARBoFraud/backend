@@ -2,10 +2,10 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateReportDto {
     @ApiProperty({
-        example: 'Red social',
+        example: 1,
         description: 'Categoria del reporte'
     })
-    category: string;
+    categoryId: number;
     @ApiProperty({
         example: 'Me estafaron jaja',
         description: 'Descripcion del reporte'

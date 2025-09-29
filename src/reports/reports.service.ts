@@ -22,16 +22,6 @@ export class ReportsService {
         userId: number,
         createReportDto: CreateReportDto
     ): Promise<void> {
-        const category = await this.categoryRepository.findOneBy({
-            name: createReportDto.category
-        });
-
-        if (!category) {
-            throw new NotFoundException(
-                'No existe una categoria con ese nombre'
-            );
-        }
-
         const status = await this.statusRepository.findOneBy({
             name: 'Pendiente'
         });
@@ -42,7 +32,7 @@ export class ReportsService {
 
         const newReport = this.reportsRepository.create({
             idUser: userId,
-            idCategory: category.id,
+            idCategory: createReportDto.categoryId,
             idStatus: status.id,
             description: createReportDto.description,
             image: createReportDto.image_id,
