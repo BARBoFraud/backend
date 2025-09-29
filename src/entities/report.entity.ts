@@ -17,15 +17,14 @@ export class Report {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @ManyToOne(() => User, (user) => user.reportes)
+    @ManyToOne(() => User, (user) => user.reports)
     @JoinColumn({
         name: 'id_user'
     })
     user: User;
 
     @Column({
-        name: 'id_user',
-        nullable: true
+        name: 'id_user'
     })
     idUser: number;
 
