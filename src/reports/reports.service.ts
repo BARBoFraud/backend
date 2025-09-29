@@ -122,4 +122,16 @@ export class ReportsService {
             status: report.status.name
         };
     }
+
+    async searchReport(searchString: string): Promise<Report[]> {
+        const reports = await this.reportsRepository
+            .createQueryBuilder('report')
+            .where('report.description LIKE :q', { q: `%${searchString}%` })
+            .orWhere('report.url LIKE :q', { q: `%${searchString}%` })
+            .orWhere('report.website LIKE :q', { q: `%${searchString}%` })
+            .orWhere('report.username LIKE :q', { q: `%${searchString}%` })
+            .orWhere('report.email LIKE :q', { q: `%${searchString}%` })
+            .getMany();
+        return reports;
+    }
 }

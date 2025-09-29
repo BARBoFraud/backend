@@ -46,7 +46,6 @@ import { InitializationModule } from './initialization/initialization.module';
         StatusModule,
         CategoriesModule,
         InitializationModule
-    ],
-    controllers: []
+    ]
 })
 export class AppModule {}

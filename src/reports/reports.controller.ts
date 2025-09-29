@@ -97,4 +97,9 @@ export class ReportsController {
     async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
         return this.reportsService.getById(req.user.id, id);
     }
+
+    @Post('/search/:search')
+    async searchReport(@Param('search') searchString: string) {
+        return this.reportsService.searchReport(searchString);
+    }
 }
