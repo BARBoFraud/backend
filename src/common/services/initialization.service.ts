@@ -21,11 +21,11 @@ export class InitializationService implements OnModuleInit {
 
     private async initializeConstants(): Promise<void> {
         const categories = [
-            'Pagina de internet',
+            'Página de internet',
             'Red social',
             'Mensaje',
             'Llamada',
-            'Correo electronico'
+            'Correo electrónico'
         ];
         const status = ['Pendiente', 'Aceptado', 'Rechazado'];
 
