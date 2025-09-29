@@ -15,6 +15,8 @@ import { Status } from './entities/status.entity';
 import { InitializationService } from './common/services/initialization.service';
 import { ImagesModule } from './files/images.module';
 import { ReportsModule } from './reports/reports.module';
+import { StatusModule } from './status/status.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
     imports: [
@@ -40,7 +42,9 @@ import { ReportsModule } from './reports/reports.module';
         AuthModule,
         AdminsModule,
         ImagesModule,
-        ReportsModule
+        ReportsModule,
+        StatusModule,
+        CategoriesModule
     ],
     controllers: [],
     providers: [InitializationService]
