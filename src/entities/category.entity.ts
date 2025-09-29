@@ -11,6 +11,6 @@ export class Category {
     })
     name: string;
 
-    @OneToMany(() => Report, (reporte) => reporte.category)
-    reportes: Report[];
+    @OneToMany(() => Report, (report) => report.category)
+    reports: Report[];
 }

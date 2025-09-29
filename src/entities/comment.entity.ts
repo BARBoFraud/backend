@@ -41,7 +41,7 @@ export class Comment {
     })
     user: User;
 
-    @ManyToOne(() => Report, (reporte) => reporte.comments)
+    @ManyToOne(() => Report, (report) => report.comments)
     @JoinColumn({
         name: 'id_report'
     })

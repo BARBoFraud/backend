@@ -46,7 +46,7 @@ export class User {
     })
     active: boolean;
 
-    @OneToMany(() => Report, (reporte) => reporte.user)
+    @OneToMany(() => Report, (report) => report.user)
     reports: Report[];
 
     @OneToMany(() => Like, (like) => like.user)

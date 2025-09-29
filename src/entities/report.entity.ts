@@ -28,7 +28,7 @@ export class Report {
     })
     idUser: number;
 
-    @ManyToOne(() => Category, (category) => category.reportes)
+    @ManyToOne(() => Category, (category) => category.reports)
     @JoinColumn({
         name: 'id_category'
     })
@@ -39,7 +39,7 @@ export class Report {
     })
     idCategory: number;
 
-    @ManyToOne(() => Status, (status) => status.reportes)
+    @ManyToOne(() => Status, (status) => status.reports)
     @JoinColumn({
         name: 'id_status'
     })

@@ -20,7 +20,7 @@ export class Like {
     })
     user: User;
 
-    @ManyToOne(() => Report, (reporte) => reporte.likes)
+    @ManyToOne(() => Report, (report) => report.likes)
     @JoinColumn({
         name: 'id_report'
     })

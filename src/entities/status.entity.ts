@@ -11,6 +11,6 @@ export class Status {
     })
     name: string;
 
-    @OneToMany(() => Report, (reporte) => reporte.status)
-    reportes: Report[];
+    @OneToMany(() => Report, (report) => report.status)
+    reports: Report[];
 }
