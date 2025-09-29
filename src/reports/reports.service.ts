@@ -5,7 +5,7 @@ import { Report } from '../entities/report.entity';
 import { Status } from '../entities/status.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDto } from './dto/create-report.dto';
-import { HistoryReport, ShortReport } from './types/report.types';
+import { FeedReport, HistoryReport, ShortReport } from './types/report.types';
 
 @Injectable()
 export class ReportsService {
@@ -123,15 +123,33 @@ export class ReportsService {
         };
     }
 
-    async searchReport(searchString: string): Promise<Report[]> {
+    async searchReport(searchString: string): Promise<FeedReport[]> {
         const reports = await this.reportsRepository
             .createQueryBuilder('report')
+            .leftJoinAndSelect('report.category', 'category')
+            .leftJoinAndSelect('report.status', 'status')
             .where('report.description LIKE :q', { q: `%${searchString}%` })
             .orWhere('report.url LIKE :q', { q: `%${searchString}%` })
             .orWhere('report.website LIKE :q', { q: `%${searchString}%` })
             .orWhere('report.username LIKE :q', { q: `%${searchString}%` })
             .orWhere('report.email LIKE :q', { q: `%${searchString}%` })
             .getMany();
-        return reports;
+
+        return reports.map((r) => ({
+            id: r.id,
+            category: r.category.name,
+            status: r.status.name,
+            createdAt: r.createdAt,
+            description: r.description,
+            image: r.image
+                ? `http://localhost:3000/public/uploads/${r.image}`
+                : undefined,
+            url: r.url,
+            website: r.website,
+            socialMedia: r.socialMedia,
+            username: r.username,
+            email: r.email,
+            phoneNumber: r.phoneNumber
+        }));
     }
 }

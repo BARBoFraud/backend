@@ -98,7 +98,28 @@ export class ReportsController {
         return this.reportsService.getById(req.user.id, id);
     }
 
-    @Post('/search/:search')
+    @Get('/search/:search')
+    @ApiOperation({ description: 'Endpoint para buscar en los reportes' })
+    @ApiResponse({
+        status: 200,
+        description: 'Reportes obtenidos correctamente',
+        example: [
+            {
+                id: 1,
+                category: 'Mensaje',
+                status: 'Pendiente',
+                createdAt: '2025-09-29T22:26:31.000Z',
+                description: 'Me mataron amigos ayuda',
+                image: 'http://localhost:3000/public/uploads/17588541b67272.jpeg',
+                url: 'https:estafas.com',
+                website: 'fortnite',
+                socialMedia: 'Instagram',
+                username: 'leotefortnite',
+                email: 'jorjecadena@tec.mx',
+                phoneNumber: '12315112123'
+            }
+        ]
+    })
     async searchReport(@Param('search') searchString: string) {
         return this.reportsService.searchReport(searchString);
     }
