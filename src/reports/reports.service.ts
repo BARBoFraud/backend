@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from 'src/entities/category.entity';
-import { Report } from 'src/entities/report.entity';
-import { Status } from 'src/entities/status.entity';
+import { Category } from '../entities/category.entity';
+import { Report } from '../entities/report.entity';
+import { Status } from '../entities/status.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDto } from './dto/create-report.dto';
 import { HistoryReport, ShortReport } from './types/report.types';

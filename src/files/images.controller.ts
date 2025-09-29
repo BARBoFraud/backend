@@ -15,7 +15,7 @@ import {
 } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
-import { UsersAuthGuard } from 'src/common/guards/users-auth.guard';
+import { UsersAuthGuard } from '../common/guards/users-auth.guard';
 
 @ApiTags('Modulo de carga de imagenes')
 @Controller({ version: '1', path: 'images' })

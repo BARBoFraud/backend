@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AdminsModule } from 'src/admins/admins.module';
-import { TokenService } from 'src/auth/tokens.service';
-import { UsersModule } from 'src/users/users.module';
+import { AdminsModule } from '../admins/admins.module';
+import { TokenService } from '../auth/tokens.service';
+import { UsersModule } from '../users/users.module';
 import { ReportsService } from './reports.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Report } from 'src/entities/report.entity';
-import { Status } from 'src/entities/status.entity';
-import { Category } from 'src/entities/category.entity';
+import { Report } from '../entities/report.entity';
+import { Status } from '../entities/status.entity';
+import { Category } from '../entities/category.entity';
 import { ReportsController } from './reports.controller';
 
 @Module({

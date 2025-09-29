@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ImagesController } from './images.controller';
-import { TokenService } from 'src/auth/tokens.service';
+import { TokenService } from '../auth/tokens.service';
 
 @Module({
     controllers: [ImagesController],

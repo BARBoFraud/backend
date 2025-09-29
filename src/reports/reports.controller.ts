@@ -7,9 +7,9 @@ import {
     Req,
     UseGuards
 } from '@nestjs/common';
-import { UsersAuthGuard } from 'src/common/guards/users-auth.guard';
+import { UsersAuthGuard } from '../common/guards/users-auth.guard';
 import { CreateReportDto } from './dto/create-report.dto';
-import type { AuthenticatedRequest } from 'src/common/interfaces/authenticated-requests';
+import type { AuthenticatedRequest } from '../common/interfaces/authenticated-requests';
 import { ReportsService } from './reports.service';
 import {
     ApiBearerAuth,
