@@ -110,6 +110,7 @@ export class ReportsService {
                 createdAt: true,
                 username: true,
                 email: true,
+                image: true,
                 category: { name: true },
                 status: { name: true },
                 user: { name: true }
@@ -121,7 +122,7 @@ export class ReportsService {
         }
 
         if (report.image) {
-            const baseUrl = 'http://localhost:3000';
+            const baseUrl = process.env.BASE_URL;
             report.image = `${baseUrl}/public/uploads/${report.image}`;
         }
 

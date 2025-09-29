@@ -24,4 +24,5 @@ export interface HistoryReport {
     username?: string;
     email?: string;
     phoneNumber?: string;
+    image?: string;
 }

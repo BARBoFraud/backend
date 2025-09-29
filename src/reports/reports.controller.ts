@@ -48,16 +48,16 @@ export class ReportsController {
         example: [
             {
                 id: 1,
-                description: 'Me estafaron ayuda',
-                url: 'www.estafas.com',
-                website: 'SuperEstafas',
+                description: 'Me mataron amigos ayuda',
+                category: 'Llamada',
+                status: 'Pendiente',
+                url: 'https:estafas.com',
+                website: 'fortnite',
                 socialMedia: 'Instagram',
-                phoneNumber: '5628129812',
-                createdAt: 'isostring',
-                username: 'leote',
-                email: 'leote@fortnite.com',
-                category: 'Red social',
-                status: 'Pendiente'
+                phoneNumber: '12312315123',
+                createdAt: '2025-09-29T02:24:10.000Z',
+                username: 'leotefortnite',
+                email: 'jorjecadena@tec.mx'
             }
         ]
     })
@@ -77,16 +77,17 @@ export class ReportsController {
         description: 'Reporte obtenido correctamente',
         example: {
             id: 1,
-            category: 'Red social',
+            category: 'Llamada',
             status: 'Pendiente',
-            createdAt: '2025-09-26T02:43:18.000Z',
-            description: 'Me estafaron amigos ayuda',
+            createdAt: '2025-09-29T02:24:10.000Z',
+            description: 'Me mataron amigos ayuda',
+            image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
             url: 'https:estafas.com',
-            website: 'estafasGeimers',
+            website: 'fortnite',
             socialMedia: 'Instagram',
-            username: 'leotefortnite',
-            email: 'jorjecadena@tec.com',
-            phoneNumber: '102839181'
+            username: 'leotefortnitej',
+            email: 'leopalatto@fortnite.com',
+            phoneNumber: '123213123'
         }
     })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
