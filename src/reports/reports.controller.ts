@@ -69,6 +69,29 @@ export class ReportsController {
     }
 
     @Get(':id')
+    @ApiOperation({
+        description: 'Endpoint para obtener un reporte completo del historial'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Reporte obtenido correctamente',
+        example: {
+            id: 1,
+            category: 'Red social',
+            status: 'Pendiente',
+            createdAt: '2025-09-26T02:43:18.000Z',
+            description: 'Me estafaron amigos ayuda',
+            url: 'https:estafas.com',
+            website: 'estafasGeimers',
+            socialMedia: 'Instagram',
+            username: 'leotefortnite',
+            email: 'jorjecadena@tec.com',
+            phoneNumber: '102839181'
+        }
+    })
+    @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiBearerAuth()
     @UseGuards(UsersAuthGuard)
     async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
         return this.reportsService.getById(req.user.id, id);
