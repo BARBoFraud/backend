@@ -30,7 +30,6 @@ export interface HistoryReport {
 export interface FeedReport {
     id: number;
     category: string;
-    status: string;
     createdAt: Date;
     description: string;
     image?: string;

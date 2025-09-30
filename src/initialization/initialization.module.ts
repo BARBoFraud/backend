@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { InitializationService } from './initialization.service';
-import { AdminsService } from 'src/admins/admins.service';
-import { AdminsModule } from 'src/admins/admins.module';
+import { AdminsService } from '../admins/admins.service';
+import { AdminsModule } from '../admins/admins.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Status } from '../entities/status.entity';
 import { Category } from '../entities/category.entity';

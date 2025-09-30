@@ -107,7 +107,6 @@ export class ReportsController {
             {
                 id: 1,
                 category: 'Mensaje',
-                status: 'Pendiente',
                 createdAt: '2025-09-29T22:26:31.000Z',
                 description: 'Me mataron amigos ayuda',
                 image: 'http://localhost:3000/public/uploads/17588541b67272.jpeg',

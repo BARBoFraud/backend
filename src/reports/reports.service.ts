@@ -138,7 +138,6 @@ export class ReportsService {
         return reports.map((r) => ({
             id: r.id,
             category: r.category.name,
-            status: r.status.name,
             createdAt: r.createdAt,
             description: r.description,
             image: r.image
