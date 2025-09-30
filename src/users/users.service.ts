@@ -6,22 +6,18 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersRepository } from './users.repository';
+import { UpdateUserData, UserData, UserDb } from './types/user.types';
 
 @Injectable()
 export class UsersService {
-    constructor(
-        @InjectRepository(User)
-        private usersRepository: Repository<User>
-    ) {}
+    constructor(private usersRepository: UsersRepository) {}
 
     async createUser(createUserDto: CreateUserDto): Promise<void> {
-        const existingUser = await this.usersRepository.findOneBy({
-            email: createUserDto.email
-        });
+        const existingUser = await this.usersRepository.findByEmail(
+            createUserDto.email
+        );
 
         if (existingUser) {
             throw new ConflictException('Email already in use');
@@ -31,31 +27,18 @@ export class UsersService {
         const salt = genSalt();
         const hashed_password = sha256(hash + salt);
 
-        const newUser = this.usersRepository.create({
+        await this.usersRepository.createUser({
             name: createUserDto.name,
             lastName1: createUserDto.lastName1,
             lastName2: createUserDto.lastName2,
             email: createUserDto.email,
-            password: hashed_password,
+            passwordHash: hashed_password,
             salt
         });
-
-        await this.usersRepository.save(newUser);
     }
 
-    async getProfile(id: number): Promise<User> {
-        const user = await this.usersRepository.findOne({
-            where: {
-                id: id
-            },
-            select: {
-                id: true,
-                name: true,
-                lastName1: true,
-                lastName2: true,
-                email: true
-            }
-        });
+    async getProfile(id: number): Promise<UserData> {
+        const user = await this.usersRepository.getProfile(id);
 
         if (!user) {
             throw new NotFoundException('El usuario no fue encontrado');
@@ -63,16 +46,17 @@ export class UsersService {
         return user;
     }
 
-    async findById(id: number): Promise<User | null> {
-        const user = await this.usersRepository.findOneBy({ id: id });
+    async findById(id: number): Promise<UserDb | null> {
+        const user = await this.usersRepository.findById(id);
         if (!user) return null;
         return user;
     }
 
-    async validateUser(email: string, password: string): Promise<User | null> {
-        const user = await this.usersRepository.findOneBy({
-            email: email
-        });
+    async validateUser(
+        email: string,
+        password: string
+    ): Promise<UserDb | null> {
+        const user = await this.usersRepository.findByEmail(email);
         if (!user) return null;
         const hashedPassword = user.password;
         const salt = user.salt;
@@ -84,19 +68,29 @@ export class UsersService {
     }
 
     async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<void> {
-        const hasUpdates = Object.values(updateUserDto).some(
-            (value) => value != null && value != undefined
-        );
-
-        if (!hasUpdates) {
-            throw new UnprocessableEntityException(
-                'Todos los campos estan vacios'
-            );
+        const user = await this.usersRepository.findById(id);
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado');
         }
-        await this.usersRepository.update(id, updateUserDto);
+
+        let updateUserData: UpdateUserData = { ...updateUserDto };
+        if (!updateUserDto.name) {
+            updateUserData.name = user.name;
+        }
+        if (!updateUserDto.lastName1) {
+            updateUserData.lastName1 = user.lastName1;
+        }
+        if (!updateUserDto.lastName2) {
+            updateUserData.lastName2 = user.lastName2;
+        }
+        if (!updateUserDto.email) {
+            updateUserData.email = user.email;
+        }
+
+        await this.usersRepository.updateUser(id, updateUserData);
     }
 
     async deactivateUser(id: number): Promise<void> {
-        await this.usersRepository.update(id, { active: false });
+        await this.usersRepository.deactivateUser(id);
     }
 }

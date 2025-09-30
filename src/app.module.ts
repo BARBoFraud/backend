@@ -17,6 +17,7 @@ import { ReportsModule } from './reports/reports.module';
 import { StatusModule } from './status/status.module';
 import { CategoriesModule } from './categories/categories.module';
 import { InitializationModule } from './initialization/initialization.module';
+import { DbModule } from './db/db.module';
 
 @Module({
     imports: [
@@ -45,7 +46,8 @@ import { InitializationModule } from './initialization/initialization.module';
         ReportsModule,
         StatusModule,
         CategoriesModule,
-        InitializationModule
+        InitializationModule,
+        DbModule
     ]
 })
 export class AppModule {}
