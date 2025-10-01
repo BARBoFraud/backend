@@ -4,6 +4,7 @@ import { FeedReport, HistoryReport, ShortReport } from './types/report.types';
 import { StatusRepository } from 'src/status/status.repository';
 import { CategoriesRepository } from 'src/categories/categories.repository';
 import { ReportsRepository } from './reports.repository';
+import { EvaluateReportDto } from './dto/evaluate-report.dto';
 
 @Injectable()
 export class ReportsService {
@@ -68,5 +69,9 @@ export class ReportsService {
             }
             return report;
         });
+    }
+
+    async evaluateReport(evaluateReportDto: EvaluateReportDto): Promise<void> {
+        await this.reportsRepository.evaluateReport(evaluateReportDto.reportId, evaluateReportDto.statusId);
     }
 }

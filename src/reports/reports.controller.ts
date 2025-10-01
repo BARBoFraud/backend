@@ -3,6 +3,7 @@ import {
     Controller,
     Get,
     Param,
+    Patch,
     Post,
     Req,
     UseGuards
@@ -17,6 +18,8 @@ import {
     ApiResponse,
     ApiTags
 } from '@nestjs/swagger';
+import { AdminsAuthGuard } from 'src/common/guards/admins-auth.guard';
+import { EvaluateReportDto } from './dto/evaluate-report.dto';
 
 @ApiTags('Modulo de reportes')
 @Controller({ path: 'reports', version: '1' })
@@ -147,5 +150,16 @@ export class ReportsController {
     @UseGuards(UsersAuthGuard)
     async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
         return this.reportsService.getById(req.user.id, id);
+    }
+    
+    @Patch('/evaluate')
+    @ApiOperation({description: 'Endpoint para cambiar el status de un reporte'})
+    @ApiResponse({status: 200, description: 'Reporte evaluado correctamente'})
+    @ApiResponse({status: 404, description: 'Reporte no encontrado'})
+    @ApiResponse({status: 401, description: 'No autorizado por jwt'})
+    @ApiBearerAuth()
+    @UseGuards(AdminsAuthGuard)
+    async evaluateReport(@Body() evaluateReportDto: EvaluateReportDto, @Req() req: AuthenticatedRequest) {
+        return this.reportsService.evaluateReport(evaluateReportDto);
     }
 }

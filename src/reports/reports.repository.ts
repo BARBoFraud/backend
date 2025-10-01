@@ -97,4 +97,11 @@ export class ReportsRepository {
         const [rows] = await this.db.getPool().query(sql);
         return rows as FeedReport[];
     }
+
+    async evaluateReport(reportId: number, statusId: number): Promise<void> {
+        const sql = `UPDATE report
+        SET id_status = ?
+        WHERE id = ?;`;
+        await this.db.getPool().query(sql, [statusId, reportId]);
+    }
 }
