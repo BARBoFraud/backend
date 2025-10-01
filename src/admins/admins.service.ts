@@ -5,15 +5,13 @@ import {
 } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Admin } from '../entities/admin.entity';
-import { Not, Repository } from 'typeorm';
+import { AdminsRepository } from './admins.repository';
+import { AdminData } from './types/admin.types';
 
 @Injectable()
 export class AdminsService {
     constructor(
-        @InjectRepository(Admin)
-        private adminsRepository: Repository<Admin>
+        private adminsRepository: AdminsRepository
     ) {}
 
     async countAdmins(): Promise<number> {
@@ -24,9 +22,9 @@ export class AdminsService {
         const defaultUsername = 'admin';
         const defaultPassword = 'admin';
 
-        const existingAdmin = await this.adminsRepository.findOneBy({
-            username: defaultUsername
-        });
+        const existingAdmin = await this.adminsRepository.findByUsername(
+            defaultUsername
+        );
 
         if (existingAdmin) {
             return;
@@ -36,19 +34,17 @@ export class AdminsService {
         const salt = genSalt();
         const hashed_password = sha256(hash + salt);
 
-        const defaultAdmin = this.adminsRepository.create({
+        await this.adminsRepository.createAdmin({
             username: defaultUsername,
-            password: hashed_password,
-            salt
+            passwordHash: hashed_password,
+            salt: salt
         });
-
-        await this.adminsRepository.save(defaultAdmin);
     }
 
     async createAdmin(createAdminDto: CreateAdminDto): Promise<void> {
-        const existingAdmin = await this.adminsRepository.findOneBy({
-            username: createAdminDto.username
-        });
+        const existingAdmin = await this.adminsRepository.findByUsername(
+            createAdminDto.username
+        );
 
         if (existingAdmin) {
             throw new ConflictException('Username already in use');
@@ -58,22 +54,18 @@ export class AdminsService {
         const salt = genSalt();
         const hashed_password = sha256(hash + salt);
 
-        const newAdmin = this.adminsRepository.create({
+        await this.adminsRepository.createAdmin({
             username: createAdminDto.username,
-            password: hashed_password,
-            salt
+            passwordHash: hashed_password,
+            salt: salt
         });
-
-        await this.adminsRepository.save(newAdmin);
     }
 
     async validateAdmin(
         username: string,
         password: string
-    ): Promise<Admin | null> {
-        const admin = await this.adminsRepository.findOneByOrFail({
-            username: username
-        });
+    ): Promise<AdminData | null> {
+        const admin = await this.adminsRepository.findByUsername(username);
         if (!admin) return null;
         const hashedPassword = admin.password;
         const salt = admin.salt;
@@ -84,19 +76,11 @@ export class AdminsService {
     }
 
     async deleteAdmin(id: number): Promise<void> {
-        await this.adminsRepository.delete(id);
+        await this.adminsRepository.deleteAdmin(id);
     }
 
-    async getProfile(id: number): Promise<Admin> {
-        const admin = await this.adminsRepository.findOne({
-            where: {
-                id: id
-            },
-            select: {
-                id: true,
-                username: true
-            }
-        });
+    async getProfile(id: number): Promise<AdminData> {
+        const admin = await this.adminsRepository.getProfile(id);
         if (!admin) {
             throw new NotFoundException('Administrador no encontrado');
         }
@@ -104,16 +88,11 @@ export class AdminsService {
         return admin;
     }
 
-    async findById(id: number): Promise<Admin> {
-        return await this.adminsRepository.findOneByOrFail({ id: id });
+    async findById(id: number): Promise<AdminData | null> {
+        return await this.adminsRepository.findById(id);
     }
 
-    async getAdminList(id: number): Promise<Admin[]> {
-        return await this.adminsRepository.find({
-            select: ['id', 'username'],
-            where: {
-                id: Not(id)
-            }
-        });
+    async getAdminList(id: number): Promise<AdminData[]> {
+        return await this.adminsRepository.getAdmins(id);
     }
 }
