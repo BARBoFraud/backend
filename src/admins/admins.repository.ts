@@ -22,7 +22,8 @@ export class AdminsRepository {
     async count(): Promise<number> {
         const sql = `SELECT count(*) as count from admin;`;
         const [rows] = await this.db.getPool().query(sql);
-        return rows[0]['count'];
+        const result = rows as { count: number }[];
+        return result[0]['count'];
     }
 
     async getProfile(id: number): Promise<AdminData> {

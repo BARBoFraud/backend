@@ -68,6 +68,7 @@ export class ReportsController {
         return await this.reportsService.getUserHistory(req.user.id);
     }
 
+    // TODO: Agregar likes y numero de comentarios a las queris
     @Get('/feed')
     @ApiOperation({ description: 'Endpoint para obtener el feed de reportes' })
     @ApiResponse({
