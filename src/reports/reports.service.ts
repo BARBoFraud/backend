@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
-import { HistoryReport, ShortReport } from './types/report.types';
+import { FeedReport, HistoryReport, ShortReport } from './types/report.types';
 import { StatusRepository } from 'src/status/status.repository';
 import { CategoriesRepository } from 'src/categories/categories.repository';
 import { ReportsRepository } from './reports.repository';
@@ -56,5 +56,17 @@ export class ReportsService {
         const reports = await this.reportsRepository.searchReport(searchString);
 
         return reports;
+    }
+
+    async getFeed(): Promise<FeedReport[]> {
+        const reports = await this.reportsRepository.getFeedReports();
+
+        return reports.map((report) => {
+            if (report.image) {
+                const baseUrl = process.env.BASE_URL;
+                report.image = `${baseUrl}/public/uploads/${report.image}`;
+            }
+            return report;
+        });
     }
 }

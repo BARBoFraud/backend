@@ -68,6 +68,56 @@ export class ReportsController {
         return await this.reportsService.getUserHistory(req.user.id);
     }
 
+    @Get('/feed')
+    @ApiOperation({ description: 'Endpoint para obtener el feed de reportes' })
+    @ApiResponse({
+        status: 200,
+        description: 'Feed obtenido correctamente',
+        example: [
+            {
+                id: 1,
+                category: 'Mensaje',
+                createdAt: '2025-09-29T22:26:31.000Z',
+                description: 'Me mataron amigos ayuda',
+                image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
+                url: 'https:estafas.com',
+                website: 'fortnite',
+                socialMedia: 'Instagram',
+                username: 'leotefortnite',
+                email: 'leopalatto@fortnite.com',
+                phoneNumber: '123213123'
+            }
+        ]
+    })
+    async getFeed() {
+        return this.reportsService.getFeed();
+    }
+
+    @Get('/search/:search')
+    @ApiOperation({ description: 'Endpoint para buscar en los reportes' })
+    @ApiResponse({
+        status: 200,
+        description: 'Reportes obtenidos correctamente',
+        example: [
+            {
+                id: 1,
+                category: 'Mensaje',
+                createdAt: '2025-09-29T22:26:31.000Z',
+                description: 'Me mataron amigos ayuda',
+                image: 'http://localhost:3000/public/uploads/17588541b67272.jpeg',
+                url: 'https:estafas.com',
+                website: 'fortnite',
+                socialMedia: 'Instagram',
+                username: 'leotefortnite',
+                email: 'jorjecadena@tec.mx',
+                phoneNumber: '12315112123'
+            }
+        ]
+    })
+    async searchReport(@Param('search') searchString: string) {
+        return this.reportsService.searchReport(searchString);
+    }
+
     @Get(':id')
     @ApiOperation({
         description: 'Endpoint para obtener un reporte completo del historial'
@@ -96,30 +146,5 @@ export class ReportsController {
     @UseGuards(UsersAuthGuard)
     async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
         return this.reportsService.getById(req.user.id, id);
-    }
-
-    @Get('/search/:search')
-    @ApiOperation({ description: 'Endpoint para buscar en los reportes' })
-    @ApiResponse({
-        status: 200,
-        description: 'Reportes obtenidos correctamente',
-        example: [
-            {
-                id: 1,
-                category: 'Mensaje',
-                createdAt: '2025-09-29T22:26:31.000Z',
-                description: 'Me mataron amigos ayuda',
-                image: 'http://localhost:3000/public/uploads/17588541b67272.jpeg',
-                url: 'https:estafas.com',
-                website: 'fortnite',
-                socialMedia: 'Instagram',
-                username: 'leotefortnite',
-                email: 'jorjecadena@tec.mx',
-                phoneNumber: '12315112123'
-            }
-        ]
-    })
-    async searchReport(@Param('search') searchString: string) {
-        return this.reportsService.searchReport(searchString);
     }
 }
