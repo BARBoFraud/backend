@@ -1,3 +1,17 @@
+export interface CreateReportData {
+    description: string;
+    categoryId: number;
+    statusId: number;
+    url?: string;
+    website?: string;
+    socialMedia?: string;
+    phoneNumber?: string;
+    createdAt?: Date;
+    username?: string;
+    email?: string;
+    imageId?: string;
+}
+
 export interface ShortReport {
     id: number;
     description: string;
@@ -16,8 +30,8 @@ export interface HistoryReport {
     id: number;
     category: string;
     status: string;
-    createdAt?: Date;
-    description?: string;
+    createdAt: Date;
+    description: string;
     url?: string;
     website?: string;
     socialMedia?: string;

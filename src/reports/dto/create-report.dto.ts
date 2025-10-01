@@ -45,5 +45,5 @@ export class CreateReportDto {
         example: '123132213123.png',
         description: 'Id de la imagen obtenido por el file upload'
     })
-    image_id: string;
+    imageId: string;
 }

@@ -6,12 +6,12 @@ import { CreateReportDto } from './dto/create-report.dto';
 import { FeedReport, HistoryReport, ShortReport } from './types/report.types';
 import { StatusRepository } from 'src/status/status.repository';
 import { CategoriesRepository } from 'src/categories/categories.repository';
+import { ReportsRepository } from './reports.repository';
 
 @Injectable()
 export class ReportsService {
     constructor(
-        @InjectRepository(Report)
-        private reportsRepository: Repository<Report>,
+        private reportsRepository: ReportsRepository,
         private statusRepository: StatusRepository,
         private categoryRepository: CategoriesRepository
     ) {}
@@ -26,82 +26,18 @@ export class ReportsService {
             throw new NotFoundException('No existe un estatus con ese nombre');
         }
 
-        const newReport = this.reportsRepository.create({
-            idUser: userId,
-            idCategory: createReportDto.categoryId,
-            idStatus: status.id,
-            description: createReportDto.description,
-            image: createReportDto.image_id,
-            url: createReportDto.url,
-            website: createReportDto.website,
-            socialMedia: createReportDto.socialMedia,
-            username: createReportDto.username,
-            email: createReportDto.email,
-            phoneNumber: createReportDto.phoneNumber
+        await this.reportsRepository.createReport(userId, {
+            ...createReportDto,
+            statusId: status.id
         });
-
-        await this.reportsRepository.save(newReport);
     }
 
     async getUserHistory(id: number): Promise<ShortReport[]> {
-        const reports = await this.reportsRepository.find({
-            relations: ['category', 'status'],
-            where: {
-                idUser: id
-            },
-            select: {
-                id: true,
-                description: true,
-                url: true,
-                website: true,
-                socialMedia: true,
-                phoneNumber: true,
-                createdAt: true,
-                username: true,
-                email: true,
-                category: { name: true },
-                status: { name: true }
-            }
-        });
-
-        return reports.map((r) => ({
-            id: r.id,
-            description: r.description,
-            category: r.category.name,
-            status: r.status.name,
-            url: r.url,
-            website: r.website,
-            socialMedia: r.socialMedia,
-            phoneNumber: r.phoneNumber,
-            createdAt: r.createdAt,
-            username: r.username,
-            email: r.email
-        }));
+        return await this.reportsRepository.getUserHistory(id);
     }
 
     async getById(userId: number, reportId: number): Promise<HistoryReport> {
-        const report = await this.reportsRepository.findOne({
-            relations: ['category', 'status'],
-            where: {
-                id: reportId,
-                idUser: userId
-            },
-            select: {
-                id: true,
-                description: true,
-                url: true,
-                website: true,
-                socialMedia: true,
-                phoneNumber: true,
-                createdAt: true,
-                username: true,
-                email: true,
-                image: true,
-                category: { name: true },
-                status: { name: true },
-                user: { name: true }
-            }
-        });
+        const report = await this.reportsRepository.getById(userId, reportId);
 
         if (!report) {
             throw new NotFoundException('Reporte no encontrado');
@@ -114,37 +50,14 @@ export class ReportsService {
 
         return {
             ...report,
-            category: report.category.name,
-            status: report.status.name
+            category: report.category,
+            status: report.status
         };
     }
 
-    async searchReport(searchString: string): Promise<FeedReport[]> {
-        const reports = await this.reportsRepository
-            .createQueryBuilder('report')
-            .leftJoinAndSelect('report.category', 'category')
-            .leftJoinAndSelect('report.status', 'status')
-            .where('report.description LIKE :q', { q: `%${searchString}%` })
-            .orWhere('report.url LIKE :q', { q: `%${searchString}%` })
-            .orWhere('report.website LIKE :q', { q: `%${searchString}%` })
-            .orWhere('report.username LIKE :q', { q: `%${searchString}%` })
-            .orWhere('report.email LIKE :q', { q: `%${searchString}%` })
-            .getMany();
+    async searchReport(searchString: string): Promise<any[]> {
+        const reports = await this.reportsRepository.searchReport(searchString);
 
-        return reports.map((r) => ({
-            id: r.id,
-            category: r.category.name,
-            createdAt: r.createdAt,
-            description: r.description,
-            image: r.image
-                ? `http://localhost:3000/public/uploads/${r.image}`
-                : undefined,
-            url: r.url,
-            website: r.website,
-            socialMedia: r.socialMedia,
-            username: r.username,
-            email: r.email,
-            phoneNumber: r.phoneNumber
-        }));
+        return reports;
     }
 }

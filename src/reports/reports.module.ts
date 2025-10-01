@@ -10,6 +10,7 @@ import { Category } from '../entities/category.entity';
 import { ReportsController } from './reports.controller';
 import { StatusModule } from 'src/status/status.module';
 import { CategoriesModule } from 'src/categories/categories.module';
+import { ReportsRepository } from './reports.repository';
 
 @Module({
     imports: [
@@ -19,7 +20,7 @@ import { CategoriesModule } from 'src/categories/categories.module';
         StatusModule,
         CategoriesModule
     ],
-    providers: [TokenService, ReportsService],
+    providers: [TokenService, ReportsService, ReportsRepository],
     exports: [ReportsService],
     controllers: [ReportsController]
 })
