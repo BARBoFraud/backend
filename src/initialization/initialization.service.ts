@@ -42,6 +42,7 @@ export class InitializationService implements OnModuleInit {
         }
 
         const adminCount = await this.adminsService.countAdmins();
+        console.log('Admin count:', adminCount);
         if (adminCount === 0) {
             await this.adminsService.createDefaultAdmin();
         }

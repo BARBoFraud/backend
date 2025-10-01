@@ -10,9 +10,7 @@ import { AdminData } from './types/admin.types';
 
 @Injectable()
 export class AdminsService {
-    constructor(
-        private adminsRepository: AdminsRepository
-    ) {}
+    constructor(private adminsRepository: AdminsRepository) {}
 
     async countAdmins(): Promise<number> {
         return await this.adminsRepository.count();
@@ -22,9 +20,8 @@ export class AdminsService {
         const defaultUsername = 'admin';
         const defaultPassword = 'admin';
 
-        const existingAdmin = await this.adminsRepository.findByUsername(
-            defaultUsername
-        );
+        const existingAdmin =
+            await this.adminsRepository.findByUsername(defaultUsername);
 
         if (existingAdmin) {
             return;
