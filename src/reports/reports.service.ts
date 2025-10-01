@@ -1,30 +1,26 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from '../entities/category.entity';
 import { Report } from '../entities/report.entity';
-import { Status } from '../entities/status.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDto } from './dto/create-report.dto';
 import { FeedReport, HistoryReport, ShortReport } from './types/report.types';
+import { StatusRepository } from 'src/status/status.repository';
+import { CategoriesRepository } from 'src/categories/categories.repository';
 
 @Injectable()
 export class ReportsService {
     constructor(
         @InjectRepository(Report)
         private reportsRepository: Repository<Report>,
-        @InjectRepository(Status)
-        private statusRepository: Repository<Status>,
-        @InjectRepository(Category)
-        private categoryRepository: Repository<Category>
+        private statusRepository: StatusRepository,
+        private categoryRepository: CategoriesRepository
     ) {}
 
     async createReport(
         userId: number,
         createReportDto: CreateReportDto
     ): Promise<void> {
-        const status = await this.statusRepository.findOneBy({
-            name: 'Pendiente'
-        });
+        const status = await this.statusRepository.findByName('Pendiente');
 
         if (!status) {
             throw new NotFoundException('No existe un estatus con ese nombre');

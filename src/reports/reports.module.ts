@@ -8,12 +8,16 @@ import { Report } from '../entities/report.entity';
 import { Status } from '../entities/status.entity';
 import { Category } from '../entities/category.entity';
 import { ReportsController } from './reports.controller';
+import { StatusModule } from 'src/status/status.module';
+import { CategoriesModule } from 'src/categories/categories.module';
 
 @Module({
     imports: [
         UsersModule,
         AdminsModule,
-        TypeOrmModule.forFeature([Report, Status, Category])
+        TypeOrmModule.forFeature([Report, Status, Category]),
+        StatusModule,
+        CategoriesModule
     ],
     providers: [TokenService, ReportsService],
     exports: [ReportsService],
