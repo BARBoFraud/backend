@@ -22,7 +22,6 @@ export class AdminsRepository {
     async count(): Promise<number> {
         const sql = `SELECT count(*) as count from admin;`;
         const [rows] = await this.db.getPool().query(sql);
-        console.log(rows);
         return rows[0]['count'];
     }
 
