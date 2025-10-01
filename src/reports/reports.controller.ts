@@ -122,6 +122,36 @@ export class ReportsController {
         return this.reportsService.searchReport(searchString);
     }
 
+    @Get('/pending')
+    @UseGuards(AdminsAuthGuard)
+    @ApiOperation({
+        description: 'Endpoint para obtener los reportes pendientes'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Reportes obtenidos correctamente',
+        example: [
+            {
+                id: 1,
+                category: 'Mensaje',
+                createdAt: '2025-09-29T22:26:31.000Z',
+                description: 'Me mataron amigos ayuda',
+                image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
+                url: 'https:estafas.com',
+                website: 'fortnite',
+                socialMedia: 'Instagram',
+                username: 'leotefortnite',
+                email: 'leopalatto@fortnite.com',
+                phoneNumber: '123213123'
+            }
+        ]
+    })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiBearerAuth()
+    async getPendingReports() {
+        return this.reportsService.getPendingReports();
+    }
+
     @Get(':id')
     @ApiOperation({
         description: 'Endpoint para obtener un reporte completo del historial'
@@ -151,15 +181,18 @@ export class ReportsController {
     async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
         return this.reportsService.getById(req.user.id, id);
     }
-    
+
     @Patch('/evaluate')
-    @ApiOperation({description: 'Endpoint para cambiar el status de un reporte'})
-    @ApiResponse({status: 200, description: 'Reporte evaluado correctamente'})
-    @ApiResponse({status: 404, description: 'Reporte no encontrado'})
-    @ApiResponse({status: 401, description: 'No autorizado por jwt'})
+    @ApiOperation({
+        description: 'Endpoint para cambiar el status de un reporte'
+    })
+    @ApiResponse({ status: 200, description: 'Reporte evaluado correctamente' })
+    @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiBearerAuth()
     @UseGuards(AdminsAuthGuard)
-    async evaluateReport(@Body() evaluateReportDto: EvaluateReportDto, @Req() req: AuthenticatedRequest) {
+    async evaluateReport(@Body() evaluateReportDto: EvaluateReportDto) {
         return this.reportsService.evaluateReport(evaluateReportDto);
     }
 }
+

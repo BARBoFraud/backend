@@ -71,7 +71,14 @@ export class ReportsService {
         });
     }
 
+    async getPendingReports(): Promise<FeedReport[]> {
+        return await this.reportsRepository.getPendingReports();
+    }
+
     async evaluateReport(evaluateReportDto: EvaluateReportDto): Promise<void> {
-        await this.reportsRepository.evaluateReport(evaluateReportDto.reportId, evaluateReportDto.statusId);
+        await this.reportsRepository.evaluateReport(
+            evaluateReportDto.reportId,
+            evaluateReportDto.statusId
+        );
     }
 }

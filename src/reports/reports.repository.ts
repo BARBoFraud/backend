@@ -68,7 +68,7 @@ export class ReportsRepository {
         FROM report r
         JOIN category c ON r.id_category = c.id
         JOIN status s ON r.id_status = s.id
-        WHERE s.name = 'aprobado' 
+        WHERE s.name = 'Aceptado' 
         AND (r.description LIKE ? OR r.url LIKE ? OR r.website LIKE ? OR r.social_media LIKE ?
         OR r.phone_number LIKE ? OR r.username LIKE ? OR r.email LIKE ?)`;
         const [rows] = await this.db
@@ -92,7 +92,20 @@ export class ReportsRepository {
         FROM report r
         JOIN category c ON r.id_category = c.id
         JOIN status s ON r.id_status = s.id
-        WHERE s.name = 'aprobado'
+        WHERE s.name = 'Aceptado'
+        ORDER BY r.created_at DESC;`;
+        const [rows] = await this.db.getPool().query(sql);
+        return rows as FeedReport[];
+    }
+
+    async getPendingReports(): Promise<FeedReport[]> {
+        const sql = `SELECT r.id, r.description, r.url, r.website, r.social_media AS socialMedia,
+        r.phone_number AS phoneNumber, r.created_at AS createdAt, r.username, r.email,
+        r.image, c.name AS category
+        FROM report r
+        JOIN category c ON r.id_category = c.id
+        JOIN status s ON r.id_status = s.id
+        WHERE s.name = 'Pendiente'
         ORDER BY r.created_at DESC;`;
         const [rows] = await this.db.getPool().query(sql);
         return rows as FeedReport[];
