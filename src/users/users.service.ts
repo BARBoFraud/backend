@@ -1,8 +1,7 @@
 import {
     ConflictException,
     Injectable,
-    NotFoundException,
-    UnprocessableEntityException
+    NotFoundException
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { genSalt, sha256 } from '../utils/hash/hash.util';
@@ -73,7 +72,7 @@ export class UsersService {
             throw new NotFoundException('Usuario no encontrado');
         }
 
-        let updateUserData: UpdateUserData = { ...updateUserDto };
+        const updateUserData: UpdateUserData = { ...updateUserDto };
         if (!updateUserDto.name) {
             updateUserData.name = user.name;
         }

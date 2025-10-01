@@ -1,34 +1,23 @@
-export type CreateUserData = {
+export interface BaseUser {
     name: string;
     lastName1: string;
     lastName2: string;
     email: string;
+}
+
+export interface CreateUserData extends BaseUser {
     passwordHash: string;
     salt: string;
-};
+}
 
-export type UserData = {
+export interface UserData extends BaseUser {
     id: number;
-    name: string;
-    lastName1: string;
-    lastName2: string;
-    email: string;
-};
+}
 
-export type UserDb = {
-    id: number;
-    name: string;
-    lastName1: string;
-    lastName2: string;
-    email: string;
+export interface UserDb extends UserData {
     password: string;
     salt: string;
-    active: Boolean;
-};
+    active: boolean;
+}
 
-export type UpdateUserData = {
-    name: string;
-    lastName1: string;
-    lastName2: string;
-    email: string;
-};
+export type UpdateUserData = BaseUser;
