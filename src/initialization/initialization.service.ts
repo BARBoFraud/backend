@@ -1,17 +1,13 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AdminsService } from '../admins/admins.service';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from '../entities/category.entity';
-import { Repository } from 'typeorm';
-import { Status } from '../entities/status.entity';
+import { StatusRepository } from 'src/status/status.repository';
+import { CategoriesRepository } from 'src/categories/categories.repository';
 
 @Injectable()
 export class InitializationService implements OnModuleInit {
     constructor(
-        @InjectRepository(Category)
-        private readonly categoriesRepository: Repository<Category>,
-        @InjectRepository(Status)
-        private readonly statusRepository: Repository<Status>,
+        private readonly categoriesRepository: CategoriesRepository,
+        private readonly statusRepository: StatusRepository,
         private readonly adminsService: AdminsService
     ) {}
 
@@ -30,25 +26,18 @@ export class InitializationService implements OnModuleInit {
         const status = ['Pendiente', 'Aceptado', 'Rechazado'];
 
         for (const categoryName of categories) {
-            const exists = await this.categoriesRepository.findOneBy({
-                name: categoryName
-            });
+            const exists =
+                await this.categoriesRepository.findByName(categoryName);
             if (!exists) {
-                await this.categoriesRepository.save(
-                    this.categoriesRepository.create({ name: categoryName })
-                );
+                await this.categoriesRepository.createCategory(categoryName);
             }
         }
 
         for (const statusName of status) {
-            const exists = await this.statusRepository.findOneBy({
-                name: statusName
-            });
+            const exists = await this.statusRepository.findByName(statusName);
 
             if (!exists) {
-                await this.statusRepository.save(
-                    this.statusRepository.create({ name: statusName })
-                );
+                await this.statusRepository.createStatus(statusName);
             }
         }
 

@@ -1,23 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Status } from '../entities/status.entity';
-import { Repository } from 'typeorm';
+import { StatusRepository } from './status.repository';
 
 @Injectable()
 export class StatusService {
-    constructor(
-        @InjectRepository(Status)
-        private statusRepository: Repository<Status>
-    ) {}
+    constructor(private statusRepository: StatusRepository) {}
 
     async listStatuses() {
-        const statuses = await this.statusRepository.find({
-            select: {
-                id: true,
-                name: true
-            }
-        });
-
-        return statuses;
+        return await this.statusRepository.getStatus();
     }
 }
