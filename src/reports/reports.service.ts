@@ -1,9 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Report } from '../entities/report.entity';
-import { Repository } from 'typeorm';
 import { CreateReportDto } from './dto/create-report.dto';
-import { FeedReport, HistoryReport, ShortReport } from './types/report.types';
+import { HistoryReport, ShortReport } from './types/report.types';
 import { StatusRepository } from 'src/status/status.repository';
 import { CategoriesRepository } from 'src/categories/categories.repository';
 import { ReportsRepository } from './reports.repository';
