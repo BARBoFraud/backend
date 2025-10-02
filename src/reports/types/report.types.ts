@@ -53,4 +53,7 @@ export interface FeedReport {
     username?: string;
     email?: string;
     phoneNumber?: string;
+    likesCount: number;
+    commentsCount: number;
+    userLiked: boolean;
 }

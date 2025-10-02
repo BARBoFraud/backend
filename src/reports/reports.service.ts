@@ -53,24 +53,28 @@ export class ReportsService {
         };
     }
 
-    async searchReport(searchString: string): Promise<any[]> {
+    async searchReport(searchString: string, userId: number): Promise<any[]> {
         const status = await this.statusRepository.findByName('Aceptado');
         if (!status) {
             throw new NotFoundException('No existe un status con ese nombre');
         }
         return await this.reportsRepository.searchReport(
             searchString,
-            status.id
+            status.id,
+            userId
         );
     }
 
-    async getFeed(): Promise<FeedReport[]> {
+    async getFeed(userId: number): Promise<FeedReport[]> {
         const status = await this.statusRepository.findByName('Aceptado');
         if (!status) {
             throw new NotFoundException('No existe un status con ese nombre');
         }
 
-        const reports = await this.reportsRepository.getFeedReports(status.id);
+        const reports = await this.reportsRepository.getFeedReports(
+            status.id,
+            userId
+        );
 
         return reports.map((report) => {
             if (report.image) {

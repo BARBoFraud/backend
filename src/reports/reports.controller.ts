@@ -96,8 +96,8 @@ export class ReportsController {
         ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
-    async getFeed() {
-        return this.reportsService.getFeed();
+    async getFeed(@Req() req: AuthenticatedRequest) {
+        return this.reportsService.getFeed(req.user.id);
     }
 
     @Get('/search/:search')
@@ -124,8 +124,8 @@ export class ReportsController {
         ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
-    async searchReport(@Param('search') searchString: string) {
-        return this.reportsService.searchReport(searchString);
+    async searchReport(@Param('search') searchString: string, @Req() req: AuthenticatedRequest) {
+        return this.reportsService.searchReport(searchString, req.user.id);
     }
 
     @Get('/pending')

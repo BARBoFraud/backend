@@ -38,9 +38,17 @@ export class ReportsRepository {
 
     async getUserHistory(id: number): Promise<ShortReport[]> {
         const sql = `
-            SELECT r.id, r.description, r.url, r.website, r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber, r.created_at AS createdAt, r.username, r.email,
-                c.name AS category, s.name AS status
+            SELECT r.id,
+                r.description,
+                r.url,
+                r.website,
+                r.social_media AS socialMedia,
+                r.phone_number AS phoneNumber,
+                r.created_at AS createdAt,
+                r.username,
+                r.email,
+                c.name AS category,
+                s.name AS status
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
@@ -53,9 +61,18 @@ export class ReportsRepository {
 
     async getById(userId: number, reportId: number): Promise<HistoryReport> {
         const sql = `
-            SELECT r.id, r.description, r.url, r.website, r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber, r.created_at AS createdAt, r.username, r.email,
-                r.image, c.name AS category, s.name AS status
+            SELECT r.id,
+                r.description,
+                r.url,
+                r.website,
+                r.social_media AS socialMedia,
+                r.phone_number AS phoneNumber,
+                r.created_at AS createdAt,
+                r.username,
+                r.email,
+                r.image,
+                c.name AS category,
+                s.name AS status
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
@@ -68,27 +85,56 @@ export class ReportsRepository {
 
     async searchReport(
         searchString: string,
-        statusId: number
+        statusId: number,
+        userId: number
     ): Promise<FeedReport[]> {
         const sql = `
-            SELECT r.id, r.description, r.url, r.website, r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber, r.created_at AS createdAt, r.username, r.email,
-                r.image, c.name AS category
-            FROM report r
-            INNER JOIN category c ON r.id_category = c.id
-            INNER JOIN status s ON r.id_status = s.id
-            WHERE s.id = '${statusId}' 
-            AND (r.description LIKE ? 
-            OR r.url LIKE ? 
-            OR r.website LIKE ? 
-            OR r.social_media LIKE ?
-            OR r.phone_number LIKE ? 
-            OR r.username LIKE ? 
-            OR r.email LIKE ?);
-        `;
+        SELECT 
+            r.id,
+            c.name AS category,
+            s.name AS status,
+            r.created_at AS createdAt,
+            r.description,
+            r.image,
+            r.url,
+            r.website,
+            r.social_media AS socialMedia,
+            r.username,
+            r.email,
+            r.phone_number AS phoneNumber,
+            (SELECT COUNT(*) 
+            FROM \`like\` l 
+            WHERE l.id_report = r.id) AS likesCount,
+            (SELECT COUNT(*) 
+            FROM comment cm 
+            WHERE cm.id_report = r.id) AS commentsCount,
+            CASE 
+                WHEN EXISTS (
+                    SELECT 1 
+                    FROM \`like\` ul 
+                    WHERE ul.id_report = r.id 
+                      AND ul.id_user = ?
+                ) THEN TRUE 
+                ELSE FALSE 
+            END AS userLiked
+        FROM report r
+        INNER JOIN category c ON r.id_category = c.id
+        INNER JOIN status s ON r.id_status = s.id
+        WHERE s.id = ? 
+        AND (r.description LIKE ? 
+        OR r.url LIKE ? 
+        OR r.website LIKE ? 
+        OR r.social_media LIKE ?
+        OR r.phone_number LIKE ? 
+        OR r.username LIKE ? 
+        OR r.email LIKE ?)
+        ORDER BY r.created_at DESC;
+    `;
         const [rows] = await this.db
             .getPool()
             .query(sql, [
+                userId,
+                statusId,
                 `%${searchString}%`,
                 `%${searchString}%`,
                 `%${searchString}%`,
@@ -100,39 +146,76 @@ export class ReportsRepository {
         return rows as FeedReport[];
     }
 
-    async getFeedReports(statusId: number): Promise<FeedReport[]> {
+    async getFeedReports(
+        statusId: number,
+        userId: number
+    ): Promise<FeedReport[]> {
         const sql = `
-            SELECT r.id, r.description, r.url, r.website, r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber, r.created_at AS createdAt, r.username, r.email,
-                r.image, c.name AS category
-            FROM report r
-            INNER JOIN category c ON r.id_category = c.id
-            INNER JOIN status s ON r.id_status = s.id
-            WHERE s.id = ${statusId}
-            ORDER BY r.created_at DESC;
+        SELECT 
+            r.id,
+            c.name AS category,
+            s.name AS status,
+            r.created_at AS createdAt,
+            r.description,
+            r.image,
+            r.url,
+            r.website,
+            r.social_media AS socialMedia,
+            r.username,
+            r.email,
+            r.phone_number AS phoneNumber,
+            (SELECT COUNT(*) 
+            FROM \`like\` l 
+            WHERE l.id_report = r.id) AS likesCount,
+            (SELECT COUNT(*) 
+            FROM comment cm 
+            WHERE cm.id_report = r.id) AS commentsCount,
+            CASE 
+                WHEN EXISTS (
+                    SELECT 1 
+                    FROM \`like\` ul 
+                    WHERE ul.id_report = r.id 
+                      AND ul.id_user = ?
+                ) THEN TRUE 
+                ELSE FALSE 
+            END AS userLiked
+        FROM report r
+        INNER JOIN category c ON r.id_category = c.id
+        INNER JOIN status s ON r.id_status = s.id
+        WHERE s.id = ?
+        ORDER BY r.created_at DESC;
         `;
-        const [rows] = await this.db.getPool().query(sql);
+        const [rows] = await this.db.getPool().query(sql, [userId, statusId]);
         return rows as FeedReport[];
     }
 
     async getPendingReports(statusId: number): Promise<FeedReport[]> {
         const sql = `
-            SELECT r.id, r.description, r.url, r.website, r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber, r.created_at AS createdAt, r.username, r.email,
-                r.image, c.name AS category
+            SELECT r.id,
+                r.description,
+                r.url,
+                r.website,
+                r.social_media AS socialMedia,
+                r.phone_number AS phoneNumber,
+                r.created_at AS createdAt,
+                r.username,
+                r.email,
+                r.image,
+                c.name AS category
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
-            WHERE s.id = ${statusId}
+            WHERE s.id = ?
             ORDER BY r.created_at DESC;`;
-        const [rows] = await this.db.getPool().query(sql);
+        const [rows] = await this.db.getPool().query(sql, [statusId]);
         return rows as FeedReport[];
     }
 
     async evaluateReport(reportId: number, statusId: number): Promise<void> {
-        const sql = `UPDATE report
-        SET id_status = ?
-        WHERE id = ?;`;
+        const sql = `
+            UPDATE report
+            SET id_status = ?
+            WHERE id = ?;`;
         await this.db.getPool().query(sql, [statusId, reportId]);
     }
 }
