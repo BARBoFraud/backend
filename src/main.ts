@@ -12,6 +12,7 @@ async function bootstrap() {
     app.useStaticAssets(join(__dirname, '..', 'public'), {
         prefix: '/public/'
     });
+    app.enableCors();
     app.enableVersioning({
         type: VersioningType.URI
     });
