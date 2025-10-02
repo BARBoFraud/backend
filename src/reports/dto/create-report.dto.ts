@@ -42,6 +42,11 @@ export class CreateReportDto {
     })
     email: string;
     @ApiPropertyOptional({
+        example: true,
+        description: 'Si el correo es anonimo o no, el default es false'
+    })
+    anonymous: boolean;
+    @ApiPropertyOptional({
         example: '123132213123.png',
         description: 'Id de la imagen obtenido por el file upload'
     })

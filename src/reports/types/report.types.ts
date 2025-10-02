@@ -2,6 +2,7 @@ export interface CreateReportData {
     description: string;
     categoryId: number;
     statusId: number;
+    anonymous: boolean;
     url?: string;
     website?: string;
     socialMedia?: string;
