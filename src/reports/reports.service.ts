@@ -54,13 +54,23 @@ export class ReportsService {
     }
 
     async searchReport(searchString: string): Promise<any[]> {
-        const reports = await this.reportsRepository.searchReport(searchString);
-
-        return reports;
+        const status = await this.statusRepository.findByName('Aceptado');
+        if (!status) {
+            throw new NotFoundException('No existe un status con ese nombre');
+        }
+        return await this.reportsRepository.searchReport(
+            searchString,
+            status.id
+        );
     }
 
     async getFeed(): Promise<FeedReport[]> {
-        const reports = await this.reportsRepository.getFeedReports();
+        const status = await this.statusRepository.findByName('Aceptado');
+        if (!status) {
+            throw new NotFoundException('No existe un status con ese nombre');
+        }
+
+        const reports = await this.reportsRepository.getFeedReports(status.id);
 
         return reports.map((report) => {
             if (report.image) {
@@ -72,7 +82,11 @@ export class ReportsService {
     }
 
     async getPendingReports(): Promise<FeedReport[]> {
-        return await this.reportsRepository.getPendingReports();
+        const status = await this.statusRepository.findByName('Pendiente');
+        if (!status) {
+            throw new NotFoundException('No existe un status con ese nombre');
+        }
+        return await this.reportsRepository.getPendingReports(status.id);
     }
 
     async evaluateReport(evaluateReportDto: EvaluateReportDto): Promise<void> {
