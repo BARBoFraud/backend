@@ -20,3 +20,11 @@ export type TokenPair = {
 export type RefreshResponse = {
     accessToken: string;
 };
+
+export interface DecodedToken {
+    sub: number;
+    type: string;
+    actor: string;
+    iat: number;
+    exp: number;
+}

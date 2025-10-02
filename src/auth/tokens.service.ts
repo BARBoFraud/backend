@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import {
     AccessTokenPayload,
     ActorType,
+    DecodedToken,
     RefreshTokenPayload
 } from './types/auth.types';
 
@@ -70,7 +71,7 @@ export class TokenService {
         }
     }
 
-    async decodeRefreshToken(token: string): Promise<any> {
+    decodeRefreshToken(token: string): DecodedToken {
         return this.jwtService.decode(token);
     }
 }
