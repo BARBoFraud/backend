@@ -110,6 +110,8 @@ export class AuthService {
             'admin'
         );
 
+        await this.adminsService.setRefreshToken(admin.id, refreshToken);
+
         return {
             accessToken,
             refreshToken
@@ -130,6 +132,14 @@ export class AuthService {
         const admin = await this.adminsService.findById(payload.sub);
         if (!admin) {
             throw new NotFoundException('Administrador no encontrado');
+        }
+
+        const refreshToken = await this.adminsService.getRefreshToken(admin.id);
+        if (
+            refreshToken == '' ||
+            refreshToken != refreshTokenDto.refreshToken
+        ) {
+            throw new UnauthorizedException('Token inválido');
         }
 
         const accessToken = await this.tokenService.generateAccessToken(

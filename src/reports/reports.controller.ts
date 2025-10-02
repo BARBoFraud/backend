@@ -73,6 +73,8 @@ export class ReportsController {
 
     // TODO: Agregar likes y numero de comentarios a las queris
     @Get('/feed')
+    @UseGuards(UsersAuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ description: 'Endpoint para obtener el feed de reportes' })
     @ApiResponse({
         status: 200,
@@ -93,11 +95,14 @@ export class ReportsController {
             }
         ]
     })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     async getFeed() {
         return this.reportsService.getFeed();
     }
 
     @Get('/search/:search')
+    @UseGuards(UsersAuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ description: 'Endpoint para buscar en los reportes' })
     @ApiResponse({
         status: 200,
@@ -118,6 +123,7 @@ export class ReportsController {
             }
         ]
     })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     async searchReport(@Param('search') searchString: string) {
         return this.reportsService.searchReport(searchString);
     }
