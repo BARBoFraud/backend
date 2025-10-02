@@ -17,8 +17,8 @@ export class ReportsRepository {
     ): Promise<void> {
         const sql = `
             INSERT INTO report(id_category, id_status, description, url, website,
-                social_media, phone_number, id_user, image, username, email)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?);`;
+                social_media, phone_number, id_user, image, username, email, anonymous)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;
         await this.db
             .getPool()
             .query(sql, [
@@ -32,7 +32,8 @@ export class ReportsRepository {
                 userId,
                 createReportData.imageId,
                 createReportData.username,
-                createReportData.email
+                createReportData.email,
+                createReportData.anonymous
             ]);
     }
 
