@@ -7,7 +7,6 @@ import { join } from 'path';
 import morgan from 'morgan';
 
 async function bootstrap() {
-    // TODO: BAse de datos, guardar refresh tokens en login, quitarlos en logout comprobar con select
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.use(morgan('dev'));
     app.useStaticAssets(join(__dirname, '..', 'public'), {

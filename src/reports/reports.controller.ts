@@ -50,17 +50,30 @@ export class ReportsController {
         description: 'Historial obtenido correctamente',
         example: [
             {
-                id: 1,
-                description: 'Me mataron amigos ayuda',
-                category: 'Llamada',
-                status: 'Pendiente',
+                id: 4,
+                description: 'Aaaaaaaa 121212121 asdasdad holahola',
                 url: 'https:estafas.com',
-                website: 'fortnite',
+                website: 'estafasgeimer',
                 socialMedia: 'Instagram',
-                phoneNumber: '12312315123',
-                createdAt: '2025-09-29T02:24:10.000Z',
+                phoneNumber: '121212121',
+                createdAt: '2025-10-02T21:58:42.000Z',
                 username: 'leotefortnite',
-                email: 'jorjecadena@tec.mx'
+                email: 'A01665462@tec.mx',
+                category: 'Página de internet',
+                status: 'Pendiente'
+            },
+            {
+                id: 3,
+                description: 'Aaaaaaaa 121212121 asdasdad holahola',
+                url: 'https:estafas.com',
+                website: 'estafotas',
+                socialMedia: 'Instagram',
+                phoneNumber: '121212121',
+                createdAt: '2025-10-02T21:58:37.000Z',
+                username: 'leotefortnite',
+                email: 'A01665462@tec.mx',
+                category: 'Página de internet',
+                status: 'Pendiente'
             }
         ]
     })
@@ -81,17 +94,36 @@ export class ReportsController {
         description: 'Feed obtenido correctamente',
         example: [
             {
-                id: 1,
-                category: 'Mensaje',
-                createdAt: '2025-09-29T22:26:31.000Z',
-                description: 'Me mataron amigos ayuda',
-                image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
+                id: 2,
+                category: 'Página de internet',
+                createdAt: '2025-10-02T21:58:31.000Z',
+                description: 'Aaaaaaaa 121212121 asdasdad asdasdasd',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
                 url: 'https:estafas.com',
-                website: 'fortnite',
+                website: 'estafotas',
                 socialMedia: 'Instagram',
                 username: 'leotefortnite',
-                email: 'leopalatto@fortnite.com',
-                phoneNumber: '123213123'
+                email: 'A01665462@tec.mx',
+                phoneNumber: '121212121',
+                likesCount: 0,
+                commentsCount: 0,
+                userLiked: 0
+            },
+            {
+                id: 1,
+                category: 'Red social',
+                createdAt: '2025-10-02T21:58:27.000Z',
+                description: 'Aaaaaaaa asdjalkfjasf asdasdad asdasdasd',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
+                url: 'https:estafas.com',
+                website: 'estafotas',
+                socialMedia: 'Instagram',
+                username: 'leotefortnite',
+                email: 'A01665462@tec.mx',
+                phoneNumber: '121212121',
+                likesCount: 0,
+                commentsCount: 0,
+                userLiked: 0
             }
         ]
     })
@@ -109,22 +141,29 @@ export class ReportsController {
         description: 'Reportes obtenidos correctamente',
         example: [
             {
-                id: 1,
-                category: 'Mensaje',
-                createdAt: '2025-09-29T22:26:31.000Z',
-                description: 'Me mataron amigos ayuda',
-                image: 'http://localhost:3000/public/uploads/17588541b67272.jpeg',
+                id: 2,
+                category: 'Página de internet',
+                status: 'Aceptado',
+                createdAt: '2025-10-02T21:58:31.000Z',
+                description: 'Aaaaaaaa 121212121 asdasdad asdasdasd',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
                 url: 'https:estafas.com',
-                website: 'fortnite',
+                website: 'estafotas',
                 socialMedia: 'Instagram',
                 username: 'leotefortnite',
-                email: 'jorjecadena@tec.mx',
-                phoneNumber: '12315112123'
+                email: 'A01665462@tec.mx',
+                phoneNumber: '1231231',
+                likesCount: 0,
+                commentsCount: 0,
+                userLiked: 0
             }
         ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
-    async searchReport(@Param('search') searchString: string, @Req() req: AuthenticatedRequest) {
+    async searchReport(
+        @Param('search') searchString: string,
+        @Req() req: AuthenticatedRequest
+    ) {
         return this.reportsService.searchReport(searchString, req.user.id);
     }
 
@@ -138,17 +177,17 @@ export class ReportsController {
         description: 'Reportes obtenidos correctamente',
         example: [
             {
-                id: 1,
-                category: 'Mensaje',
-                createdAt: '2025-09-29T22:26:31.000Z',
-                description: 'Me mataron amigos ayuda',
-                image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
+                id: 4,
+                description: 'Aaaaaaaa 121212121 asdasdad holahola',
                 url: 'https:estafas.com',
-                website: 'fortnite',
+                website: 'estafasgeimer',
                 socialMedia: 'Instagram',
+                phoneNumber: '121212121',
+                createdAt: '2025-10-02T21:58:42.000Z',
                 username: 'leotefortnite',
-                email: 'leopalatto@fortnite.com',
-                phoneNumber: '123213123'
+                email: 'A01665462@tec.mx',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
+                category: 'Página de internet'
             }
         ]
     })

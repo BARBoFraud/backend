@@ -92,7 +92,6 @@ export class ReportsRepository {
         SELECT 
             r.id,
             c.name AS category,
-            s.name AS status,
             r.created_at AS createdAt,
             r.description,
             r.image,
@@ -154,7 +153,6 @@ export class ReportsRepository {
         SELECT 
             r.id,
             c.name AS category,
-            s.name AS status,
             r.created_at AS createdAt,
             r.description,
             r.image,
