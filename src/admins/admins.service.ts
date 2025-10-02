@@ -92,4 +92,16 @@ export class AdminsService {
     async getAdminList(id: number): Promise<AdminData[]> {
         return await this.adminsRepository.getAdmins(id);
     }
+
+    async getRefreshToken(id: number): Promise<string> {
+        return await this.adminsRepository.getRefreshToken(id);
+    }
+
+    async setRefreshToken(id: number, refreshToken: string): Promise<void> {
+        return await this.adminsRepository.setRefreshToken(id, refreshToken);
+    }
+
+    async clearRefreshToken(id: number): Promise<void> {
+        return await this.adminsRepository.clearRefreshToken(id);
+    }
 }

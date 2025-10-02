@@ -35,6 +35,9 @@ export class AuthService {
             user.id,
             'user'
         );
+
+        await this.usersService.setRefreshToken(user.id, refreshToken);
+
         return {
             accessToken,
             refreshToken
@@ -57,6 +60,11 @@ export class AuthService {
             throw new NotFoundException('Usuario no encontrado');
         }
 
+        const refreshToken = await this.usersService.getRefreshToken(user.id);
+        if(refreshToken == '' || refreshToken != refreshTokenDto.refreshToken) {
+            throw new UnauthorizedException('Token inválido');
+        }
+
         const accessToken = await this.tokenService.generateAccessToken(
             user.id,
             'user'
@@ -65,6 +73,19 @@ export class AuthService {
         return {
             accessToken
         };
+    }
+
+    async logoutUser(refreshToken: string): Promise<void> {
+        try {
+            const payload = await this.tokenService.decodeRefreshToken(refreshToken);
+            if (payload && payload.sub) {
+                await this.usersService.clearRefreshToken(payload.sub);
+            } else {
+                throw new UnauthorizedException('Refresh token inválido');
+            }
+        } catch {
+            throw new UnauthorizedException('Refresh token inválido');
+        }
     }
 
     async loginAdmin(dto: AdminLoginDto): Promise<TokenPair> {
@@ -115,5 +136,18 @@ export class AuthService {
         return {
             accessToken
         };
+    }
+
+    async logoutAdmin(refreshToken: string): Promise<void> {
+        try {
+            const payload = await this.tokenService.decodeRefreshToken(refreshToken);
+            if (payload && payload.sub) {
+                await this.adminsService.clearRefreshToken(payload.sub);
+            } else {
+                throw new UnauthorizedException('Refresh token inválido');
+            }
+        } catch (error) {
+            throw new UnauthorizedException('Refresh token inválido');
+        }
     }
 }

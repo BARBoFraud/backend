@@ -69,4 +69,8 @@ export class TokenService {
             throw new UnauthorizedException('Invalid or expired refresh token');
         }
     }
+
+    async decodeRefreshToken(token: string): Promise<any> {
+        return this.jwtService.decode(token);
+    }
 }

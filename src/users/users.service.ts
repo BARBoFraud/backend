@@ -92,4 +92,16 @@ export class UsersService {
     async deactivateUser(id: number): Promise<void> {
         await this.usersRepository.deactivateUser(id);
     }
+
+    async getRefreshToken(id: number): Promise<string> {
+        return await this.usersRepository.getRefreshToken(id);
+    }
+
+    async setRefreshToken(id: number, token: string): Promise<void> {
+        await this.usersRepository.setRefreshToken(id, token);
+    }
+
+    async clearRefreshToken(id: number): Promise<void> {
+        await this.usersRepository.clearRefreshToken(id);
+    }
 }

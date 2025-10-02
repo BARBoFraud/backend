@@ -92,4 +92,21 @@ export class UsersRepository {
                 id
             ]);
     }
+
+    async getRefreshToken(id: number): Promise<string> {
+        const sql = `SELECT refresh_token AS refreshToken FROM user WHERE id = ? LIMIT 1;`;
+        const [rows] = await this.db.getPool().query(sql, [id]);
+        const result = rows as { refreshToken: string }[];
+        return result[0].refreshToken || '';
+    }
+
+    async setRefreshToken(id: number, token: string): Promise<void> {
+        const sql = `UPDATE user SET refresh_token = ? WHERE id = ?;`;
+        await this.db.getPool().query(sql, [token, id]);
+    }
+
+    async clearRefreshToken(id: number): Promise<void> {
+        const sql = `UPDATE user SET refresh_token = NULL WHERE id = ?;`;
+        await this.db.getPool().query(sql, [id]);
+    }
 }
