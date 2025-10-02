@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class EvaluateReportDto {
     @ApiProperty({
@@ -11,4 +11,4 @@ export class EvaluateReportDto {
         description: 'Id del status al que se quiere cambiar el reporte'
     })
     statusId: number;
-    };
+}

@@ -50,12 +50,11 @@ export class AuthController {
 
     @Post('/users/logout')
     @ApiOperation({ summary: 'Logout de usuario, invalida el refresh token' })
-    @ApiResponse({status: 201, description: 'Logout exitoso'})
-    @ApiResponse({status: 401, description: 'Refresh token inválido'})
+    @ApiResponse({ status: 201, description: 'Logout exitoso' })
+    @ApiResponse({ status: 401, description: 'Refresh token inválido' })
     async userLogout(@Body() userLogoutDto: UserLogoutDto) {
         return await this.authService.logoutUser(userLogoutDto.refreshToken);
     }
-
 
     @Post('/admins/login')
     @ApiOperation({ summary: 'Login de admin, regresa tokens JWT' })

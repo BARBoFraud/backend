@@ -61,7 +61,10 @@ export class AuthService {
         }
 
         const refreshToken = await this.usersService.getRefreshToken(user.id);
-        if(refreshToken == '' || refreshToken != refreshTokenDto.refreshToken) {
+        if (
+            refreshToken == '' ||
+            refreshToken != refreshTokenDto.refreshToken
+        ) {
             throw new UnauthorizedException('Token inválido');
         }
 
@@ -77,7 +80,8 @@ export class AuthService {
 
     async logoutUser(refreshToken: string): Promise<void> {
         try {
-            const payload = await this.tokenService.decodeRefreshToken(refreshToken);
+            const payload =
+                await this.tokenService.decodeRefreshToken(refreshToken);
             if (payload && payload.sub) {
                 await this.usersService.clearRefreshToken(payload.sub);
             } else {
@@ -140,7 +144,8 @@ export class AuthService {
 
     async logoutAdmin(refreshToken: string): Promise<void> {
         try {
-            const payload = await this.tokenService.decodeRefreshToken(refreshToken);
+            const payload =
+                await this.tokenService.decodeRefreshToken(refreshToken);
             if (payload && payload.sub) {
                 await this.adminsService.clearRefreshToken(payload.sub);
             } else {
