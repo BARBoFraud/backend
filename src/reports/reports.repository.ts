@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
 import {
+    Comment,
     CreateReportData,
     FeedReport,
     HistoryReport,
@@ -248,5 +249,22 @@ export class ReportsRepository {
             VALUES(?,?,?);
         `;
         await this.db.getPool().query(sql, [reportId, userId, content]);
+    }
+
+    async getReportComments(reportId: number): Promise<Comment[]> {
+        const sql = `
+            SELECT
+                cm.id,
+                cm.content,
+                u.name,
+                u.last_name_1 AS lastName,
+                cm.created_at AS createdAt
+                FROM comment cm
+                INNER JOIN \`user\` u ON cm.id_user = u.id
+                WHERE cm.id_report = ?
+                ORDER BY cm.created_at DESC;
+        `;
+        const [rows] = await this.db.getPool().query(sql, [reportId]);
+        return rows as Comment[];
     }
 }

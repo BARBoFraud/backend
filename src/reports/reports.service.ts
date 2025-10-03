@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
-import { FeedReport, HistoryReport, ShortReport } from './types/report.types';
+import { Comment, FeedReport, HistoryReport, ShortReport } from './types/report.types';
 import { StatusRepository } from 'src/status/status.repository';
 import { CategoriesRepository } from 'src/categories/categories.repository';
 import { ReportsRepository } from './reports.repository';
@@ -114,5 +114,9 @@ export class ReportsService {
         content: string
     ): Promise<void> {
         await this.reportsRepository.commentReport(reportId, userId, content);
+    }
+
+    async getReportComments(reportId: number): Promise<Comment[]> {
+        return await this.reportsRepository.getReportComments(reportId);
     }
 }

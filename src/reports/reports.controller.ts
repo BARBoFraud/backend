@@ -197,35 +197,29 @@ export class ReportsController {
         return this.reportsService.getPendingReports();
     }
 
-    @Get(':id')
+    @Get('/comments/:reportId')
     @ApiOperation({
-        description: 'Endpoint para obtener un reporte completo del historial'
+        description: 'Endpoint para obtener los comentarios de un reporte'
     })
     @ApiResponse({
         status: 200,
-        description: 'Reporte obtenido correctamente',
-        example: {
-            id: 1,
-            category: 'Llamada',
-            status: 'Pendiente',
-            createdAt: '2025-09-29T02:24:10.000Z',
-            description: 'Me mataron amigos ayuda',
-            image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
-            url: 'https:estafas.com',
-            website: 'fortnite',
-            socialMedia: 'Instagram',
-            username: 'leotefortnitej',
-            email: 'leopalatto@fortnite.com',
-            phoneNumber: '123213123'
-        }
+        description: 'Comentarios obtenidos correctamente',
+        example: [
+            {
+                id: 1,
+                content: 'Me paso lo mismo',
+                createdAt: '2025-10-02T22:05:00.000Z',
+                username: 'leotefortnite'
+            }
+        ]
     })
-    @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiBearerAuth()
     @UseGuards(UsersAuthGuard)
-    async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
-        return this.reportsService.getById(req.user.id, id);
+    async getComments(@Param('reportId') reportId: number) {
+        return this.reportsService.getReportComments(reportId);
     }
+
 
     @Patch('/evaluate')
     @ApiOperation({
@@ -289,5 +283,35 @@ export class ReportsController {
             req.user.id,
             commentReportDto.content
         );
+    }
+
+    @Get(':id')
+    @ApiOperation({
+        description: 'Endpoint para obtener un reporte completo del historial'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Reporte obtenido correctamente',
+        example: {
+            id: 1,
+            category: 'Llamada',
+            status: 'Pendiente',
+            createdAt: '2025-09-29T02:24:10.000Z',
+            description: 'Me mataron amigos ayuda',
+            image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
+            url: 'https:estafas.com',
+            website: 'fortnite',
+            socialMedia: 'Instagram',
+            username: 'leotefortnitej',
+            email: 'leopalatto@fortnite.com',
+            phoneNumber: '123213123'
+        }
+    })
+    @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiBearerAuth()
+    @UseGuards(UsersAuthGuard)
+    async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
+        return this.reportsService.getById(req.user.id, id);
     }
 }

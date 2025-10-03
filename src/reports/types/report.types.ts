@@ -60,3 +60,11 @@ export interface FeedReport {
     commentsCount: number;
     userLiked: boolean;
 }
+
+export interface Comment {
+    id: number,
+    content: string,
+    name: string;
+    lastName: string;
+    createdAt: Date
+}
