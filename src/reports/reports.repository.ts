@@ -91,6 +91,8 @@ export class ReportsRepository {
     ): Promise<FeedReport[]> {
         const sql = `
         SELECT 
+            u.name,
+            u.last_name_1 as lastName,
             r.id,
             c.name AS category,
             r.created_at AS createdAt,
@@ -120,6 +122,7 @@ export class ReportsRepository {
         FROM report r
         INNER JOIN category c ON r.id_category = c.id
         INNER JOIN status s ON r.id_status = s.id
+        INNER JOIN \`user\` u ON r.id_user = u.id
         WHERE s.id = ? 
         AND (r.description LIKE ? 
         OR r.url LIKE ? 
@@ -152,6 +155,8 @@ export class ReportsRepository {
     ): Promise<FeedReport[]> {
         const sql = `
         SELECT 
+            u.name,
+            u.last_name_1 as lastName,
             r.id,
             c.name AS category,
             r.created_at AS createdAt,
@@ -181,6 +186,7 @@ export class ReportsRepository {
         FROM report r
         INNER JOIN category c ON r.id_category = c.id
         INNER JOIN status s ON r.id_status = s.id
+        INNER JOIN \`user\` u ON r.id_user = u.id
         WHERE s.id = ?
         ORDER BY r.created_at DESC;
         `;

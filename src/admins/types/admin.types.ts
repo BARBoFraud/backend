@@ -15,3 +15,7 @@ export interface AdminDb extends AdminData {
     password: string;
     salt: string;
 }
+
+export interface RefreshTokenResponse {
+    refreshToken: string;
+}

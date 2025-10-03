@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
-import { AdminData, CreateAdminData, AdminDb } from './types/admin.types';
+import {
+    AdminData,
+    CreateAdminData,
+    AdminDb,
+    RefreshTokenResponse
+} from './types/admin.types';
 
 @Injectable()
 export class AdminsRepository {
@@ -61,7 +66,7 @@ export class AdminsRepository {
     async getRefreshToken(id: number): Promise<string> {
         const sql = `SELECT refresh_token AS refreshToken FROM admin WHERE id = ? LIMIT 1;`;
         const [rows] = await this.db.getPool().query(sql, [id]);
-        const result = rows as { refreshToken: string }[];
+        const result = rows as RefreshTokenResponse[];
         return result[0].refreshToken || '';
     }
 

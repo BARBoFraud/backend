@@ -43,6 +43,8 @@ export interface HistoryReport {
 }
 
 export interface FeedReport {
+    name: string;
+    lastName: string;
     id: number;
     category: string;
     createdAt: Date;
