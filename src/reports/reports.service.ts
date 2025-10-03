@@ -99,4 +99,12 @@ export class ReportsService {
             evaluateReportDto.statusId
         );
     }
+
+    async likeReport(reportId: number, userId: number): Promise<void> {
+        await this.reportsRepository.likeReport(reportId, userId);
+    }
+
+    async unlikeReport(reportId: number, userId: number): Promise<void> {
+        await this.reportsRepository.unlikeReport(reportId, userId);
+    }
 }

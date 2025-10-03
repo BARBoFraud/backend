@@ -84,7 +84,6 @@ export class ReportsController {
         return await this.reportsService.getUserHistory(req.user.id);
     }
 
-    // TODO: Agregar likes y numero de comentarios a las queris
     @Get('/feed')
     @UseGuards(UsersAuthGuard)
     @ApiBearerAuth()
@@ -238,5 +237,35 @@ export class ReportsController {
     @UseGuards(AdminsAuthGuard)
     async evaluateReport(@Body() evaluateReportDto: EvaluateReportDto) {
         return this.reportsService.evaluateReport(evaluateReportDto);
+    }
+
+    @Post('/like/:reportId')
+    @ApiOperation({
+        description: 'Endpoint para dar like a un reporte'
+    })
+    @ApiResponse({ status: 200, description: 'Like agregado correctamente' })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiBearerAuth()
+    @UseGuards(UsersAuthGuard)
+    async likeReport(
+        @Param('reportId') reportId: number,
+        @Req() req: AuthenticatedRequest
+    ) {
+        return this.reportsService.likeReport(reportId, req.user.id);
+    }
+
+    @Post('/unlike/:reportId')
+    @ApiOperation({
+        description: 'Endpoint para quitar like a un reporte'
+    })
+    @ApiResponse({ status: 200, description: 'Like quitado correctamente' })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiBearerAuth()
+    @UseGuards(UsersAuthGuard)
+    async unlikeReport(
+        @Param('reportId') reportId: number,
+        @Req() req: AuthenticatedRequest
+    ) {
+        return this.reportsService.unlikeReport(reportId, req.user.id);
     }
 }
