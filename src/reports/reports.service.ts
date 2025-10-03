@@ -1,17 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
-import { Comment, FeedReport, HistoryReport, ShortReport } from './types/report.types';
+import {
+    Comment,
+    FeedReport,
+    HistoryReport,
+    ShortReport
+} from './types/report.types';
 import { StatusRepository } from 'src/status/status.repository';
-import { CategoriesRepository } from 'src/categories/categories.repository';
 import { ReportsRepository } from './reports.repository';
 import { EvaluateReportDto } from './dto/evaluate-report.dto';
+import { LikesRepository } from 'src/likes/likes.repository';
+import { CommentsRepository } from 'src/comments/comments.repository';
 
 @Injectable()
 export class ReportsService {
     constructor(
         private reportsRepository: ReportsRepository,
         private statusRepository: StatusRepository,
-        private categoryRepository: CategoriesRepository
+        private likesRepository: LikesRepository,
+        private commentsRepository: CommentsRepository
     ) {}
 
     async createReport(
@@ -101,11 +108,11 @@ export class ReportsService {
     }
 
     async likeReport(reportId: number, userId: number): Promise<void> {
-        await this.reportsRepository.likeReport(reportId, userId);
+        await this.likesRepository.likeReport(reportId, userId);
     }
 
     async unlikeReport(reportId: number, userId: number): Promise<void> {
-        await this.reportsRepository.unlikeReport(reportId, userId);
+        await this.likesRepository.unlikeReport(reportId, userId);
     }
 
     async commentReport(
@@ -113,10 +120,10 @@ export class ReportsService {
         userId: number,
         content: string
     ): Promise<void> {
-        await this.reportsRepository.commentReport(reportId, userId, content);
+        await this.commentsRepository.commentReport(reportId, userId, content);
     }
 
     async getReportComments(reportId: number): Promise<Comment[]> {
-        return await this.reportsRepository.getReportComments(reportId);
+        return await this.commentsRepository.getReportComments(reportId);
     }
 }
