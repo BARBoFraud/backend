@@ -78,7 +78,7 @@ export class UsersController {
         summary: 'Endpoint para desactivar la cuenta de un usuario'
     })
     @ApiResponse({
-        status: 201,
+        status: 200,
         description: 'Usuario desactivado correctamente'
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
