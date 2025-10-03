@@ -5,7 +5,8 @@ import {
     CreateReportData,
     FeedReport,
     HistoryReport,
-    ShortReport
+    ShortReport,
+    UpdateReportData
 } from './types/report.types';
 
 @Injectable()
@@ -36,6 +37,41 @@ export class ReportsRepository {
                 createReportData.email,
                 createReportData.anonymous
             ]);
+    }
+
+    async updateReport(
+        updateReportData: UpdateReportData
+    ): Promise<void> {
+        const sql = `
+            UPDATE report SET 
+                id_category = ?, 
+                id_status = ?, 
+                description = ?, 
+                url = ?, 
+                website = ?,
+                social_media = ?, 
+                phone_number = ?, 
+                image = ?, 
+                username = ?, 
+                email = ?, 
+                anonymous = ?
+            WHERE id = ? AND id_user = ?;
+        `;
+        await this.db.getPool().query(sql, [
+            updateReportData.categoryId,
+            updateReportData.statusId,
+            updateReportData.description,
+            updateReportData.url,
+            updateReportData.website,
+            updateReportData.socialMedia,
+            updateReportData.phoneNumber,
+            updateReportData.imageId,
+            updateReportData.username,
+            updateReportData.email,
+            updateReportData.anonymous,
+            updateReportData.reportId,
+            updateReportData.userId
+        ]);
     }
 
     async getUserHistory(id: number): Promise<ShortReport[]> {

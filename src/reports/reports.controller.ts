@@ -5,6 +5,7 @@ import {
     Param,
     Patch,
     Post,
+    Put,
     Req,
     UseGuards
 } from '@nestjs/common';
@@ -21,6 +22,7 @@ import {
 import { AdminsAuthGuard } from 'src/common/guards/admins-auth.guard';
 import { EvaluateReportDto } from './dto/evaluate-report.dto';
 import { CommentReportDto } from './dto/comment-report.dto';
+import { UpdateReportDto } from './dto/update-report.dto';
 
 @ApiTags('Modulo de reportes')
 @Controller({ path: 'reports', version: '1' })
@@ -38,6 +40,27 @@ export class ReportsController {
         @Body() createReportDto: CreateReportDto
     ) {
         await this.reportsService.createReport(req.user.id, createReportDto);
+    }
+
+    @Put('/update/:reportId')
+    @UseGuards(UsersAuthGuard)
+    @ApiOperation({ description: 'Endpoint para modificar un reporte' })
+    @ApiResponse({
+        status: 200,
+        description: 'Reporte modificado correctamente'
+    })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiBearerAuth()
+    async updateReport(
+        @Req() req: AuthenticatedRequest,
+        @Param('reportId') reportId: string,
+        @Body() updateReportDto: UpdateReportDto
+    ) {
+        await this.reportsService.updateReport(
+            req.user.id,
+            Number(reportId),
+            updateReportDto
+        );
     }
 
     @Get('/history')
@@ -219,7 +242,6 @@ export class ReportsController {
     async getComments(@Param('reportId') reportId: number) {
         return this.reportsService.getReportComments(reportId);
     }
-
 
     @Patch('/evaluate')
     @ApiOperation({

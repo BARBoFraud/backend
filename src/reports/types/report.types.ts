@@ -13,6 +13,23 @@ export interface CreateReportData {
     imageId?: string;
 }
 
+export interface UpdateReportData {
+    userId: number;
+    reportId: number;
+    description: string;
+    categoryId: number;
+    statusId: number;
+    anonymous: boolean;
+    url?: string;
+    website?: string;
+    socialMedia?: string;
+    phoneNumber?: string;
+    createdAt?: Date;
+    username?: string;
+    email?: string;
+    imageId?: string;
+}
+
 export interface ShortReport {
     id: number;
     description: string;
@@ -62,9 +79,10 @@ export interface FeedReport {
 }
 
 export interface Comment {
-    id: number,
-    content: string,
+    id: number;
+    content: string;
     name: string;
     lastName: string;
-    createdAt: Date
+    createdAt: Date;
 }
+

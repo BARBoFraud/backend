@@ -11,6 +11,7 @@ import { ReportsRepository } from './reports.repository';
 import { EvaluateReportDto } from './dto/evaluate-report.dto';
 import { LikesRepository } from 'src/likes/likes.repository';
 import { CommentsRepository } from 'src/comments/comments.repository';
+import { UpdateReportDto } from './dto/update-report.dto';
 
 @Injectable()
 export class ReportsService {
@@ -34,6 +35,25 @@ export class ReportsService {
         await this.reportsRepository.createReport(userId, {
             ...createReportDto,
             statusId: status.id
+        });
+    }
+
+    async updateReport(
+        userId: number,
+        reportId: number,
+        updateReportDto: UpdateReportDto
+    ): Promise<void> {
+        const newStatus = await this.statusRepository.findByName('Pendiente');
+
+        if (!newStatus) {
+            throw new NotFoundException('No existe un estatus con ese nombre');
+        }
+
+        await this.reportsRepository.updateReport({
+            ...updateReportDto,
+            userId,
+            reportId,
+            statusId: newStatus.id
         });
     }
 
