@@ -237,4 +237,16 @@ export class ReportsRepository {
             WHERE id_report = ? AND id_user = ?;`;
         await this.db.getPool().query(sql, [reportId, userId]);
     }
+
+    async commentReport(
+        reportId: number,
+        userId: number,
+        content: string
+    ): Promise<void> {
+        const sql = `
+            INSERT INTO comment(id_report, id_user, content)
+            VALUES(?,?,?);
+        `;
+        await this.db.getPool().query(sql, [reportId, userId, content]);
+    }
 }

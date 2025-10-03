@@ -20,6 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { AdminsAuthGuard } from 'src/common/guards/admins-auth.guard';
 import { EvaluateReportDto } from './dto/evaluate-report.dto';
+import { CommentReportDto } from './dto/comment-report.dto';
 
 @ApiTags('Modulo de reportes')
 @Controller({ path: 'reports', version: '1' })
@@ -267,5 +268,26 @@ export class ReportsController {
         @Req() req: AuthenticatedRequest
     ) {
         return this.reportsService.unlikeReport(reportId, req.user.id);
+    }
+
+    @Post('/comment/:reportId')
+    @ApiOperation({ description: 'Endpoint para comentar un reporte' })
+    @ApiResponse({
+        status: 201,
+        description: 'Reporte comentado correctamente'
+    })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiBearerAuth()
+    @UseGuards(UsersAuthGuard)
+    async commentReport(
+        @Param('reportId') reportId: number,
+        @Req() req: AuthenticatedRequest,
+        @Body() commentReportDto: CommentReportDto
+    ) {
+        await this.reportsService.commentReport(
+            reportId,
+            req.user.id,
+            commentReportDto.content
+        );
     }
 }

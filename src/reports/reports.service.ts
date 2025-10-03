@@ -107,4 +107,12 @@ export class ReportsService {
     async unlikeReport(reportId: number, userId: number): Promise<void> {
         await this.reportsRepository.unlikeReport(reportId, userId);
     }
+
+    async commentReport(
+        reportId: number,
+        userId: number,
+        content: string
+    ): Promise<void> {
+        await this.reportsRepository.commentReport(reportId, userId, content);
+    }
 }
