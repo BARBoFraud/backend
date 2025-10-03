@@ -92,8 +92,8 @@ export class ReportsRepository {
     ): Promise<FeedReport[]> {
         const sql = `
         SELECT 
-            u.name,
-            u.last_name_1 as lastName,
+            CASE WHEN r.anonymous = TRUE THEN '' ELSE u.name END AS name,
+            CASE WHEN r.anonymous = TRUE THEN '' ELSE u.last_name_1 END AS lastName,
             r.id,
             c.name AS category,
             r.created_at AS createdAt,
@@ -156,7 +156,8 @@ export class ReportsRepository {
     ): Promise<FeedReport[]> {
         const sql = `
         SELECT 
-            u.name,
+            CASE WHEN r.anonymous = TRUE THEN '' ELSE u.name END AS name,
+            CASE WHEN r.anonymous = TRUE THEN '' ELSE u.last_name_1 END AS lastName,
             u.last_name_1 as lastName,
             r.id,
             c.name AS category,
