@@ -85,4 +85,3 @@ export interface Comment {
     lastName: string;
     createdAt: Date;
 }
-

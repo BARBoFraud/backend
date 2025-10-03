@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
 import {
-    Comment,
     CreateReportData,
     FeedReport,
     HistoryReport,
@@ -39,9 +38,7 @@ export class ReportsRepository {
             ]);
     }
 
-    async updateReport(
-        updateReportData: UpdateReportData
-    ): Promise<void> {
+    async updateReport(updateReportData: UpdateReportData): Promise<void> {
         const sql = `
             UPDATE report SET 
                 id_category = ?, 
@@ -57,21 +54,23 @@ export class ReportsRepository {
                 anonymous = ?
             WHERE id = ? AND id_user = ?;
         `;
-        await this.db.getPool().query(sql, [
-            updateReportData.categoryId,
-            updateReportData.statusId,
-            updateReportData.description,
-            updateReportData.url,
-            updateReportData.website,
-            updateReportData.socialMedia,
-            updateReportData.phoneNumber,
-            updateReportData.imageId,
-            updateReportData.username,
-            updateReportData.email,
-            updateReportData.anonymous,
-            updateReportData.reportId,
-            updateReportData.userId
-        ]);
+        await this.db
+            .getPool()
+            .query(sql, [
+                updateReportData.categoryId,
+                updateReportData.statusId,
+                updateReportData.description,
+                updateReportData.url,
+                updateReportData.website,
+                updateReportData.socialMedia,
+                updateReportData.phoneNumber,
+                updateReportData.imageId,
+                updateReportData.username,
+                updateReportData.email,
+                updateReportData.anonymous,
+                updateReportData.reportId,
+                updateReportData.userId
+            ]);
     }
 
     async getUserHistory(id: number): Promise<ShortReport[]> {
