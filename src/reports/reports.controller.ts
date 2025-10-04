@@ -165,29 +165,18 @@ export class ReportsController {
         example: [
             {
                 id: 2,
-                category: 'Página de internet',
-                status: 'Aceptado',
-                createdAt: '2025-10-02T21:58:31.000Z',
-                description: 'Aaaaaaaa 121212121 asdasdad asdasdasd',
-                image: 'http://localhost:3000/public/uploads/1231231.jpg',
-                url: 'https:estafas.com',
                 website: 'estafotas',
                 socialMedia: 'Instagram',
-                username: 'leotefortnite',
                 email: 'A01665462@tec.mx',
-                phoneNumber: '1231231',
-                likesCount: 0,
-                commentsCount: 0,
-                userLiked: 0
+                phoneNumber: '1231231'
             }
         ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     async searchReport(
         @Param('search') searchString: string,
-        @Req() req: AuthenticatedRequest
     ) {
-        return this.reportsService.searchReport(searchString, req.user.id);
+        return this.reportsService.searchReport(searchString);
     }
 
     @Get('/pending')

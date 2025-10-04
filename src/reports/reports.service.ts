@@ -80,15 +80,14 @@ export class ReportsService {
         };
     }
 
-    async searchReport(searchString: string, userId: number): Promise<any[]> {
+    async searchReport(searchString: string): Promise<any[]> {
         const status = await this.statusRepository.findByName('Aceptado');
         if (!status) {
             throw new NotFoundException('No existe un status con ese nombre');
         }
         return await this.reportsRepository.searchReport(
             searchString,
-            status.id,
-            userId
+            status.id
         );
     }
 

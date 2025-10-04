@@ -85,3 +85,12 @@ export interface Comment {
     lastName: string;
     createdAt: Date;
 }
+
+export interface SearchQueryReport {
+    id: number;
+    category: string;
+    website?: string;
+    socialMedia?: string;
+    email?: string;
+    phoneNumber?: string;
+}
