@@ -4,6 +4,7 @@ import {
     CreateReportData,
     FeedReport,
     HistoryReport,
+    SearchQueryReport,
     ShortReport,
     UpdateReportData
 } from './types/report.types';
@@ -123,56 +124,29 @@ export class ReportsRepository {
     async searchReport(
         searchString: string,
         statusId: number,
-        userId: number
-    ): Promise<FeedReport[]> {
+    ): Promise<SearchQueryReport[]> {
         const sql = `
-        SELECT 
-            CASE WHEN r.anonymous = TRUE THEN '' ELSE u.name END AS name,
-            CASE WHEN r.anonymous = TRUE THEN '' ELSE u.last_name_1 END AS lastName,
-            r.id,
-            c.name AS category,
-            r.created_at AS createdAt,
-            r.description,
-            r.image,
-            r.url,
-            r.website,
-            r.social_media AS socialMedia,
-            r.username,
-            r.email,
-            r.phone_number AS phoneNumber,
-            (SELECT COUNT(*) 
-            FROM \`like\` l 
-            WHERE l.id_report = r.id) AS likesCount,
-            (SELECT COUNT(*) 
-            FROM comment cm 
-            WHERE cm.id_report = r.id) AS commentsCount,
-            CASE 
-                WHEN EXISTS (
-                    SELECT 1 
-                    FROM \`like\` ul 
-                    WHERE ul.id_report = r.id 
-                      AND ul.id_user = ?
-                ) THEN TRUE 
-                ELSE FALSE 
-            END AS userLiked
-        FROM report r
-        INNER JOIN category c ON r.id_category = c.id
-        INNER JOIN status s ON r.id_status = s.id
-        INNER JOIN \`user\` u ON r.id_user = u.id
-        WHERE s.id = ? 
-        AND (r.description LIKE ? 
-        OR r.url LIKE ? 
-        OR r.website LIKE ? 
-        OR r.social_media LIKE ?
-        OR r.phone_number LIKE ? 
-        OR r.username LIKE ? 
-        OR r.email LIKE ?)
-        ORDER BY r.created_at DESC;
-    `;
+            SELECT
+                r.id,
+                r.website,
+                r.social_media AS socialMedia,
+                r.email,
+                r.phone_number AS phoneNumber
+            FROM report r
+            INNER JOIN status s ON r.id_status = s.id
+            WHERE s.id = ?
+            AND (r.description LIKE ?
+            OR r.url LIKE ?
+            OR r.website LIKE ?
+            OR r.social_media LIKE ?
+            OR r.phone_number LIKE ?
+            OR r.username LIKE ?
+            OR r.email LIKE ?)
+            ORDER BY r.id ASC;
+        `;
         const [rows] = await this.db
             .getPool()
             .query(sql, [
-                userId,
                 statusId,
                 `%${searchString}%`,
                 `%${searchString}%`,
@@ -182,7 +156,7 @@ export class ReportsRepository {
                 `%${searchString}%`,
                 `%${searchString}%`
             ]);
-        return rows as FeedReport[];
+        return rows as SearchQueryReport[];
     }
 
     async getFeedReports(
