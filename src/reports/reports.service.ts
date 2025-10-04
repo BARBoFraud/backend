@@ -4,6 +4,7 @@ import {
     Comment,
     FeedReport,
     HistoryReport,
+    SearchQueryReport,
     ShortReport
 } from './types/report.types';
 import { StatusRepository } from 'src/status/status.repository';
@@ -80,7 +81,7 @@ export class ReportsService {
         };
     }
 
-    async searchReport(searchString: string): Promise<any[]> {
+    async searchReport(searchString: string): Promise<SearchQueryReport[]> {
         const status = await this.statusRepository.findByName('Aceptado');
         if (!status) {
             throw new NotFoundException('No existe un status con ese nombre');
