@@ -173,9 +173,7 @@ export class ReportsController {
         ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
-    async searchReport(
-        @Param('search') searchString: string,
-    ) {
+    async searchReport(@Param('search') searchString: string) {
         return this.reportsService.searchReport(searchString);
     }
 
