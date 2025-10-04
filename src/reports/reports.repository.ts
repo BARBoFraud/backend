@@ -123,7 +123,7 @@ export class ReportsRepository {
 
     async searchReport(
         searchString: string,
-        statusId: number,
+        statusId: number
     ): Promise<SearchQueryReport[]> {
         const sql = `
             SELECT
