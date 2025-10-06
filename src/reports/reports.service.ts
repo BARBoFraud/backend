@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
 import {
     Comment,
+    DashboardReport,
     FeedReport,
     HistoryReport,
     SearchQueryReport,
@@ -112,12 +113,23 @@ export class ReportsService {
         });
     }
 
-    async getPendingReports(): Promise<FeedReport[]> {
+    async getPendingReports(): Promise<DashboardReport[]> {
         const status = await this.statusRepository.findByName('Pendiente');
         if (!status) {
             throw new NotFoundException('No existe un status con ese nombre');
         }
-        return await this.reportsRepository.getPendingReports(status.id);
+        const reports = await this.reportsRepository.getPendingReports(
+            status.id
+        );
+
+        return reports.map((report) => {
+            if (report.image) {
+                const baseUrl = process.env.BASE_URL;
+                console.log(baseUrl);
+                report.image = `${baseUrl}/public/uploads/${report.image}`;
+            }
+            return report;
+        });
     }
 
     async evaluateReport(evaluateReportDto: EvaluateReportDto): Promise<void> {

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
 import {
     CreateReportData,
+    DashboardReport,
     FeedReport,
     HistoryReport,
     SearchQueryReport,
@@ -204,9 +205,11 @@ export class ReportsRepository {
         return rows as FeedReport[];
     }
 
-    async getPendingReports(statusId: number): Promise<FeedReport[]> {
+    async getPendingReports(statusId: number): Promise<DashboardReport[]> {
         const sql = `
             SELECT r.id,
+                CASE WHEN r.anonymous = TRUE THEN '' ELSE u.name END AS name,
+                CASE WHEN r.anonymous = TRUE THEN '' ELSE u.last_name_1 END AS lastName,
                 r.description,
                 r.url,
                 r.website,
@@ -220,10 +223,11 @@ export class ReportsRepository {
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
+            INNER JOIN \`user\` u ON r.id_user = u.id
             WHERE s.id = ?
             ORDER BY r.created_at DESC;`;
         const [rows] = await this.db.getPool().query(sql, [statusId]);
-        return rows as FeedReport[];
+        return rows as DashboardReport[];
     }
 
     async evaluateReport(reportId: number, statusId: number): Promise<void> {

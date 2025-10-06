@@ -78,6 +78,22 @@ export interface FeedReport {
     userLiked: boolean;
 }
 
+export interface DashboardReport {
+    name: string;
+    lastName: string;
+    id: number;
+    category: string;
+    createdAt: Date;
+    description: string;
+    image?: string;
+    url?: string;
+    website?: string;
+    socialMedia?: string;
+    username?: string;
+    email?: string;
+    phoneNumber?: string;
+}
+
 export interface Comment {
     id: number;
     content: string;
