@@ -9,7 +9,7 @@ export class StatusController {
 
     @Get('/list')
     @ApiOperation({
-        description: 'Endpoint para obtener los status de reportes'
+        summary: 'Endpoint para obtener los status de reportes'
     })
     @ApiResponse({
         status: 200,

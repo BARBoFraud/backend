@@ -23,7 +23,7 @@ export class ImagesController {
     @Post('/upload')
     @UseGuards(UsersAuthGuard)
     @ApiOperation({
-        description: 'Endpoint para subir la imagen de un reporte'
+        summary: 'Endpoint para subir la imagen de un reporte'
     })
     @ApiResponse({
         status: 400,

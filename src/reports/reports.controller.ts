@@ -30,7 +30,7 @@ export class ReportsController {
     constructor(private readonly reportsService: ReportsService) {}
     @Post('/create')
     @UseGuards(UsersAuthGuard)
-    @ApiOperation({ description: 'Endpoint para crear un nuevo reporte' })
+    @ApiOperation({ summary: 'Endpoint para crear un nuevo reporte' })
     @ApiResponse({ status: 201, description: 'Reporte creado correctamente' })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiResponse({ status: 404, description: 'La categoria no existe' })
@@ -44,7 +44,7 @@ export class ReportsController {
 
     @Put('/update/:reportId')
     @UseGuards(UsersAuthGuard)
-    @ApiOperation({ description: 'Endpoint para modificar un reporte' })
+    @ApiOperation({ summary: 'Endpoint para modificar un reporte' })
     @ApiResponse({
         status: 200,
         description: 'Reporte modificado correctamente'
@@ -53,12 +53,12 @@ export class ReportsController {
     @ApiBearerAuth()
     async updateReport(
         @Req() req: AuthenticatedRequest,
-        @Param('reportId') reportId: string,
+        @Param('reportId') reportId: number,
         @Body() updateReportDto: UpdateReportDto
     ) {
         await this.reportsService.updateReport(
             req.user.id,
-            Number(reportId),
+            reportId,
             updateReportDto
         );
     }
@@ -66,8 +66,7 @@ export class ReportsController {
     @Get('/history')
     @UseGuards(UsersAuthGuard)
     @ApiOperation({
-        description:
-            'Endpoint para obtener el historial de reportes de un usuario'
+        summary: 'Endpoint para obtener el historial de reportes de un usuario'
     })
     @ApiResponse({
         status: 200,
@@ -111,7 +110,7 @@ export class ReportsController {
     @Get('/feed')
     @UseGuards(UsersAuthGuard)
     @ApiBearerAuth()
-    @ApiOperation({ description: 'Endpoint para obtener el feed de reportes' })
+    @ApiOperation({ summary: 'Endpoint para obtener el feed de reportes' })
     @ApiResponse({
         status: 200,
         description: 'Feed obtenido correctamente',
@@ -158,7 +157,7 @@ export class ReportsController {
     @Get('/search/:search')
     @UseGuards(UsersAuthGuard)
     @ApiBearerAuth()
-    @ApiOperation({ description: 'Endpoint para buscar en los reportes' })
+    @ApiOperation({ summary: 'Endpoint para buscar en los reportes' })
     @ApiResponse({
         status: 200,
         description: 'Reportes obtenidos correctamente',
@@ -180,7 +179,7 @@ export class ReportsController {
     @Get('/pending')
     @UseGuards(AdminsAuthGuard)
     @ApiOperation({
-        description: 'Endpoint para obtener los reportes pendientes'
+        summary: 'Endpoint para obtener los reportes pendientes'
     })
     @ApiResponse({
         status: 200,
@@ -209,7 +208,7 @@ export class ReportsController {
 
     @Get('/comments/:reportId')
     @ApiOperation({
-        description: 'Endpoint para obtener los comentarios de un reporte'
+        summary: 'Endpoint para obtener los comentarios de un reporte'
     })
     @ApiResponse({
         status: 200,
@@ -232,7 +231,7 @@ export class ReportsController {
 
     @Patch('/evaluate')
     @ApiOperation({
-        description: 'Endpoint para cambiar el status de un reporte'
+        summary: 'Endpoint para cambiar el status de un reporte'
     })
     @ApiResponse({ status: 200, description: 'Reporte evaluado correctamente' })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
@@ -245,7 +244,7 @@ export class ReportsController {
 
     @Post('/like/:reportId')
     @ApiOperation({
-        description: 'Endpoint para dar like a un reporte'
+        summary: 'Endpoint para dar like a un reporte'
     })
     @ApiResponse({ status: 200, description: 'Like agregado correctamente' })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
@@ -260,7 +259,7 @@ export class ReportsController {
 
     @Post('/unlike/:reportId')
     @ApiOperation({
-        description: 'Endpoint para quitar like a un reporte'
+        summary: 'Endpoint para quitar like a un reporte'
     })
     @ApiResponse({ status: 200, description: 'Like quitado correctamente' })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
@@ -274,7 +273,7 @@ export class ReportsController {
     }
 
     @Post('/comment/:reportId')
-    @ApiOperation({ description: 'Endpoint para comentar un reporte' })
+    @ApiOperation({ summary: 'Endpoint para comentar un reporte' })
     @ApiResponse({
         status: 201,
         description: 'Reporte comentado correctamente'
@@ -296,7 +295,7 @@ export class ReportsController {
 
     @Get(':id')
     @ApiOperation({
-        description: 'Endpoint para obtener un reporte completo del historial'
+        summary: 'Endpoint para obtener un reporte completo del historial'
     })
     @ApiResponse({
         status: 200,

@@ -9,7 +9,7 @@ export class CategoriesController {
 
     @Get('/list')
     @ApiOperation({
-        description: 'Endpoint para obtener las categorias de reportes'
+        summary: 'Endpoint para obtener las categorias de reportes'
     })
     @ApiResponse({
         status: 200,
