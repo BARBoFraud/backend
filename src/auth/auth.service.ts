@@ -10,6 +10,7 @@ import { AdminsService } from '../admins/admins.service';
 import { AdminLoginDto } from './dto/admin-login.dto';
 import { UserRefreshDto } from './dto/user-refresh.dto';
 import { RefreshResponse, TokenPair } from './types/auth.types';
+import { sha256 } from 'src/utils/hash/hash.util';
 
 @Injectable()
 export class AuthService {
@@ -36,7 +37,9 @@ export class AuthService {
             'user'
         );
 
-        await this.usersService.setRefreshToken(user.id, refreshToken);
+        const hashedToken = sha256(refreshToken);
+
+        await this.usersService.setRefreshToken(user.id, hashedToken);
 
         return {
             accessToken,
@@ -63,7 +66,7 @@ export class AuthService {
         const refreshToken = await this.usersService.getRefreshToken(user.id);
         if (
             refreshToken == '' ||
-            refreshToken != refreshTokenDto.refreshToken
+            refreshToken != sha256(refreshTokenDto.refreshToken)
         ) {
             throw new UnauthorizedException('Token inválido');
         }
@@ -109,7 +112,9 @@ export class AuthService {
             'admin'
         );
 
-        await this.adminsService.setRefreshToken(admin.id, refreshToken);
+        const hashedToken = sha256(refreshToken);
+
+        await this.adminsService.setRefreshToken(admin.id, hashedToken);
 
         return {
             accessToken,
@@ -136,7 +141,7 @@ export class AuthService {
         const refreshToken = await this.adminsService.getRefreshToken(admin.id);
         if (
             refreshToken == '' ||
-            refreshToken != refreshTokenDto.refreshToken
+            refreshToken != sha256(refreshTokenDto.refreshToken)
         ) {
             throw new UnauthorizedException('Token inválido');
         }
