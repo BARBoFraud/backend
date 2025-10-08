@@ -42,6 +42,7 @@ export class ImagesController {
                     cb(null, `${baseName}${ext}`);
                 }
             }),
+            limits: { fileSize: 5 * 1024 * 1024 },
             fileFilter: (_req, file, cb) => {
                 if (!file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
                     return cb(
