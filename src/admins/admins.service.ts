@@ -17,6 +17,7 @@ export class AdminsService {
     }
 
     async createDefaultAdmin(): Promise<void> {
+        // TODO: Cambiar a variables de ambiente
         const defaultUsername = 'admin';
         const defaultPassword = 'admin';
 

@@ -1,4 +1,5 @@
 import { createHash, randomBytes } from 'crypto';
+// TODO: cambiar a bcrypt
 
 export const sha256 = (data: string) => {
     return createHash('sha256').update(data).digest('hex');
