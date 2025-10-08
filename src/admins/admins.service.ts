@@ -17,8 +17,9 @@ export class AdminsService {
     }
 
     async createDefaultAdmin(): Promise<void> {
-        const defaultUsername = 'admin';
-        const defaultPassword = 'admin';
+        const defaultUsername = process.env.DEFAULT_USER;
+        const defaultPassword = process.env.DEFAULT_PASSWORD;
+        if (!defaultUsername || !defaultPassword) return;
 
         const existingAdmin =
             await this.adminsRepository.findByUsername(defaultUsername);
