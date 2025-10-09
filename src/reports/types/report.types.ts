@@ -32,7 +32,6 @@ export interface UpdateReportData {
 
 export interface ShortReport {
     id: number;
-    description: string;
     url?: string;
     website?: string;
     socialMedia?: string;

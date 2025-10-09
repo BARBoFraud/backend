@@ -78,7 +78,6 @@ export class ReportsRepository {
     async getUserHistory(id: number): Promise<ShortReport[]> {
         const sql = `
             SELECT r.id,
-                r.description,
                 r.url,
                 r.website,
                 r.social_media AS socialMedia,
@@ -165,41 +164,30 @@ export class ReportsRepository {
         userId: number
     ): Promise<FeedReport[]> {
         const sql = `
-        SELECT 
-            CASE WHEN r.anonymous = TRUE THEN '' ELSE u.name END AS name,
-            CASE WHEN r.anonymous = TRUE THEN '' ELSE u.last_name_1 END AS lastName,
-            r.id,
-            c.name AS category,
-            r.created_at AS createdAt,
-            r.description,
-            r.image,
-            r.url,
-            r.website,
-            r.social_media AS socialMedia,
-            r.username,
-            r.email,
-            r.phone_number AS phoneNumber,
-            (SELECT COUNT(*) 
-            FROM \`like\` l 
-            WHERE l.id_report = r.id) AS likesCount,
-            (SELECT COUNT(*) 
-            FROM comment cm 
-            WHERE cm.id_report = r.id) AS commentsCount,
-            CASE 
-                WHEN EXISTS (
-                    SELECT 1 
-                    FROM \`like\` ul 
-                    WHERE ul.id_report = r.id 
-                      AND ul.id_user = ?
-                ) THEN TRUE 
-                ELSE FALSE 
-            END AS userLiked
-        FROM report r
-        INNER JOIN category c ON r.id_category = c.id
-        INNER JOIN status s ON r.id_status = s.id
-        INNER JOIN \`user\` u ON r.id_user = u.id
-        WHERE s.id = ?
-        ORDER BY r.created_at DESC;
+            SELECT 
+                r.id,
+                (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
+                (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
+                c.name AS category,
+                r.created_at AS createdAt,
+                r.description,
+                r.image,
+                r.url,
+                r.website,
+                r.social_media AS socialMedia,
+                r.username,
+                r.email,
+                r.phone_number AS phoneNumber,
+                (IF(l.id_user IS NULL, FALSE, TRUE)) AS userLiked,
+                (SELECT COUNT(*) FROM \`like\` WHERE id_report = r.id) AS likesCount,
+                (SELECT COUNT(*) FROM comment WHERE id_report = r.id) AS commentsCount
+            FROM report r
+            INNER JOIN category c ON r.id_category = c.id
+            INNER JOIN status s ON r.id_status = s.id
+            INNER JOIN \`user\` u ON r.id_user = u.id
+            LEFT JOIN \`like\` l ON l.id_report = r.id AND l.id_user = ?
+            WHERE s.id = ?
+            ORDER BY r.created_at DESC;
         `;
         const [rows] = await this.db.getPool().query(sql, [userId, statusId]);
         return rows as FeedReport[];
@@ -207,9 +195,10 @@ export class ReportsRepository {
 
     async getPendingReports(statusId: number): Promise<DashboardReport[]> {
         const sql = `
-            SELECT r.id,
-                CASE WHEN r.anonymous = TRUE THEN '' ELSE u.name END AS name,
-                CASE WHEN r.anonymous = TRUE THEN '' ELSE u.last_name_1 END AS lastName,
+            SELECT 
+                r.id,
+                (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
+                (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
                 r.description,
                 r.url,
                 r.website,
