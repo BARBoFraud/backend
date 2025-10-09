@@ -89,8 +89,9 @@ export class ReportsService {
 
         return reports.map((report) => {
             if (report.image) {
-                const baseUrl = process.env.BASE_URL;
-                report.image = `${baseUrl}/public/uploads/${report.image}`;
+                //const baseUrl = process.env.BASE_URL;
+                report.image = `/public/uploads/${report.image}`;
+                //report.image = `${baseUrl}/public/uploads/${report.image}`;
             }
             return report;
         });
