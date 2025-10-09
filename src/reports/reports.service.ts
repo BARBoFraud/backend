@@ -6,7 +6,9 @@ import {
     FeedReport,
     HistoryReport,
     SearchQueryReport,
-    ShortReport
+    SearchReport,
+    ShortDashboardReport,
+    ShortHistoryReport
 } from './types/report.types';
 import { StatusRepository } from 'src/status/status.repository';
 import { ReportsRepository } from './reports.repository';
@@ -59,26 +61,8 @@ export class ReportsService {
         });
     }
 
-    async getUserHistory(id: number): Promise<ShortReport[]> {
+    async getUserHistory(id: number): Promise<ShortHistoryReport[]> {
         return await this.reportsRepository.getUserHistory(id);
-    }
-
-    async getCompleteHistoryReport(
-        userId: number,
-        reportId: number
-    ): Promise<HistoryReport> {
-        const report = await this.reportsRepository.getById(userId, reportId);
-
-        if (!report) {
-            throw new NotFoundException('Reporte no encontrado');
-        }
-
-        if (report.image) {
-            const baseUrl = process.env.BASE_URL;
-            report.image = `${baseUrl}/public/uploads/${report.image}`;
-        }
-
-        return report;
     }
 
     async searchReport(searchString: string): Promise<SearchQueryReport[]> {
@@ -112,7 +96,7 @@ export class ReportsService {
         });
     }
 
-    async getPendingReports(): Promise<DashboardReport[]> {
+    async getPendingReports(): Promise<ShortDashboardReport[]> {
         const status = await this.statusRepository.findByName('Pendiente');
         if (!status) {
             throw new NotFoundException('No existe un status con ese nombre');
@@ -121,14 +105,7 @@ export class ReportsService {
             status.id
         );
 
-        return reports.map((report) => {
-            if (report.image) {
-                const baseUrl = process.env.BASE_URL;
-                console.log(baseUrl);
-                report.image = `${baseUrl}/public/uploads/${report.image}`;
-            }
-            return report;
-        });
+        return reports;
     }
 
     async evaluateReport(evaluateReportDto: EvaluateReportDto): Promise<void> {
@@ -156,5 +133,65 @@ export class ReportsService {
 
     async getReportComments(reportId: number): Promise<Comment[]> {
         return await this.commentsRepository.getReportComments(reportId);
+    }
+
+    async getCompleteHistoryReport(
+        userId: number,
+        reportId: number
+    ): Promise<HistoryReport> {
+        const report = await this.reportsRepository.getCompleteHistoryReport(
+            userId,
+            reportId
+        );
+
+        if (!report) {
+            throw new NotFoundException('Reporte no encontrado');
+        }
+
+        if (report.image) {
+            const baseUrl = process.env.BASE_URL;
+            report.image = `${baseUrl}/public/uploads/${report.image}`;
+        }
+
+        return report;
+    }
+
+    async getCompleteDashboardReport(
+        reportId: number
+    ): Promise<DashboardReport> {
+        const report =
+            await this.reportsRepository.getCompleteDashboardReport(reportId);
+
+        if (!report) {
+            throw new NotFoundException('Report no encontrado');
+        }
+
+        if (!report.image) {
+            const baseUrl = process.env.BASE_URL;
+            report.image = `${baseUrl}/public/uploads/${report.image}`;
+        }
+
+        return report;
+    }
+
+    async getCompleteSearchReport(
+        reportId: number,
+        userId: number
+    ): Promise<SearchReport> {
+        const report = await this.reportsRepository.getCompleteSearchReport(
+            reportId,
+            userId
+        );
+
+        if (!report) {
+            throw new NotFoundException('Reporte no encontrado');
+        }
+
+        if (report.image) {
+            const baseUrl = process.env.BASE_URL;
+            report.image = `${baseUrl}/public/uploads/${report.image}`;
+        }
+
+        return report;
     }
 }

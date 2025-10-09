@@ -30,7 +30,7 @@ export interface UpdateReportData {
     imageId?: string;
 }
 
-export interface ShortReport {
+export interface ShortHistoryReport {
     id: number;
     url?: string;
     website?: string;
@@ -49,9 +49,6 @@ export interface HistoryReport {
     status: string;
     createdAt: Date;
     description: string;
-    likesCount: number;
-    commentsCount: number;
-    userLiked: boolean;
     url?: string;
     website?: string;
     socialMedia?: string;
@@ -80,9 +77,23 @@ export interface FeedReport {
     userLiked: boolean;
 }
 
+export interface ShortDashboardReport {
+    name?: string;
+    lastName?: string;
+    id: number;
+    category: string;
+    createdAt: Date;
+    url?: string;
+    website?: string;
+    socialMedia?: string;
+    username?: string;
+    email?: string;
+    phoneNumber?: string;
+}
+
 export interface DashboardReport {
-    name: string;
-    lastName: string;
+    name?: string;
+    lastName?: string;
     id: number;
     category: string;
     createdAt: Date;
@@ -111,4 +122,23 @@ export interface SearchQueryReport {
     socialMedia?: string;
     email?: string;
     phoneNumber?: string;
+}
+
+export interface SearchReport {
+    name?: string;
+    lastName?: string;
+    id: number;
+    category: string;
+    createdAt: Date;
+    description: string;
+    image?: string;
+    url?: string;
+    website?: string;
+    socialMedia?: string;
+    username?: string;
+    email?: string;
+    phoneNumber?: string;
+    likesCount: number;
+    commentsCount: number;
+    userLiked: boolean;
 }

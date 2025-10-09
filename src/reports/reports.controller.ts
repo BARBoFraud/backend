@@ -319,7 +319,37 @@ export class ReportsController {
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiBearerAuth()
     @UseGuards(UsersAuthGuard)
-    async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
+    async getCompleteHistoryReport(
+        @Param('id') id: number,
+        @Req() req: AuthenticatedRequest
+    ) {
         return this.reportsService.getCompleteHistoryReport(req.user.id, id);
+    }
+
+    @Get(':id/dashboard')
+    @ApiOperation({
+        summary: 'Endpoint para obtener un reporte completo del dashboard'
+    })
+    @ApiResponse({ status: 200, description: 'Reporte obtenido correctamente' })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
+    @UseGuards(AdminsAuthGuard)
+    async getCompleteDashboardReport(@Param('id') id: number) {
+        return this.reportsService.getCompleteDashboardReport(id);
+    }
+
+    @Get(':id/search')
+    @ApiOperation({
+        summary: 'Endpoint para obtener un reporte completo de busqueda'
+    })
+    @ApiResponse({ status: 200, description: 'Reporte obtenido correctamente' })
+    @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
+    @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
+    @UseGuards(UsersAuthGuard)
+    async getCompleteSearchReport(
+        @Param('id') id: number,
+        @Req() req: AuthenticatedRequest
+    ) {
+        return this.reportsService.getCompleteSearchReport(id, req.user.id);
     }
 }

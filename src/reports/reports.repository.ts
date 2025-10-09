@@ -6,7 +6,9 @@ import {
     FeedReport,
     HistoryReport,
     SearchQueryReport,
-    ShortReport,
+    SearchReport,
+    ShortDashboardReport,
+    ShortHistoryReport,
     UpdateReportData
 } from './types/report.types';
 
@@ -75,7 +77,7 @@ export class ReportsRepository {
             ]);
     }
 
-    async getUserHistory(id: number): Promise<ShortReport[]> {
+    async getUserHistory(id: number): Promise<ShortHistoryReport[]> {
         const sql = `
             SELECT r.id,
                 r.url,
@@ -94,7 +96,7 @@ export class ReportsRepository {
             ORDER BY r.created_at DESC;
         `;
         const [rows] = await this.db.getPool().query(sql, [id]);
-        return rows as ShortReport[];
+        return rows as ShortHistoryReport[];
     }
 
     async getCompleteHistoryReport(
@@ -125,6 +127,67 @@ export class ReportsRepository {
             .getPool()
             .query(sql, [userId, userId, reportId]);
         return rows[0] as HistoryReport;
+    }
+
+    async getCompleteDashboardReport(reportId: number) {
+        const sql = `
+            SELECT 
+                (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
+                (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
+                r.id,
+                r.description,
+                r.url,
+                r.website,
+                r.social_media as socialMedia,
+                r.phone_number AS phoneNumber,
+                r.created_at AS createdAt,
+                r.username,
+                r.email,
+                r.image,
+                c.name AS category
+            FROM report r
+            INNER JOIN category c ON r.id_category = c.id
+            INNER JOIN \`user\` u ON r.id_user = u.id
+            WHERE r.id = ?
+            LIMIT 1;
+        `;
+
+        const [rows] = await this.db.getPool().query(sql, [reportId]);
+        return rows[0] as DashboardReport;
+    }
+
+    async getCompleteSearchReport(
+        reportId: number,
+        userId: number
+    ): Promise<SearchReport> {
+        const sql = `
+             SELECT 
+                r.id,
+                (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
+                (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
+                c.name AS category,
+                r.created_at AS createdAt,
+                r.description,
+                r.image,
+                r.url,
+                r.website,
+                r.social_media AS socialMedia,
+                r.username,
+                r.email,
+                r.phone_number AS phoneNumber,
+                (IF(l.id_user IS NULL, FALSE, TRUE)) AS userLiked,
+                (SELECT COUNT(*) FROM \`like\` WHERE id_report = r.id) AS likesCount,
+                (SELECT COUNT(*) FROM comment WHERE id_report = r.id) AS commentsCount
+            FROM report r
+            INNER JOIN category c ON r.id_category = c.id
+            INNER JOIN \`user\` u ON r.id_user = u.id
+            LEFT JOIN \`like\` l ON l.id_report = r.id AND l.id_user = ?
+            WHERE r.id = ?
+            LIMIT 1;
+        `;
+
+        const [rows] = await this.db.getPool().query(sql, [userId, reportId]);
+        return rows[0] as SearchReport;
     }
 
     async searchReport(
@@ -199,13 +262,12 @@ export class ReportsRepository {
         return rows as FeedReport[];
     }
 
-    async getPendingReports(statusId: number): Promise<DashboardReport[]> {
+    async getPendingReports(statusId: number): Promise<ShortDashboardReport[]> {
         const sql = `
             SELECT 
                 r.id,
                 (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
                 (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
-                r.description,
                 r.url,
                 r.website,
                 r.social_media AS socialMedia,
@@ -213,16 +275,14 @@ export class ReportsRepository {
                 r.created_at AS createdAt,
                 r.username,
                 r.email,
-                r.image,
                 c.name AS category
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
-            INNER JOIN status s ON r.id_status = s.id
             INNER JOIN \`user\` u ON r.id_user = u.id
-            WHERE s.id = ?
+            WHERE r.id_status = ?
             ORDER BY r.created_at DESC;`;
         const [rows] = await this.db.getPool().query(sql, [statusId]);
-        return rows as DashboardReport[];
+        return rows as ShortDashboardReport[];
     }
 
     async evaluateReport(reportId: number, statusId: number): Promise<void> {
