@@ -65,6 +65,24 @@ export class ReportsService {
         return await this.reportsRepository.getUserHistory(id);
     }
 
+    async getById(userId: number, reportId: number): Promise<HistoryReport> {
+        const report = await this.reportsRepository.getById(userId, reportId);
+
+        if (!report) {
+            throw new NotFoundException('Reporte no encontrado');
+        }
+
+        if (report.image) {
+            report.image = `/public/uploads/${report.image}`;
+        }
+
+        return {
+            ...report,
+            category: report.category,
+            status: report.status
+        };
+    }
+
     async searchReport(searchString: string): Promise<SearchQueryReport[]> {
         const status = await this.statusRepository.findByName('Aceptado');
         if (!status) {
@@ -89,9 +107,7 @@ export class ReportsService {
 
         return reports.map((report) => {
             if (report.image) {
-                //const baseUrl = process.env.BASE_URL;
                 report.image = `/public/uploads/${report.image}`;
-                //report.image = `${baseUrl}/public/uploads/${report.image}`;
             }
             return report;
         });

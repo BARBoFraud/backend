@@ -59,10 +59,8 @@ export class ImagesController {
         if (!file) {
             throw new BadRequestException('No se encontro un archivo');
         }
-        //const baseUrl = process.env.BASE_URL;
         return {
             fileKey: file.filename,
-           // url: `${baseUrl}/public/uploads/${file.filename}`
             url: `/public/uploads/${file.filename}`
         };
     }
