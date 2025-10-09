@@ -12,4 +12,8 @@ export class StatusService {
     async getAcceptedStatus() {
         return await this.statusRepository.findByName('Aceptado');
     }
+
+    async getDeclinedStatus() {
+        return await this.statusRepository.findByName('Rechazado');
+    }
 }

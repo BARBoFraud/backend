@@ -43,7 +43,22 @@ export class StatusController {
         description: 'Status obtenidos correctamente',
         example: { id: 2 }
     })
+    @ApiResponse({ status: 500, description: 'Error en base de datos' })
     async getAcceptedStatus() {
         return await this.statusesService.getAcceptedStatus();
+    }
+
+    @Get('/declined')
+    @ApiOperation({
+        summary: 'Endpoint para obtener el id del status de rechazado'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Status obtenido correctamente',
+        example: { id: 2, name: 'Aceptado' }
+    })
+    @ApiResponse({ status: 500, description: 'Error en base de datos' })
+    async getDeclinedStatus() {
+        return await this.statusesService.getDeclinedStatus();
     }
 }
