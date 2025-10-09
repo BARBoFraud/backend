@@ -293,7 +293,7 @@ export class ReportsController {
         );
     }
 
-    @Get(':id')
+    @Get(':id/history')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo del historial'
     })
@@ -320,6 +320,6 @@ export class ReportsController {
     @ApiBearerAuth()
     @UseGuards(UsersAuthGuard)
     async getReport(@Param('id') id: number, @Req() req: AuthenticatedRequest) {
-        return this.reportsService.getById(req.user.id, id);
+        return this.reportsService.getCompleteHistoryReport(req.user.id, id);
     }
 }

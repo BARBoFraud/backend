@@ -63,7 +63,10 @@ export class ReportsService {
         return await this.reportsRepository.getUserHistory(id);
     }
 
-    async getById(userId: number, reportId: number): Promise<HistoryReport> {
+    async getCompleteHistoryReport(
+        userId: number,
+        reportId: number
+    ): Promise<HistoryReport> {
         const report = await this.reportsRepository.getById(userId, reportId);
 
         if (!report) {
