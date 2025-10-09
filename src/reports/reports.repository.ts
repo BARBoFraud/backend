@@ -99,7 +99,8 @@ export class ReportsRepository {
 
     async getById(userId: number, reportId: number): Promise<HistoryReport> {
         const sql = `
-            SELECT r.id,
+            SELECT 
+                r.id,
                 r.description,
                 r.url,
                 r.website,
@@ -110,14 +111,20 @@ export class ReportsRepository {
                 r.email,
                 r.image,
                 c.name AS category,
-                s.name AS status
+                s.name AS status,
+                (IF(l.id_user IS NULL, FALSE, TRUE)) AS userLiked,
+                (SELECT COUNT(*) FROM \`like\` WHERE id_report = r.id) AS likesCount,
+                (SELECT COUNT(*) FROM comment WHERE id_report = r.id) AS commentsCount
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
+            LEFT JOIN \`like\` l ON l.id_report = r.id AND l.id_user = ?
             WHERE r.id_user = ? AND r.id = ?
             LIMIT 1;
         `;
-        const [rows] = await this.db.getPool().query(sql, [userId, reportId]);
+        const [rows] = await this.db
+            .getPool()
+            .query(sql, [userId, userId, reportId]);
         return rows[0] as HistoryReport;
     }
 

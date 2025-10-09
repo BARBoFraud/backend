@@ -49,6 +49,9 @@ export interface HistoryReport {
     status: string;
     createdAt: Date;
     description: string;
+    likesCount: number;
+    commentsCount: number;
+    userLiked: boolean;
     url?: string;
     website?: string;
     socialMedia?: string;
