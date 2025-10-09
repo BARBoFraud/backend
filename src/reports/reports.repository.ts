@@ -97,7 +97,10 @@ export class ReportsRepository {
         return rows as ShortReport[];
     }
 
-    async getById(userId: number, reportId: number): Promise<HistoryReport> {
+    async getCompleteHistoryReport(
+        userId: number,
+        reportId: number
+    ): Promise<HistoryReport> {
         const sql = `
             SELECT 
                 r.id,
@@ -112,13 +115,9 @@ export class ReportsRepository {
                 r.image,
                 c.name AS category,
                 s.name AS status,
-                (IF(l.id_user IS NULL, FALSE, TRUE)) AS userLiked,
-                (SELECT COUNT(*) FROM \`like\` WHERE id_report = r.id) AS likesCount,
-                (SELECT COUNT(*) FROM comment WHERE id_report = r.id) AS commentsCount
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
-            LEFT JOIN \`like\` l ON l.id_report = r.id AND l.id_user = ?
             WHERE r.id_user = ? AND r.id = ?
             LIMIT 1;
         `;
