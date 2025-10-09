@@ -41,7 +41,7 @@ export class StatusController {
     @ApiResponse({
         status: 200,
         description: 'Status obtenidos correctamente',
-        example: { id: 2 }
+        example: { id: 2, name: 'Aceptado' }
     })
     @ApiResponse({ status: 500, description: 'Error en base de datos' })
     async getAcceptedStatus() {
@@ -55,7 +55,7 @@ export class StatusController {
     @ApiResponse({
         status: 200,
         description: 'Status obtenido correctamente',
-        example: { id: 2, name: 'Aceptado' }
+        example: { id: 2, name: 'Rechazado' }
     })
     @ApiResponse({ status: 500, description: 'Error en base de datos' })
     async getDeclinedStatus() {

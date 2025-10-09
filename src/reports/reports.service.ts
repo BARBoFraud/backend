@@ -75,11 +75,7 @@ export class ReportsService {
             report.image = `${baseUrl}/public/uploads/${report.image}`;
         }
 
-        return {
-            ...report,
-            category: report.category,
-            status: report.status
-        };
+        return report;
     }
 
     async searchReport(searchString: string): Promise<SearchQueryReport[]> {
