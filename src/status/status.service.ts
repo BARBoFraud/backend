@@ -8,4 +8,8 @@ export class StatusService {
     async listStatuses() {
         return await this.statusRepository.getStatus();
     }
+
+    async getAcceptedStatus() {
+        return await this.statusRepository.findByName('Aceptado');
+    }
 }

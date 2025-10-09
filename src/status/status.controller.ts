@@ -33,4 +33,17 @@ export class StatusController {
     async getStatusList() {
         return await this.statusesService.listStatuses();
     }
+
+    @Get('/accept')
+    @ApiOperation({
+        summary: 'Endpoint para obtener el id del status de aceptado'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Status obtenidos correctamente',
+        example: { id: 2 }
+    })
+    async getAcceptedStatus() {
+        return await this.statusesService.getAcceptedStatus();
+    }
 }
