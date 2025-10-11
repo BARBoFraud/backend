@@ -287,20 +287,20 @@ export class ReportsController {
     @ApiResponse({
         status: 200,
         description: 'Reporte obtenido correctamente',
-        example: [
-            {
-                id: 6,
-                url: 'www.tennisgratis.com',
-                website: 'Tennis Gratis MX',
-                socialMedia: 'Instagram',
-                phoneNumber: '5627452471',
-                createdAt: '2025-10-11T20:21:22.000Z',
-                username: 'Juan Perez',
-                email: 'DiegoOmos@gmail.com',
-                category: 'Página de internet',
-                status: 'Pendiente'
-            }
-        ]
+        example: {
+            id: 7,
+            description: 'Sitio web fraudulento, me robaron 4000 pesos.',
+            url: 'www.tennisgratis.com',
+            website: 'Tennis Gratis Mexico',
+            socialMedia: 'Instagram',
+            phoneNumber: '5627452471',
+            createdAt: '2025-10-11T20:51:15.000Z',
+            username: 'Juan Perez',
+            email: 'tennisgratismx@gmail.com',
+            image: 'http://localhost:4000/public/uploads/123132213123.png',
+            category: 'Página de internet',
+            status: 'Pendiente'
+        }
     })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
@@ -317,7 +317,25 @@ export class ReportsController {
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo del dashboard'
     })
-    @ApiResponse({ status: 200, description: 'Reporte obtenido correctamente' })
+    @ApiResponse({
+        status: 200,
+        description: 'Reporte obtenido correctamente',
+        example: {
+            name: 'Diego',
+            lastName: 'Olmos',
+            id: 7,
+            description: 'Sitio web fraudulento, me robaron 4000 pesos.',
+            url: 'www.tennisgratis.com',
+            website: 'Tennis Gratis Mexico',
+            socialMedia: 'Instagram',
+            phoneNumber: '5627452471',
+            createdAt: '2025-10-11T20:51:15.000Z',
+            username: 'Juan Perez',
+            email: 'tennisgratismx@gmail.com',
+            image: '123132213123.png',
+            category: 'Página de internet'
+        }
+    })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
     @ApiBearerAuth()
@@ -330,7 +348,28 @@ export class ReportsController {
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo de busqueda'
     })
-    @ApiResponse({ status: 200, description: 'Reporte obtenido correctamente' })
+    @ApiResponse({
+        status: 200,
+        description: 'Reporte obtenido correctamente',
+        example: {
+            id: 3,
+            name: 'Diego',
+            lastName: 'Olmos',
+            category: 'Página de internet',
+            createdAt: '2025-10-09T04:31:10.000Z',
+            description: 'Me estafaron ofreciendome un coche en 50 pesos.',
+            image: 'http://localhost:4000/public/uploads/1758854167272.jpeg',
+            url: 'https:cochesa50.com',
+            website: 'Coches a 50',
+            socialMedia: 'Instagram',
+            username: 'Laura Gomez',
+            email: 'DiegoOmos@tec.mx',
+            phoneNumber: '5627452471',
+            userLiked: 0,
+            likesCount: 0,
+            commentsCount: 0
+        }
+    })
     @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
     @UseGuards(UsersAuthGuard)

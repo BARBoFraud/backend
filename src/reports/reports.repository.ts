@@ -157,8 +157,10 @@ export class ReportsRepository {
 
     async getCompleteSearchReport(
         reportId: number,
-        userId: number
+        userId: number,
+        statusId: number
     ): Promise<SearchReport> {
+        console.log(statusId);
         const sql = `
              SELECT 
                 r.id,
@@ -181,11 +183,13 @@ export class ReportsRepository {
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN \`user\` u ON r.id_user = u.id
             LEFT JOIN \`like\` l ON l.id_report = r.id AND l.id_user = ?
-            WHERE r.id = ?
+            WHERE r.id = ? AND r.id_status = ?
             LIMIT 1;
         `;
 
-        const [rows] = await this.db.getPool().query(sql, [userId, reportId]);
+        const [rows] = await this.db
+            .getPool()
+            .query(sql, [userId, reportId, statusId]);
         return rows[0] as SearchReport;
     }
 
