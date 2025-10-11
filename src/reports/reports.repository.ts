@@ -103,6 +103,7 @@ export class ReportsRepository {
         userId: number,
         reportId: number
     ): Promise<HistoryReport> {
+        console.log(userId);
         const sql = `
             SELECT 
                 r.id,
@@ -116,16 +117,14 @@ export class ReportsRepository {
                 r.email,
                 r.image,
                 c.name AS category,
-                s.name AS status,
+                s.name AS status
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
             WHERE r.id_user = ? AND r.id = ?
             LIMIT 1;
         `;
-        const [rows] = await this.db
-            .getPool()
-            .query(sql, [userId, userId, reportId]);
+        const [rows] = await this.db.getPool().query(sql, [userId, reportId]);
         return rows[0] as HistoryReport;
     }
 
