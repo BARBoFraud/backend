@@ -280,7 +280,7 @@ export class ReportsRepository {
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN \`user\` u ON r.id_user = u.id
             WHERE r.id_status = ?
-            ORDER BY r.created_at DESC;`;
+            ORDER BY r.created_at ASC;`;
         const [rows] = await this.db.getPool().query(sql, [statusId]);
         return rows as ShortDashboardReport[];
     }
