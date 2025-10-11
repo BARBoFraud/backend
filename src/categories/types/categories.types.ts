@@ -5,5 +5,5 @@ export type CategoryData = {
 
 export type PercentageData = {
     name: string;
-    percentage: number;
+    count: number;
 };

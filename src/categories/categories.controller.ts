@@ -5,7 +5,7 @@ import { CategoriesService } from './categories.service';
 @ApiTags('Modulo de utilidades de categorias')
 @Controller({ path: 'categories', version: '1' })
 export class CategoriesController {
-    constructor(private readonly statusesService: CategoriesService) {}
+    constructor(private readonly categoriesService: CategoriesService) {}
 
     @Get('/list')
     @ApiOperation({
@@ -39,15 +39,15 @@ export class CategoriesController {
     })
     @ApiResponse({ status: 500, description: 'Error en base de datos' })
     async getCategoriesList() {
-        return await this.statusesService.listCategories();
+        return await this.categoriesService.listCategories();
     }
 
-    @Get('percentages')
+    @Get('counts')
     @ApiOperation({
         summary: 'Endpoint para obtener el porcentaje de reportes por categoria'
     })
     @ApiResponse({ status: 200, description: 'Datos obtenidos correctamente' })
-    async getPercentages() {
-        return await this.statusesService.getPercentages();
+    async getCounts() {
+        return await this.categoriesService.getCounts();
     }
 }

@@ -9,7 +9,7 @@ export class CategoriesService {
         return await this.categoriesRepository.getCategories();
     }
 
-    async getPercentages() {
-        return await this.categoriesRepository.getPercentages();
+    async getCounts() {
+        return await this.categoriesRepository.getCounts();
     }
 }
