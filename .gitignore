@@ -6,6 +6,7 @@
 /public
 
 pnpm-lock.yaml
+bun.lock
 
 # Logs
 logs
