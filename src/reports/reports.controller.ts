@@ -120,7 +120,7 @@ export class ReportsController {
                 category: 'Página de internet',
                 createdAt: '2025-10-02T21:58:31.000Z',
                 description: 'Aaaaaaaa 121212121 asdasdad asdasdasd',
-                image: 'http://localhost:4000/public/uploads/1231231.jpg',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
                 url: 'https:estafas.com',
                 website: 'estafotas',
                 socialMedia: 'Instagram',
@@ -136,7 +136,7 @@ export class ReportsController {
                 category: 'Red social',
                 createdAt: '2025-10-02T21:58:27.000Z',
                 description: 'Aaaaaaaa asdjalkfjasf asdasdad asdasdasd',
-                image: 'http://localhost:4000/public/uploads/1231231.jpg',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
                 url: 'https:estafas.com',
                 website: 'estafotas',
                 socialMedia: 'Instagram',
@@ -195,7 +195,7 @@ export class ReportsController {
                 createdAt: '2025-10-02T21:58:42.000Z',
                 username: 'leotefortnite',
                 email: 'A01665462@tec.mx',
-                image: 'http://localhost:4000/public/uploads/1231231.jpg',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
                 category: 'Página de internet'
             }
         ]
@@ -306,7 +306,7 @@ export class ReportsController {
             status: 'Pendiente',
             createdAt: '2025-09-29T02:24:10.000Z',
             description: 'Me mataron amigos ayuda',
-            image: 'http://localhost:4000/public/uploads/1758854167272.jpeg',
+            image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
             url: 'https:estafas.com',
             website: 'fortnite',
             socialMedia: 'Instagram',
