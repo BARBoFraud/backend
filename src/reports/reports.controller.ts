@@ -120,6 +120,7 @@ export class ReportsController {
                 name: 'Diego',
                 lastName: 'Olmos',
                 category: 'Página de internet',
+<<<<<<< HEAD
                 createdAt: '2025-10-09T04:31:12.000Z',
                 description: 'Esta tienda en linea me estafó.',
                 image: 'http://localhost:4000/public/uploads/1758854167272.jpeg',
@@ -132,6 +133,36 @@ export class ReportsController {
                 userLiked: 0,
                 likesCount: 1,
                 commentsCount: 0
+=======
+                createdAt: '2025-10-02T21:58:31.000Z',
+                description: 'Aaaaaaaa 121212121 asdasdad asdasdasd',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
+                url: 'https:estafas.com',
+                website: 'estafotas',
+                socialMedia: 'Instagram',
+                username: 'leotefortnite',
+                email: 'A01665462@tec.mx',
+                phoneNumber: '121212121',
+                likesCount: 0,
+                commentsCount: 0,
+                userLiked: 0
+            },
+            {
+                id: 1,
+                category: 'Red social',
+                createdAt: '2025-10-02T21:58:27.000Z',
+                description: 'Aaaaaaaa asdjalkfjasf asdasdad asdasdasd',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
+                url: 'https:estafas.com',
+                website: 'estafotas',
+                socialMedia: 'Instagram',
+                username: 'leotefortnite',
+                email: 'A01665462@tec.mx',
+                phoneNumber: '121212121',
+                likesCount: 0,
+                commentsCount: 0,
+                userLiked: 0
+>>>>>>> bd720ea (Revert "Change image url on feed response")
             }
         ]
     })
@@ -178,10 +209,18 @@ export class ReportsController {
                 url: 'https:tennisgratis.com',
                 website: 'Tennis Gratis MX',
                 socialMedia: 'Instagram',
+<<<<<<< HEAD
                 phoneNumber: '5627452471',
                 createdAt: '2025-10-09T04:31:05.000Z',
                 username: 'Laura Gomez',
                 email: 'DiegoOmos@tec.mx',
+=======
+                phoneNumber: '121212121',
+                createdAt: '2025-10-02T21:58:42.000Z',
+                username: 'leotefortnite',
+                email: 'A01665462@tec.mx',
+                image: 'http://localhost:3000/public/uploads/1231231.jpg',
+>>>>>>> bd720ea (Revert "Change image url on feed response")
                 category: 'Página de internet'
             }
         ]
@@ -288,10 +327,14 @@ export class ReportsController {
         status: 200,
         description: 'Reporte obtenido correctamente',
         example: {
-            id: 7,
-            description: 'Sitio web fraudulento, me robaron 4000 pesos.',
-            url: 'www.tennisgratis.com',
-            website: 'Tennis Gratis Mexico',
+            id: 1,
+            category: 'Llamada',
+            status: 'Pendiente',
+            createdAt: '2025-09-29T02:24:10.000Z',
+            description: 'Me mataron amigos ayuda',
+            image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
+            url: 'https:estafas.com',
+            website: 'fortnite',
             socialMedia: 'Instagram',
             phoneNumber: '5627452471',
             createdAt: '2025-10-11T20:51:15.000Z',
