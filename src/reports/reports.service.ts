@@ -178,9 +178,14 @@ export class ReportsService {
         reportId: number,
         userId: number
     ): Promise<SearchReport> {
+        const status = await this.statusRepository.findByName('Aceptado');
+        if (!status) {
+            throw new NotFoundException('No existe un status con ese nombre');
+        }
         const report = await this.reportsRepository.getCompleteSearchReport(
             reportId,
-            userId
+            userId,
+            status.id
         );
 
         if (!report) {
