@@ -7,17 +7,17 @@ export class UpdateReportDto {
     })
     categoryId: number;
     @ApiProperty({
-        example: 'Me estafaron jaja',
+        example: 'Sitio web fraudulento, me robaron 5000 pesos.',
         description: 'Nueva descripcion del reporte'
     })
     description: string;
     @ApiPropertyOptional({
-        example: 'www.estafas.com',
+        example: 'www.tennisgratis.com',
         description: ' Nueva url de la pagina web implicada'
     })
     url: string;
     @ApiPropertyOptional({
-        example: 'SuperEstafas',
+        example: 'Tennis Gratis Mx',
         description: 'Nuevo nombre de la pagina web'
     })
     website: string;
@@ -32,12 +32,12 @@ export class UpdateReportDto {
     })
     phoneNumber: string;
     @ApiPropertyOptional({
-        example: 'superestafadorXx',
+        example: 'Laura Gomez',
         description: 'username del estafador del incidente'
     })
     username: string;
     @ApiPropertyOptional({
-        example: 'Estafogente@gmail.com',
+        example: 'tennisgratis@gmail.com',
         description: 'correo del estafador del incidente'
     })
     email: string;

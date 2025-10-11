@@ -7,8 +7,8 @@ export class CreateUserDto {
     lastName1: string;
     @ApiProperty({ example: 'Olmos' })
     lastName2: string;
-    @ApiProperty({ example: 'A01652570@tec.mx' })
+    @ApiProperty({ example: 'DiegoOlmos@tec.mx' })
     email: string;
-    @ApiProperty({ example: 'megustanlosfemboys123' })
+    @ApiProperty({ example: 'supersecreta123' })
     password: string;
 }
