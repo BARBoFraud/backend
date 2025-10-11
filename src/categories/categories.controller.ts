@@ -41,4 +41,13 @@ export class CategoriesController {
     async getCategoriesList() {
         return await this.statusesService.listCategories();
     }
+
+    @Get('percentages')
+    @ApiOperation({
+        summary: 'Endpoint para obtener el porcentaje de reportes por categoria'
+    })
+    @ApiResponse({ status: 200, description: 'Datos obtenidos correctamente' })
+    async getPercentages() {
+        return await this.statusesService.getPercentages();
+    }
 }

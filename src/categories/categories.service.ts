@@ -8,4 +8,8 @@ export class CategoriesService {
     async listCategories() {
         return await this.categoriesRepository.getCategories();
     }
+
+    async getPercentages() {
+        return await this.categoriesRepository.getPercentages();
+    }
 }
