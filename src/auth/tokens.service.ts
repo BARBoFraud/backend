@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { StringValue } from 'ms';
+import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import {
     AccessTokenPayload,
     ActorType,
@@ -18,10 +19,14 @@ export class TokenService {
             actor
         };
 
-        return this.jwtService.signAsync(payload, {
+        const expiresIn = process.env.JWT_EXPIRES_ACCESS as StringValue;
+
+        const options: JwtSignOptions = {
             secret: process.env.JWT_SECRET,
-            expiresIn: process.env.JWT_EXPIRES_ACCESS
-        });
+            expiresIn: expiresIn
+        };
+
+        return this.jwtService.signAsync(payload, options);
     }
 
     async generateRefreshToken(id: number, actor: ActorType): Promise<string> {
@@ -31,10 +36,14 @@ export class TokenService {
             actor
         };
 
-        return this.jwtService.signAsync(payload, {
+        const expiresIn = process.env.JWT_EXPIRES_REFRESH as StringValue;
+
+        const options: JwtSignOptions = {
             secret: process.env.JWT_SECRET,
-            expiresIn: process.env.JWT_EXPIRES_REFRESH
-        });
+            expiresIn: expiresIn
+        };
+
+        return this.jwtService.signAsync(payload, options);
     }
 
     async verifyAccessToken(token: string): Promise<AccessTokenPayload> {
