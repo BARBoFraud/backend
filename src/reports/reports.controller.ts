@@ -74,26 +74,26 @@ export class ReportsController {
         example: [
             {
                 id: 4,
-                description: 'Aaaaaaaa 121212121 asdasdad holahola',
-                url: 'https:estafas.com',
-                website: 'estafasgeimer',
-                socialMedia: 'Instagram',
-                phoneNumber: '121212121',
+                description: 'Fui estafado por este usuario en facebook.',
+                url: 'https:facebook.com',
+                website: 'Facebook',
+                socialMedia: 'Facebook',
+                phoneNumber: '5627452471',
                 createdAt: '2025-10-02T21:58:42.000Z',
-                username: 'leotefortnite',
+                username: 'Laura Gomez',
                 email: 'A01665462@tec.mx',
                 category: 'Página de internet',
                 status: 'Pendiente'
             },
             {
                 id: 3,
-                description: 'Aaaaaaaa 121212121 asdasdad holahola',
-                url: 'https:estafas.com',
-                website: 'estafotas',
+                description: 'Fui estafado por esta pagina web.',
+                url: 'https:tennisgratis.com',
+                website: 'Tennis Gratis Mx',
                 socialMedia: 'Instagram',
-                phoneNumber: '121212121',
+                phoneNumber: '5627452471',
                 createdAt: '2025-10-02T21:58:37.000Z',
-                username: 'leotefortnite',
+                username: 'Juan Perez',
                 email: 'A01665462@tec.mx',
                 category: 'Página de internet',
                 status: 'Pendiente'
@@ -116,36 +116,22 @@ export class ReportsController {
         description: 'Feed obtenido correctamente',
         example: [
             {
-                id: 2,
+                id: 4,
+                name: 'Diego',
+                lastName: 'Olmos',
                 category: 'Página de internet',
-                createdAt: '2025-10-02T21:58:31.000Z',
-                description: 'Aaaaaaaa 121212121 asdasdad asdasdasd',
-                image: 'http://localhost:3000/public/uploads/1231231.jpg',
-                url: 'https:estafas.com',
-                website: 'estafotas',
+                createdAt: '2025-10-09T04:31:12.000Z',
+                description: 'Esta tienda en linea me estafó.',
+                image: 'http://localhost:4000/public/uploads/1758854167272.jpeg',
+                url: 'https:tennisgratis.com',
+                website: 'Tennis Gratis MX',
                 socialMedia: 'Instagram',
-                username: 'leotefortnite',
-                email: 'A01665462@tec.mx',
-                phoneNumber: '121212121',
-                likesCount: 0,
-                commentsCount: 0,
-                userLiked: 0
-            },
-            {
-                id: 1,
-                category: 'Red social',
-                createdAt: '2025-10-02T21:58:27.000Z',
-                description: 'Aaaaaaaa asdjalkfjasf asdasdad asdasdasd',
-                image: 'http://localhost:3000/public/uploads/1231231.jpg',
-                url: 'https:estafas.com',
-                website: 'estafotas',
-                socialMedia: 'Instagram',
-                username: 'leotefortnite',
-                email: 'A01665462@tec.mx',
-                phoneNumber: '121212121',
-                likesCount: 0,
-                commentsCount: 0,
-                userLiked: 0
+                username: 'Laura Gomez',
+                email: 'DiegoOmos@tec.mx',
+                phoneNumber: '5627452471',
+                userLiked: 0,
+                likesCount: 1,
+                commentsCount: 0
             }
         ]
     })
@@ -163,11 +149,11 @@ export class ReportsController {
         description: 'Reportes obtenidos correctamente',
         example: [
             {
-                id: 2,
-                website: 'estafotas',
+                id: 3,
+                website: 'estafaasdassgeimer',
                 socialMedia: 'Instagram',
-                email: 'A01665462@tec.mx',
-                phoneNumber: '1231231'
+                email: 'DiegoOmos@tec.mx',
+                phoneNumber: '5627452471'
             }
         ]
     })
@@ -186,16 +172,16 @@ export class ReportsController {
         description: 'Reportes obtenidos correctamente',
         example: [
             {
-                id: 4,
-                description: 'Aaaaaaaa 121212121 asdasdad holahola',
-                url: 'https:estafas.com',
-                website: 'estafasgeimer',
+                id: 1,
+                name: 'Leonardo',
+                lastName: 'Perez',
+                url: 'https:tennisgratis.com',
+                website: 'Tennis Gratis MX',
                 socialMedia: 'Instagram',
-                phoneNumber: '121212121',
-                createdAt: '2025-10-02T21:58:42.000Z',
-                username: 'leotefortnite',
-                email: 'A01665462@tec.mx',
-                image: 'http://localhost:3000/public/uploads/1231231.jpg',
+                phoneNumber: '5627452471',
+                createdAt: '2025-10-09T04:31:05.000Z',
+                username: 'Laura Gomez',
+                email: 'DiegoOmos@tec.mx',
                 category: 'Página de internet'
             }
         ]
@@ -216,9 +202,10 @@ export class ReportsController {
         example: [
             {
                 id: 1,
-                content: 'Me paso lo mismo',
-                createdAt: '2025-10-02T22:05:00.000Z',
-                username: 'leotefortnite'
+                content: 'A mi hijo tambien le paso',
+                name: 'Juan',
+                lastName: 'Perez',
+                createdAt: '2025-10-11T20:29:13.000Z'
             }
         ]
     })
@@ -300,20 +287,20 @@ export class ReportsController {
     @ApiResponse({
         status: 200,
         description: 'Reporte obtenido correctamente',
-        example: {
-            id: 1,
-            category: 'Llamada',
-            status: 'Pendiente',
-            createdAt: '2025-09-29T02:24:10.000Z',
-            description: 'Me mataron amigos ayuda',
-            image: 'http://localhost:3000/public/uploads/1758854167272.jpeg',
-            url: 'https:estafas.com',
-            website: 'fortnite',
-            socialMedia: 'Instagram',
-            username: 'leotefortnitej',
-            email: 'leopalatto@fortnite.com',
-            phoneNumber: '123213123'
-        }
+        example: [
+            {
+                id: 6,
+                url: 'www.tennisgratis.com',
+                website: 'Tennis Gratis MX',
+                socialMedia: 'Instagram',
+                phoneNumber: '5627452471',
+                createdAt: '2025-10-11T20:21:22.000Z',
+                username: 'Juan Perez',
+                email: 'DiegoOmos@gmail.com',
+                category: 'Página de internet',
+                status: 'Pendiente'
+            }
+        ]
     })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
@@ -333,6 +320,7 @@ export class ReportsController {
     @ApiResponse({ status: 200, description: 'Reporte obtenido correctamente' })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
+    @ApiBearerAuth()
     @UseGuards(AdminsAuthGuard)
     async getCompleteDashboardReport(@Param('id') id: number) {
         return this.reportsService.getCompleteDashboardReport(id);
@@ -346,6 +334,7 @@ export class ReportsController {
     @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
     @UseGuards(UsersAuthGuard)
+    @ApiBearerAuth()
     async getCompleteSearchReport(
         @Param('id') id: number,
         @Req() req: AuthenticatedRequest

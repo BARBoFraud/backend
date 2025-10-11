@@ -40,10 +40,10 @@ export class UsersController {
         description: 'Perfil obtenido correctamente',
         example: {
             id: 1,
-            name: 'Leote',
+            name: 'Diego',
             lastName1: 'Olmos',
             lastName2: 'Dieguez',
-            email: 'A01659348@tec.mx'
+            email: 'DiegoOlmos@tec.mx'
         }
     })
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
