@@ -77,22 +77,6 @@ export interface FeedReport {
     userLiked: boolean;
 }
 
-export interface DashboardFeedReport {
-    name: string;
-    lastName: string;
-    id: number;
-    category: string;
-    createdAt: Date;
-    description: string;
-    image?: string;
-    url?: string;
-    website?: string;
-    socialMedia?: string;
-    username?: string;
-    email?: string;
-    phoneNumber?: string;
-}
-
 export interface ShortDashboardReport {
     name?: string;
     lastName?: string;

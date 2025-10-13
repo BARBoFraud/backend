@@ -25,7 +25,6 @@ import { CommentReportDto } from './dto/comment-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import {
     Comment,
-    DashboardFeedReport,
     DashboardReport,
     FeedReport,
     HistoryReport,
@@ -406,7 +405,7 @@ export class ReportsController {
         );
     }
 
-    @Get('/dashboard/feed')
+    @Get('/dashboard/accepted')
     @ApiOperation({ summary: 'Endpoint para obtener el feed del dashboard' })
     @ApiResponse({
         status: 200,
@@ -432,7 +431,22 @@ export class ReportsController {
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @UseGuards(AdminsAuthGuard)
     @ApiBearerAuth()
-    async getDashboardFeed(): Promise<DashboardFeedReport[]> {
-        return await this.reportsService.getDashboardFeed();
+    async getDashboardFeed(): Promise<ShortDashboardReport[]> {
+        return await this.reportsService.getDashboardAccepted();
+    }
+
+    @Get('/dashboard/rejected')
+    @ApiOperation({
+        summary: 'Endpoint para obtener los reportes rechazados en el dashboard'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Reportes obtenidos correctamente'
+    })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @UseGuards(AdminsAuthGuard)
+    @ApiBearerAuth()
+    async getDashboardRejected(): Promise<ShortDashboardReport[]> {
+        return await this.reportsService.getDashboardRejected();
     }
 }
