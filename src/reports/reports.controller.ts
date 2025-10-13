@@ -380,4 +380,17 @@ export class ReportsController {
     ) {
         return this.reportsService.getCompleteSearchReport(id, req.user.id);
     }
+
+    @Get('/dashboard/feed')
+    @ApiOperation({ summary: 'Endpoint para obtener el feed del dashboard' })
+    @ApiResponse({
+        status: 200,
+        description: 'Reportes obtenidos correctamente'
+    })
+    @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
+    @UseGuards(AdminsAuthGuard)
+    @ApiBearerAuth()
+    async getDashboardFeed() {
+        return await this.reportsService.getDashboardFeed();
+    }
 }

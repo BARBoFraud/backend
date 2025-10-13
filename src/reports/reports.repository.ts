@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
 import {
     CreateReportData,
+    DashboardFeedReport,
     DashboardReport,
     FeedReport,
     HistoryReport,
@@ -294,5 +295,33 @@ export class ReportsRepository {
             SET id_status = ?
             WHERE id = ?;`;
         await this.db.getPool().query(sql, [statusId, reportId]);
+    }
+
+    async getDashboardFeed(statusId: number): Promise<DashboardFeedReport[]> {
+        const sql = `
+             SELECT 
+                r.id,
+                (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
+                (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
+                c.name AS category,
+                r.created_at AS createdAt,
+                r.description,
+                r.image,
+                r.url,
+                r.website,
+                r.social_media AS socialMedia,
+                r.username,
+                r.email,
+                r.phone_number AS phoneNumber
+            FROM report r
+            INNER JOIN category c ON r.id_category = c.id
+            INNER JOIN status s ON r.id_status = s.id
+            INNER JOIN \`user\` u ON r.id_user = u.id
+            WHERE s.id = ?
+            ORDER BY r.created_at DESC;
+        `;
+
+        const [rows] = await this.db.getPool().query(sql, statusId);
+        return rows as DashboardFeedReport[];
     }
 }
