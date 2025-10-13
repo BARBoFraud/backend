@@ -103,7 +103,6 @@ export class ReportsRepository {
         userId: number,
         reportId: number
     ): Promise<HistoryReport> {
-        console.log(userId);
         const sql = `
             SELECT 
                 r.id,
