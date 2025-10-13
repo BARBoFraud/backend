@@ -23,6 +23,17 @@ import { AdminsAuthGuard } from 'src/common/guards/admins-auth.guard';
 import { EvaluateReportDto } from './dto/evaluate-report.dto';
 import { CommentReportDto } from './dto/comment-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
+import {
+    Comment,
+    DashboardFeedReport,
+    DashboardReport,
+    FeedReport,
+    HistoryReport,
+    SearchQueryReport,
+    SearchReport,
+    ShortDashboardReport,
+    ShortHistoryReport
+} from './types/report.types';
 
 @ApiTags('Modulo de reportes')
 @Controller({ path: 'reports', version: '1' })
@@ -38,7 +49,7 @@ export class ReportsController {
     async createReport(
         @Req() req: AuthenticatedRequest,
         @Body() createReportDto: CreateReportDto
-    ) {
+    ): Promise<void> {
         await this.reportsService.createReport(req.user.id, createReportDto);
     }
 
@@ -55,7 +66,7 @@ export class ReportsController {
         @Req() req: AuthenticatedRequest,
         @Param('reportId') reportId: number,
         @Body() updateReportDto: UpdateReportDto
-    ) {
+    ): Promise<void> {
         await this.reportsService.updateReport(
             req.user.id,
             reportId,
@@ -103,7 +114,9 @@ export class ReportsController {
     @ApiResponse({ status: 401, description: 'No autorizado por JWT' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     @ApiBearerAuth()
-    async getUserHistory(@Req() req: AuthenticatedRequest) {
+    async getUserHistory(
+        @Req() req: AuthenticatedRequest
+    ): Promise<ShortHistoryReport[]> {
         return await this.reportsService.getUserHistory(req.user.id);
     }
 
@@ -136,8 +149,8 @@ export class ReportsController {
         ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
-    async getFeed(@Req() req: AuthenticatedRequest) {
-        return this.reportsService.getFeed(req.user.id);
+    async getFeed(@Req() req: AuthenticatedRequest): Promise<FeedReport[]> {
+        return await this.reportsService.getFeed(req.user.id);
     }
 
     @Get('/search/:search')
@@ -158,8 +171,10 @@ export class ReportsController {
         ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
-    async searchReport(@Param('search') searchString: string) {
-        return this.reportsService.searchReport(searchString);
+    async searchReport(
+        @Param('search') searchString: string
+    ): Promise<SearchQueryReport[]> {
+        return await this.reportsService.searchReport(searchString);
     }
 
     @Get('/pending')
@@ -188,8 +203,8 @@ export class ReportsController {
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiBearerAuth()
-    async getPendingReports() {
-        return this.reportsService.getPendingReports();
+    async getPendingReports(): Promise<ShortDashboardReport[]> {
+        return await this.reportsService.getPendingReports();
     }
 
     @Get('/comments/:reportId')
@@ -212,8 +227,8 @@ export class ReportsController {
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiBearerAuth()
     @UseGuards(UsersAuthGuard)
-    async getComments(@Param('reportId') reportId: number) {
-        return this.reportsService.getReportComments(reportId);
+    async getComments(@Param('reportId') reportId: number): Promise<Comment[]> {
+        return await this.reportsService.getReportComments(reportId);
     }
 
     @Patch('/evaluate')
@@ -225,8 +240,10 @@ export class ReportsController {
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiBearerAuth()
     @UseGuards(AdminsAuthGuard)
-    async evaluateReport(@Body() evaluateReportDto: EvaluateReportDto) {
-        return this.reportsService.evaluateReport(evaluateReportDto);
+    async evaluateReport(
+        @Body() evaluateReportDto: EvaluateReportDto
+    ): Promise<void> {
+        await this.reportsService.evaluateReport(evaluateReportDto);
     }
 
     @Post('/like/:reportId')
@@ -240,8 +257,8 @@ export class ReportsController {
     async likeReport(
         @Param('reportId') reportId: number,
         @Req() req: AuthenticatedRequest
-    ) {
-        return this.reportsService.likeReport(reportId, req.user.id);
+    ): Promise<void> {
+        await this.reportsService.likeReport(reportId, req.user.id);
     }
 
     @Post('/unlike/:reportId')
@@ -255,8 +272,8 @@ export class ReportsController {
     async unlikeReport(
         @Param('reportId') reportId: number,
         @Req() req: AuthenticatedRequest
-    ) {
-        return this.reportsService.unlikeReport(reportId, req.user.id);
+    ): Promise<void> {
+        await this.reportsService.unlikeReport(reportId, req.user.id);
     }
 
     @Post('/comment/:reportId')
@@ -272,7 +289,7 @@ export class ReportsController {
         @Param('reportId') reportId: number,
         @Req() req: AuthenticatedRequest,
         @Body() commentReportDto: CommentReportDto
-    ) {
+    ): Promise<void> {
         await this.reportsService.commentReport(
             reportId,
             req.user.id,
@@ -309,8 +326,11 @@ export class ReportsController {
     async getCompleteHistoryReport(
         @Param('id') id: number,
         @Req() req: AuthenticatedRequest
-    ) {
-        return this.reportsService.getCompleteHistoryReport(req.user.id, id);
+    ): Promise<HistoryReport> {
+        return await this.reportsService.getCompleteHistoryReport(
+            req.user.id,
+            id
+        );
     }
 
     @Get(':id/dashboard')
@@ -340,8 +360,10 @@ export class ReportsController {
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
     @ApiBearerAuth()
     @UseGuards(AdminsAuthGuard)
-    async getCompleteDashboardReport(@Param('id') id: number) {
-        return this.reportsService.getCompleteDashboardReport(id);
+    async getCompleteDashboardReport(
+        @Param('id') id: number
+    ): Promise<DashboardReport> {
+        return await this.reportsService.getCompleteDashboardReport(id);
     }
 
     @Get(':id/search')
@@ -377,8 +399,11 @@ export class ReportsController {
     async getCompleteSearchReport(
         @Param('id') id: number,
         @Req() req: AuthenticatedRequest
-    ) {
-        return this.reportsService.getCompleteSearchReport(id, req.user.id);
+    ): Promise<SearchReport> {
+        return await this.reportsService.getCompleteSearchReport(
+            id,
+            req.user.id
+        );
     }
 
     @Get('/dashboard/feed')
@@ -407,7 +432,7 @@ export class ReportsController {
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @UseGuards(AdminsAuthGuard)
     @ApiBearerAuth()
-    async getDashboardFeed() {
+    async getDashboardFeed(): Promise<DashboardFeedReport[]> {
         return await this.reportsService.getDashboardFeed();
     }
 }
