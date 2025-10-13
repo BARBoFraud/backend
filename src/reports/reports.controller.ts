@@ -385,7 +385,24 @@ export class ReportsController {
     @ApiOperation({ summary: 'Endpoint para obtener el feed del dashboard' })
     @ApiResponse({
         status: 200,
-        description: 'Reportes obtenidos correctamente'
+        description: 'Reportes obtenidos correctamente',
+        example: [
+            {
+                id: 4,
+                name: 'Jorge',
+                lastName: 'Cadena',
+                category: 'Página de internet',
+                createdAt: '2025-10-09T04:31:12.000Z',
+                description: 'Deposite 5000 pesos y no recibi mi pedido.',
+                image: 'http://localhost:4000/public/uploads/1758854167272.jpeg',
+                url: 'https:relojesmx.com',
+                website: 'Relojes Premium',
+                socialMedia: 'Instagram',
+                username: 'Juan Perez',
+                email: 'A01665462@tec.mx',
+                phoneNumber: '5627452471'
+            }
+        ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @UseGuards(AdminsAuthGuard)
