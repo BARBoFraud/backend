@@ -18,6 +18,7 @@ import {
     ApiResponse,
     ApiTags
 } from '@nestjs/swagger';
+import { AdminData } from './types/admin.types';
 
 @ApiTags('Modulo de administradores')
 @Controller({ path: 'admins', version: '1' })
@@ -34,7 +35,7 @@ export class AdminsController {
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 409, description: 'Username ya registrado' })
     @ApiBearerAuth()
-    async createAdmin(@Body() createAdminDto: CreateAdminDto) {
+    async createAdmin(@Body() createAdminDto: CreateAdminDto): Promise<void> {
         await this.adminsService.createAdmin(createAdminDto);
     }
 
@@ -52,7 +53,7 @@ export class AdminsController {
     })
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Admin no encontrado' })
-    async getProfile(@Req() req: AuthenticatedRequest) {
+    async getProfile(@Req() req: AuthenticatedRequest): Promise<AdminData> {
         return await this.adminsService.getProfile(req.user.id);
     }
 
@@ -66,7 +67,7 @@ export class AdminsController {
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Admin no encontrado' })
     @ApiResponse({ status: 200, description: 'Administrador eliminado' })
-    async deleteAdmin(@Param('id') id: number) {
+    async deleteAdmin(@Param('id') id: number): Promise<void> {
         await this.adminsService.deleteAdmin(id);
     }
 
@@ -92,7 +93,7 @@ export class AdminsController {
         ]
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
-    async getAdminList(@Req() req: AuthenticatedRequest) {
+    async getAdminList(@Req() req: AuthenticatedRequest): Promise<AdminData[]> {
         return await this.adminsService.getAdminList(req.user.id);
     }
 }

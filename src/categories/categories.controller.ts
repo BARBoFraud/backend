@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
+import { CategoryData, CountData } from './types/categories.types';
 
 @ApiTags('Modulo de utilidades de categorias')
 @Controller({ path: 'categories', version: '1' })
@@ -38,7 +39,7 @@ export class CategoriesController {
         ]
     })
     @ApiResponse({ status: 500, description: 'Error en base de datos' })
-    async getCategoriesList() {
+    async getCategoriesList(): Promise<CategoryData[]> {
         return await this.categoriesService.listCategories();
     }
 
@@ -47,7 +48,7 @@ export class CategoriesController {
         summary: 'Endpoint para obtener el porcentaje de reportes por categoria'
     })
     @ApiResponse({ status: 200, description: 'Datos obtenidos correctamente' })
-    async getCounts() {
+    async getCounts(): Promise<CountData[]> {
         return await this.categoriesService.getCounts();
     }
 }

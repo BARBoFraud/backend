@@ -3,7 +3,7 @@ export type CategoryData = {
     name: string;
 };
 
-export type PercentageData = {
+export type CountData = {
     name: string;
     count: number;
 };

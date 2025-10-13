@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { StatusService } from './status.service';
+import { StatusData } from './types/status.types';
 
 @ApiTags('Modulo de utilidades de status')
 @Controller({ path: 'status', version: '1' })
@@ -30,7 +31,7 @@ export class StatusController {
         ]
     })
     @ApiResponse({ status: 500, description: 'Error en base de datos' })
-    async getStatusList() {
+    async getStatusList(): Promise<StatusData[]> {
         return await this.statusesService.listStatuses();
     }
 }

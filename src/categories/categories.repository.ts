@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
-import {
-    CategoryData,
-    PercentageData as CategoryCountData
-} from './types/categories.types';
+import { CategoryData, CountData } from './types/categories.types';
 
 @Injectable()
 export class CategoriesRepository {
@@ -29,7 +26,7 @@ export class CategoriesRepository {
         return result[0] || null;
     }
 
-    async getCounts(): Promise<CategoryCountData[]> {
+    async getCounts(): Promise<CountData[]> {
         const sql = `
             SELECT
                 c.name,
@@ -39,6 +36,6 @@ export class CategoriesRepository {
             GROUP BY c.id, c.name
         `;
         const [rows] = await this.db.getPool().query(sql);
-        return rows as CategoryCountData[];
+        return rows as CountData[];
     }
 }
