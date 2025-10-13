@@ -18,6 +18,7 @@ import {
 import { UsersAuthGuard } from '../common/guards/users-auth.guard';
 import type { AuthenticatedRequest } from '../common/interfaces/authenticated-requests';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserData } from './types/user.types';
 
 @ApiTags('Modulo de usuarios')
 @Controller({ path: '/users', version: '1' })
@@ -28,7 +29,7 @@ export class UsersController {
     @ApiOperation({ summary: 'Endpoint de registro de usuarios' })
     @ApiResponse({ status: 201, description: 'Usuario creado correctamente' })
     @ApiResponse({ status: 409, description: 'Email ya registrado' })
-    async createUser(@Body() createUserDto: CreateUserDto) {
+    async createUser(@Body() createUserDto: CreateUserDto): Promise<void> {
         await this.usersService.createUser(createUserDto);
     }
 
@@ -49,7 +50,7 @@ export class UsersController {
     @ApiResponse({ status: 401, description: 'Token inválido o expirado' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     @ApiBearerAuth()
-    async getProfile(@Req() req: AuthenticatedRequest) {
+    async getProfile(@Req() req: AuthenticatedRequest): Promise<UserData> {
         return await this.usersService.getProfile(req.user.id);
     }
 
@@ -68,7 +69,7 @@ export class UsersController {
     async updateProfile(
         @Req() req: AuthenticatedRequest,
         @Body() updateUserDto: UpdateUserDto
-    ) {
+    ): Promise<void> {
         await this.usersService.updateUser(req.user.id, updateUserDto);
     }
 
@@ -84,7 +85,7 @@ export class UsersController {
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     @ApiBearerAuth()
-    async deactivateUser(@Req() req: AuthenticatedRequest) {
+    async deactivateUser(@Req() req: AuthenticatedRequest): Promise<void> {
         await this.usersService.deactivateUser(req.user.id);
     }
 }
