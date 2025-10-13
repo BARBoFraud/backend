@@ -7,6 +7,7 @@ import { AdminRefreshDto } from './dto/admin-refresh.dto';
 import { UserRefreshDto } from './dto/user-refresh.dto';
 import { UserLogoutDto } from './dto/user-logout.dto';
 import { AdminLogoutDto } from './dto/admin-logout.dto';
+import { RefreshResponse, TokenPair } from './types/auth.types';
 
 @ApiTags('Modulo de autenticacion')
 @Controller({ path: 'auth', version: '1' })
@@ -24,7 +25,7 @@ export class AuthController {
         }
     })
     @ApiResponse({ status: 401, description: 'Credenciales incorrectas' })
-    async userLogin(@Body() userLoginDto: UserLoginDto) {
+    async userLogin(@Body() userLoginDto: UserLoginDto): Promise<TokenPair> {
         return await this.authService.loginUser(userLoginDto);
     }
 
@@ -44,7 +45,9 @@ export class AuthController {
         description: 'Refresh token inválido o tipo de usuario no permitido'
     })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-    async refresh(@Body() refreshTokenDto: UserRefreshDto) {
+    async refresh(
+        @Body() refreshTokenDto: UserRefreshDto
+    ): Promise<RefreshResponse> {
         return await this.authService.refreshUserToken(refreshTokenDto);
     }
 
@@ -52,8 +55,8 @@ export class AuthController {
     @ApiOperation({ summary: 'Logout de usuario, invalida el refresh token' })
     @ApiResponse({ status: 201, description: 'Logout exitoso' })
     @ApiResponse({ status: 401, description: 'Refresh token inválido' })
-    async userLogout(@Body() userLogoutDto: UserLogoutDto) {
-        return await this.authService.logoutUser(userLogoutDto.refreshToken);
+    async userLogout(@Body() userLogoutDto: UserLogoutDto): Promise<void> {
+        await this.authService.logoutUser(userLogoutDto.refreshToken);
     }
 
     @Post('/admins/login')
@@ -67,7 +70,7 @@ export class AuthController {
         }
     })
     @ApiResponse({ status: 401, description: 'Credenciales incorrectas' })
-    async adminLogin(@Body() adminLoginDto: AdminLoginDto) {
+    async adminLogin(@Body() adminLoginDto: AdminLoginDto): Promise<TokenPair> {
         return await this.authService.loginAdmin(adminLoginDto);
     }
 
@@ -84,7 +87,9 @@ export class AuthController {
         }
     })
     @ApiResponse({ status: 404, description: 'Administrador no encontrado' })
-    async adminRefresh(@Body() adminRefreshDto: AdminRefreshDto) {
+    async adminRefresh(
+        @Body() adminRefreshDto: AdminRefreshDto
+    ): Promise<RefreshResponse> {
         return await this.authService.refreshAdminToken(adminRefreshDto);
     }
 
@@ -92,7 +97,7 @@ export class AuthController {
     @ApiOperation({ summary: 'Logout de admin, invalida el refresh token' })
     @ApiResponse({ status: 201, description: 'Logout exitoso' })
     @ApiResponse({ status: 401, description: 'Refresh token inválido' })
-    async adminLogout(@Body() adminLogoutDto: AdminLogoutDto) {
-        return await this.authService.logoutAdmin(adminLogoutDto.refreshToken);
+    async adminLogout(@Body() adminLogoutDto: AdminLogoutDto): Promise<void> {
+        await this.authService.logoutAdmin(adminLogoutDto.refreshToken);
     }
 }
