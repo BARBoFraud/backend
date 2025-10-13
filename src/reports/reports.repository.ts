@@ -265,30 +265,6 @@ export class ReportsRepository {
         return rows as FeedReport[];
     }
 
-    async getPendingReports(statusId: number): Promise<ShortDashboardReport[]> {
-        const sql = `
-            SELECT 
-                r.id,
-                (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
-                (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
-                r.url,
-                r.website,
-                r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber,
-                r.created_at AS createdAt,
-                r.username,
-                r.email,
-                c.name AS category
-            FROM report r
-            INNER JOIN category c ON r.id_category = c.id
-            INNER JOIN \`user\` u ON r.id_user = u.id
-            WHERE r.id_status = ?
-            ORDER BY r.created_at ASC;
-        `;
-        const [rows] = await this.db.getPool().query(sql, [statusId]);
-        return rows as ShortDashboardReport[];
-    }
-
     async evaluateReport(reportId: number, statusId: number): Promise<void> {
         const sql = `
             UPDATE report
@@ -297,34 +273,7 @@ export class ReportsRepository {
         await this.db.getPool().query(sql, [statusId, reportId]);
     }
 
-    // TODO: Refactorizar a una sola funcion
-    async getDashboardAccepted(
-        statusId: number
-    ): Promise<ShortDashboardReport[]> {
-        const sql = `
-            SELECT 
-                r.id,
-                (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
-                (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
-                r.url,
-                r.website,
-                r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber,
-                r.created_at AS createdAt,
-                r.username,
-                r.email,
-                c.name AS category
-            FROM report r
-            INNER JOIN category c ON r.id_category = c.id
-            INNER JOIN \`user\` u ON r.id_user = u.id
-            WHERE r.id_status = ?
-            ORDER BY r.created_at ASC;
-        `;
-        const [rows] = await this.db.getPool().query(sql, [statusId]);
-        return rows as ShortDashboardReport[];
-    }
-
-    async getDashboardRejected(
+    async getForDashboardById(
         statusId: number
     ): Promise<ShortDashboardReport[]> {
         const sql = `

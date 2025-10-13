@@ -101,7 +101,7 @@ export class ReportsService {
         if (!status) {
             throw new NotFoundException('No existe un status con ese nombre');
         }
-        const reports = await this.reportsRepository.getPendingReports(
+        const reports = await this.reportsRepository.getForDashboardByStatus(
             status.id
         );
 
@@ -206,7 +206,7 @@ export class ReportsService {
             throw new NotFoundException('No existe un status con ese nombre');
         }
 
-        return await this.reportsRepository.getDashboardAccepted(status.id);
+        return await this.reportsRepository.getForDashboardByStatus(status.id);
     }
 
     async getDashboardRejected(): Promise<ShortDashboardReport[]> {
@@ -214,6 +214,6 @@ export class ReportsService {
         if (!status) {
             throw new NotFoundException('No existe un status con ese nombre');
         }
-        return await this.reportsRepository.getDashboardRejected(status.id);
+        return await this.reportsRepository.getForDashboardByStatus(status.id);
     }
 }
