@@ -19,6 +19,7 @@ import { UsersAuthGuard } from '../common/guards/users-auth.guard';
 import type { AuthenticatedRequest } from '../common/interfaces/authenticated-requests';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserData } from './types/user.types';
+import { DeactivateUserDto } from './dto/deactivate-user.dto';
 
 @ApiTags('Modulo de usuarios')
 @Controller({ path: '/users', version: '1' })
@@ -85,7 +86,10 @@ export class UsersController {
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     @ApiBearerAuth()
-    async deactivateUser(@Req() req: AuthenticatedRequest): Promise<void> {
-        await this.usersService.deactivateUser(req.user.id);
+    async deactivateUser(
+        @Req() req: AuthenticatedRequest,
+        @Body() deactivateUserDto: DeactivateUserDto
+    ): Promise<void> {
+        await this.usersService.deactivateUser(req.user.id, deactivateUserDto);
     }
 }

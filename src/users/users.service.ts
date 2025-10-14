@@ -1,13 +1,15 @@
 import {
     ConflictException,
     Injectable,
-    NotFoundException
+    NotFoundException,
+    UnauthorizedException
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { createHash, checkHash } from '../utils/hash/hash.util';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
 import { UpdateUserData, UserData, UserDb } from './types/user.types';
+import { DeactivateUserDto } from './dto/deactivate-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -84,7 +86,23 @@ export class UsersService {
         await this.usersRepository.updateUser(id, updateUserData);
     }
 
-    async deactivateUser(id: number): Promise<void> {
+    async deactivateUser(
+        id: number,
+        deactivateUserDto: DeactivateUserDto
+    ): Promise<void> {
+        const user = await this.usersRepository.findById(id);
+        if (!user) {
+            throw new NotFoundException('usuario no encontrado');
+        }
+        const hashedPassword = user.password;
+        const success = await checkHash(
+            hashedPassword,
+            deactivateUserDto.password
+        );
+        if (!success) {
+            throw new UnauthorizedException('Contraseña incorrecta');
+        }
+
         await this.usersRepository.deactivateUser(id);
     }
 
