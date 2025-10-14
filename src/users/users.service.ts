@@ -4,7 +4,7 @@ import {
     NotFoundException
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { genSalt, sha256 } from '../utils/hash/hash.util';
+import { createHash, checkHash } from '../utils/hash/hash.util';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
 import { UpdateUserData, UserData, UserDb } from './types/user.types';
@@ -22,17 +22,14 @@ export class UsersService {
             throw new ConflictException('Email already in use');
         }
 
-        const hash = sha256(createUserDto.password);
-        const salt = genSalt();
-        const hashed_password = sha256(hash + salt);
+        const hashed_password = await createHash(createUserDto.password);
 
         await this.usersRepository.createUser({
             name: createUserDto.name,
             lastName1: createUserDto.lastName1,
             lastName2: createUserDto.lastName2,
             email: createUserDto.email,
-            passwordHash: hashed_password,
-            salt
+            passwordHash: hashed_password
         });
     }
 
@@ -58,10 +55,8 @@ export class UsersService {
         const user = await this.usersRepository.findByEmail(email);
         if (!user) return null;
         const hashedPassword = user.password;
-        const salt = user.salt;
-        const hash = sha256(password);
-        const newHash = sha256(hash + salt);
-        if (newHash !== hashedPassword) return null;
+        const success = checkHash(hashedPassword, password);
+        if (!success) return null;
         if (!user.active) return null;
         return user;
     }

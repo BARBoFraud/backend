@@ -4,7 +4,7 @@ import {
     NotFoundException
 } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
-import { genSalt, sha256 } from '../utils/hash/hash.util';
+import { createHash, checkHash } from '../utils/hash/hash.util';
 import { AdminsRepository } from './admins.repository';
 import { AdminData } from './types/admin.types';
 
@@ -28,14 +28,11 @@ export class AdminsService {
             return;
         }
 
-        const hash = sha256(defaultPassword);
-        const salt = genSalt();
-        const hashed_password = sha256(hash + salt);
+        const hashed_password = await createHash(defaultPassword);
 
         await this.adminsRepository.createAdmin({
             username: defaultUsername,
-            passwordHash: hashed_password,
-            salt: salt
+            passwordHash: hashed_password
         });
     }
 
@@ -48,14 +45,11 @@ export class AdminsService {
             throw new ConflictException('Username already in use');
         }
 
-        const hash = sha256(createAdminDto.password);
-        const salt = genSalt();
-        const hashed_password = sha256(hash + salt);
+        const hashed_password = await createHash(createAdminDto.password);
 
         await this.adminsRepository.createAdmin({
             username: createAdminDto.username,
-            passwordHash: hashed_password,
-            salt: salt
+            passwordHash: hashed_password
         });
     }
 
@@ -66,10 +60,8 @@ export class AdminsService {
         const admin = await this.adminsRepository.findByUsername(username);
         if (!admin) return null;
         const hashedPassword = admin.password;
-        const salt = admin.salt;
-        const hash = sha256(password);
-        const newHash = sha256(hash + salt);
-        if (newHash !== hashedPassword) return null;
+        const success = await checkHash(hashedPassword, password);
+        if (!success) return null;
         return admin;
     }
 
