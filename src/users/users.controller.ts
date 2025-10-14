@@ -85,6 +85,7 @@ export class UsersController {
     })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+    @ApiResponse({ status: 409, description: 'Contraseña incorrecta' })
     @ApiBearerAuth()
     async deactivateUser(
         @Req() req: AuthenticatedRequest,

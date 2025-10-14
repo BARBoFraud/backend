@@ -100,7 +100,7 @@ export class UsersService {
             deactivateUserDto.password
         );
         if (!success) {
-            throw new UnauthorizedException('Contraseña incorrecta');
+            throw new ConflictException('Contraseña incorrecta');
         }
 
         await this.usersRepository.deactivateUser(id);
