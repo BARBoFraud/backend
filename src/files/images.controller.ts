@@ -14,7 +14,7 @@ import {
     ApiTags
 } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
-import { extname, join } from 'path';
+import { extname, join } from 'node:path';
 import { UsersAuthGuard } from '../common/guards/users-auth.guard';
 
 @ApiTags('Modulo de carga de imagenes')

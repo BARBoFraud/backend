@@ -12,7 +12,7 @@ import { DeactivateUserDto } from './dto/deactivate-user.dto';
 
 @Injectable()
 export class UsersService {
-    constructor(private usersRepository: UsersRepository) {}
+    constructor(private readonly usersRepository: UsersRepository) {}
 
     async createUser(createUserDto: CreateUserDto): Promise<void> {
         const existingUser = await this.usersRepository.findByEmail(
