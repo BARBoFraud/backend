@@ -3,7 +3,6 @@ import { AdminsService } from '../admins/admins.service';
 import { StatusRepository } from 'src/status/status.repository';
 import { CategoriesRepository } from 'src/categories/categories.repository';
 import { RiskRepository } from 'src/risk/risk.repository';
-import { ApplicationRepository } from 'src/application/application.repository';
 
 @Injectable()
 export class InitializationService implements OnModuleInit {
@@ -11,8 +10,7 @@ export class InitializationService implements OnModuleInit {
         private readonly categoriesRepository: CategoriesRepository,
         private readonly statusRepository: StatusRepository,
         private readonly adminsService: AdminsService,
-        private readonly riskRepository: RiskRepository,
-        private readonly applicationRepository: ApplicationRepository
+        private readonly riskRepository: RiskRepository
     ) {}
 
     async onModuleInit(): Promise<void> {
@@ -29,14 +27,6 @@ export class InitializationService implements OnModuleInit {
         ];
         const status = ['Pendiente', 'Aceptado', 'Rechazado'];
         const risks = ['Alto', 'Medio', 'Bajo'];
-        const applications = [
-            'Instagram',
-            'Facebook',
-            'Tiktok',
-            'AliExpress',
-            'X',
-            'Whatsapp'
-        ];
 
         for (const categoryName of categories) {
             const exists =
@@ -59,14 +49,6 @@ export class InitializationService implements OnModuleInit {
 
             if (!exists) {
                 await this.riskRepository.createRisk(riskName);
-            }
-        }
-
-        for (const appName of applications) {
-            const exists = await this.applicationRepository.findByName(appName);
-
-            if (!exists) {
-                await this.applicationRepository.createApplication(appName);
             }
         }
 
