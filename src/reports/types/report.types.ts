@@ -81,12 +81,7 @@ export interface ShortDashboardReport {
     id: number;
     category: string;
     createdAt: Date;
-    url?: string;
-    website?: string;
-    socialMedia?: string;
-    username?: string;
-    email?: string;
-    phoneNumber?: string;
+    title: string;
 }
 
 export interface DashboardReport {

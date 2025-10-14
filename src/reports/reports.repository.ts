@@ -298,15 +298,10 @@ export class ReportsRepository {
         const sql = `
             SELECT 
                 r.id,
+                r.title,
                 (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
                 (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
-                r.url,
-                r.website,
-                r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber,
                 r.created_at AS createdAt,
-                r.username,
-                r.email,
                 c.name AS category
             FROM report r
             INNER JOIN category c ON r.id_category = c.id

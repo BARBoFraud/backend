@@ -108,7 +108,6 @@ export class ReportsController {
         return await this.reportsService.getUserHistory(req.user.id);
     }
 
-    // TODO: Agregar titulo y mandar social media como nombre
     @Get('/feed')
     @UseGuards(UsersAuthGuard)
     @ApiBearerAuth()
@@ -143,7 +142,6 @@ export class ReportsController {
         return await this.reportsService.getFeed(req.user.id);
     }
 
-    // TODO: Id fecha titulo y categoria
     @Get('/search/:search')
     @UseGuards(UsersAuthGuard)
     @ApiBearerAuth()
@@ -153,11 +151,10 @@ export class ReportsController {
         description: 'Reportes obtenidos correctamente',
         example: [
             {
-                id: 3,
-                website: 'estafaasdassgeimer',
-                socialMedia: 'Instagram',
-                email: 'DiegoOmos@tec.mx',
-                phoneNumber: '5627452471'
+                id: 2,
+                createdAt: '2025-10-14T03:53:31.000Z',
+                title: 'Estafa en Facebook',
+                category: 'Página de internet'
             }
         ]
     })
@@ -168,7 +165,6 @@ export class ReportsController {
         return await this.reportsService.searchReport(searchString);
     }
 
-    // TODO: id titulo categoria fecha y usuario
     @Get('/pending')
     @UseGuards(AdminsAuthGuard)
     @ApiOperation({
@@ -179,16 +175,11 @@ export class ReportsController {
         description: 'Reportes obtenidos correctamente',
         example: [
             {
-                id: 1,
+                id: 3,
+                title: 'Estafa en instagram',
                 name: 'Leonardo',
                 lastName: 'Perez',
-                url: 'https:tennisgratis.com',
-                website: 'Tennis Gratis MX',
-                socialMedia: 'Instagram',
-                phoneNumber: '5627452471',
-                createdAt: '2025-10-09T04:31:05.000Z',
-                username: 'Laura Gomez',
-                email: 'DiegoOmos@tec.mx',
+                createdAt: '2025-10-14T05:11:00.000Z',
                 category: 'Página de internet'
             }
         ]
