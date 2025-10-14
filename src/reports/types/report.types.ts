@@ -45,10 +45,11 @@ export interface HistoryReport {
     category: string;
     status: string;
     createdAt: Date;
+    title: string;
     description: string;
     url?: string;
     website?: string;
-    socialMedia?: string;
+    application?: string;
     username?: string;
     email?: string;
     phoneNumber?: string;
@@ -90,11 +91,12 @@ export interface DashboardReport {
     id: number;
     category: string;
     createdAt: Date;
+    title: string;
     description: string;
     image?: string;
     url?: string;
     website?: string;
-    socialMedia?: string;
+    application?: string;
     username?: string;
     email?: string;
     phoneNumber?: string;

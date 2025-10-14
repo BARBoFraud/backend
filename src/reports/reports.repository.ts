@@ -118,10 +118,11 @@ export class ReportsRepository {
         const sql = `
             SELECT 
                 r.id,
+                r.title,
                 r.description,
                 r.url,
                 r.website,
-                r.social_media AS socialMedia,
+                r.application,
                 r.phone_number AS phoneNumber,
                 r.created_at AS createdAt,
                 r.username,
@@ -139,16 +140,19 @@ export class ReportsRepository {
         return rows[0] as HistoryReport;
     }
 
-    async getCompleteDashboardReport(reportId: number) {
+    async getCompleteDashboardReport(
+        reportId: number
+    ): Promise<DashboardReport> {
         const sql = `
             SELECT 
                 (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
                 (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
                 r.id,
+                r.title,
                 r.description,
                 r.url,
                 r.website,
-                r.social_media as socialMedia,
+                r.application,
                 r.phone_number AS phoneNumber,
                 r.created_at AS createdAt,
                 r.username,

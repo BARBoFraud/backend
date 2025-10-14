@@ -214,7 +214,6 @@ export class ReportsController {
         return await this.reportsService.getReportComments(reportId);
     }
 
-    // TODO: Agregar riesgo al evaluate
     @Patch('/evaluate')
     @ApiOperation({
         summary: 'Endpoint para cambiar el status de un reporte'
@@ -290,18 +289,19 @@ export class ReportsController {
         status: 200,
         description: 'Reporte obtenido correctamente',
         example: {
-            id: 7,
+            id: 3,
+            title: 'Estafa en instagram',
             description: 'Sitio web fraudulento, me robaron 4000 pesos.',
             url: 'www.tennisgratis.com',
             website: 'Tennis Gratis Mexico',
-            socialMedia: 'Instagram',
+            application: 'Fortnite',
             phoneNumber: '5627452471',
-            createdAt: '2025-10-11T20:51:15.000Z',
+            createdAt: '2025-10-14T05:11:00.000Z',
             username: 'Juan Perez',
             email: 'tennisgratismx@gmail.com',
             image: 'http://localhost:4000/public/uploads/123132213123.png',
             category: 'Página de internet',
-            status: 'Pendiente'
+            status: 'Aceptado'
         }
     })
     @ApiResponse({ status: 404, description: 'Reporte no encontrado' })
@@ -318,7 +318,6 @@ export class ReportsController {
         );
     }
 
-    // TODO: Lo mismo que en feed pero sin likes ni comentarios
     @Get(':id/dashboard')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo del dashboard'
@@ -327,15 +326,16 @@ export class ReportsController {
         status: 200,
         description: 'Reporte obtenido correctamente',
         example: {
-            name: 'Diego',
-            lastName: 'Olmos',
-            id: 7,
+            name: 'Leonardo',
+            lastName: 'Perez',
+            id: 3,
+            title: 'Estafa en instagram',
             description: 'Sitio web fraudulento, me robaron 4000 pesos.',
             url: 'www.tennisgratis.com',
             website: 'Tennis Gratis Mexico',
-            socialMedia: 'Instagram',
+            application: 'Fortnite',
             phoneNumber: '5627452471',
-            createdAt: '2025-10-11T20:51:15.000Z',
+            createdAt: '2025-10-14T05:11:00.000Z',
             username: 'Juan Perez',
             email: 'tennisgratismx@gmail.com',
             image: '123132213123.png',
