@@ -137,7 +137,7 @@ export class ReportsRepository {
             LIMIT 1;
         `;
         const [rows] = await this.db.getPool().query(sql, [userId, reportId]);
-        return rows[0] as HistoryReport;
+        return (rows[0] as HistoryReport) || null;
     }
 
     async getCompleteDashboardReport(
@@ -167,7 +167,7 @@ export class ReportsRepository {
         `;
 
         const [rows] = await this.db.getPool().query(sql, [reportId]);
-        return rows[0] as DashboardReport;
+        return (rows[0] as DashboardReport) || null;
     }
 
     async getCompleteSearchReport(
@@ -211,7 +211,7 @@ export class ReportsRepository {
         const [rows] = await this.db
             .getPool()
             .query(sql, [userId, reportId, statusId]);
-        return rows[0] as SearchReport;
+        return (rows[0] as SearchReport) || null;
     }
 
     async searchReport(
@@ -338,6 +338,6 @@ export class ReportsRepository {
             WHERE id = ?;
         `;
         const [rows] = await this.db.getPool().query(sql, [reportId]);
-        return rows[0] || null;
+        return (rows[0] as { id: number }) || null;
     }
 }
