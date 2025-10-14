@@ -54,10 +54,20 @@ export class ReportsService {
         }
 
         await this.reportsRepository.updateReport({
-            ...updateReportDto,
             userId,
             reportId,
-            statusId: newStatus.id
+            statusId: newStatus.id,
+            categoryId: updateReportDto.categoryId,
+            title: updateReportDto.title,
+            description: updateReportDto.description,
+            url: updateReportDto.url ?? null,
+            website: updateReportDto.website ?? null,
+            application: updateReportDto.application ?? null,
+            phoneNumber: updateReportDto.phoneNumber ?? null,
+            username: updateReportDto.username ?? null,
+            email: updateReportDto.email ?? null,
+            anonymous: updateReportDto.anonymous ?? null,
+            imageId: updateReportDto.imageId ?? null
         });
     }
 

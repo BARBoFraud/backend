@@ -20,17 +20,16 @@ export class ReportsRepository {
         userId: number,
         createReportData: CreateReportData
     ): Promise<void> {
-        console.log(createReportData.anonymous);
         const sql = `
             INSERT INTO report
                 (id_category,
-                id_application, 
                 id_status,
                 title,
                 description,
                 url,
                 website,
                 phone_number,
+                application,
                 id_user,
                 image,
                 username,
@@ -42,13 +41,13 @@ export class ReportsRepository {
             .getPool()
             .query(sql, [
                 createReportData.categoryId,
-                createReportData.applicationId,
                 createReportData.statusId,
                 createReportData.title,
                 createReportData.description,
                 createReportData.url,
                 createReportData.website,
                 createReportData.phoneNumber,
+                createReportData.application,
                 userId,
                 createReportData.imageId,
                 createReportData.username,
@@ -62,10 +61,11 @@ export class ReportsRepository {
             UPDATE report SET 
                 id_category = ?, 
                 id_status = ?, 
+                title = ?,
                 description = ?, 
                 url = ?, 
                 website = ?,
-                social_media = ?, 
+                application = ?, 
                 phone_number = ?, 
                 image = ?, 
                 username = ?, 
@@ -73,15 +73,17 @@ export class ReportsRepository {
                 anonymous = ?
             WHERE id = ? AND id_user = ?;
         `;
+
         await this.db
             .getPool()
             .query(sql, [
                 updateReportData.categoryId,
                 updateReportData.statusId,
+                updateReportData.title,
                 updateReportData.description,
                 updateReportData.url,
                 updateReportData.website,
-                updateReportData.socialMedia,
+                updateReportData.application,
                 updateReportData.phoneNumber,
                 updateReportData.imageId,
                 updateReportData.username,

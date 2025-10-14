@@ -6,11 +6,6 @@ export class CreateReportDto {
         description: 'Categoria del reporte'
     })
     categoryId: number;
-    @ApiPropertyOptional({
-        example: 1,
-        description: 'Id de la red social en la que sucedio'
-    })
-    applicationId: number;
     @ApiProperty({
         example: 'Estafa en instagram',
         description: 'Titulo del reporte'
@@ -46,6 +41,10 @@ export class CreateReportDto {
         description: 'correo del estafador del incidente'
     })
     email: string;
+    @ApiPropertyOptional({
+        example: 'Instagram',
+        description: 'Aplicacion en la que ocurrio la estafa'
+    })
     @ApiPropertyOptional({
         example: true,
         description: 'Si el correo es anonimo o no, el default es false'

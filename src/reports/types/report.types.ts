@@ -1,10 +1,10 @@
 export interface CreateReportData {
     description: string;
     categoryId: number;
-    applicationId: number;
     title: string;
     statusId: number;
     anonymous: boolean;
+    application?: string;
     url?: string;
     website?: string;
     socialMedia?: string;
@@ -18,18 +18,18 @@ export interface CreateReportData {
 export interface UpdateReportData {
     userId: number;
     reportId: number;
+    title: string;
     description: string;
     categoryId: number;
     statusId: number;
-    anonymous: boolean;
-    url?: string;
-    website?: string;
-    socialMedia?: string;
-    phoneNumber?: string;
-    createdAt?: Date;
-    username?: string;
-    email?: string;
-    imageId?: string;
+    anonymous: boolean | null;
+    url: string | null;
+    application: string | null;
+    website: string | null;
+    phoneNumber: string | null;
+    username: string | null;
+    email: string | null;
+    imageId: string | null;
 }
 
 export interface ShortHistoryReport {

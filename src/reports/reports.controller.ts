@@ -70,7 +70,7 @@ export class ReportsController {
     ): Promise<void> {
         await this.reportsService.updateReport(
             req.user.id,
-            reportId,
+            Number(reportId),
             updateReportDto
         );
     }

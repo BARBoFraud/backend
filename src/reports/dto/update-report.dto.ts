@@ -6,49 +6,64 @@ export class UpdateReportDto {
         description: 'Nueva categoria del reporte'
     })
     categoryId: number;
+
+    @ApiProperty({
+        example: 'Estafa en Facebook',
+        description: 'Nuevo titulo del reporte'
+    })
+    title: string;
+
     @ApiProperty({
         example: 'Sitio web fraudulento, me robaron 5000 pesos.',
         description: 'Nueva descripcion del reporte'
     })
     description: string;
+
     @ApiPropertyOptional({
         example: 'www.tennisgratis.com',
-        description: ' Nueva url de la pagina web implicada'
+        description: 'Nueva url de la pagina web implicada'
     })
-    url: string;
+    url?: string;
+
     @ApiPropertyOptional({
         example: 'Tennis Gratis Mx',
         description: 'Nuevo nombre de la pagina web'
     })
-    website: string;
+    website?: string;
+
     @ApiPropertyOptional({
         example: 'Instagram',
-        description: 'Red social en la que ocurrio el incidente'
+        description: 'Aplicacion en la que ocurrio la estafa'
     })
-    socialMedia: string;
+    application?: string;
+
     @ApiPropertyOptional({
         example: '5627452471',
         description: 'Numero telefonico desde el que ocurrio el incidente'
     })
-    phoneNumber: string;
+    phoneNumber?: string;
+
     @ApiPropertyOptional({
         example: 'Laura Gomez',
         description: 'username del estafador del incidente'
     })
-    username: string;
+    username?: string;
+
     @ApiPropertyOptional({
         example: 'tennisgratis@gmail.com',
         description: 'correo del estafador del incidente'
     })
-    email: string;
+    email?: string;
+
     @ApiPropertyOptional({
         example: true,
-        description: 'Si el correo es anonimo o no, el default es false'
+        description: 'Si el correo es anonimo o no'
     })
-    anonymous: boolean;
+    anonymous?: boolean;
+
     @ApiPropertyOptional({
         example: '123132213123.png',
         description: 'Id de la imagen obtenido por el file upload'
     })
-    imageId: string;
+    imageId?: string;
 }
