@@ -6,6 +6,16 @@ export class CreateReportDto {
         description: 'Categoria del reporte'
     })
     categoryId: number;
+    @ApiPropertyOptional({
+        example: 1,
+        description: 'Id de la red social en la que sucedio'
+    })
+    applicationId: number;
+    @ApiProperty({
+        example: 'Estafa en instagram',
+        description: 'Titulo del reporte'
+    })
+    title: string;
     @ApiProperty({
         example: 'Sitio web fraudulento, me robaron 4000 pesos.',
         description: 'Descripcion del reporte'
@@ -21,11 +31,6 @@ export class CreateReportDto {
         description: 'Nombre de la pagina web'
     })
     website: string;
-    @ApiPropertyOptional({
-        example: 'Instagram',
-        description: 'Red social en la que ocurrio el incidente'
-    })
-    socialMedia: string;
     @ApiPropertyOptional({
         example: '5627452471',
         description: 'Numero telefonico desde el que ocurrio el incidente'

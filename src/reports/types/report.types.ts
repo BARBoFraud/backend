@@ -1,6 +1,8 @@
 export interface CreateReportData {
     description: string;
     categoryId: number;
+    applicationId: number;
+    title: string;
     statusId: number;
     anonymous: boolean;
     url?: string;

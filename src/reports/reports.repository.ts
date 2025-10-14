@@ -20,19 +20,34 @@ export class ReportsRepository {
         userId: number,
         createReportData: CreateReportData
     ): Promise<void> {
+        console.log(createReportData.anonymous);
         const sql = `
-            INSERT INTO report(id_category, id_status, description, url, website,
-                social_media, phone_number, id_user, image, username, email, anonymous)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?);`;
+            INSERT INTO report
+                (id_category,
+                id_application, 
+                id_status,
+                title,
+                description,
+                url,
+                website,
+                phone_number,
+                id_user,
+                image,
+                username,
+                email,
+                anonymous)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);
+        `;
         await this.db
             .getPool()
             .query(sql, [
                 createReportData.categoryId,
+                createReportData.applicationId,
                 createReportData.statusId,
+                createReportData.title,
                 createReportData.description,
                 createReportData.url,
                 createReportData.website,
-                createReportData.socialMedia,
                 createReportData.phoneNumber,
                 userId,
                 createReportData.imageId,

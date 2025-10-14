@@ -38,6 +38,7 @@ import {
 @Controller({ path: 'reports', version: '1' })
 export class ReportsController {
     constructor(private readonly reportsService: ReportsService) {}
+
     @Post('/create')
     @UseGuards(UsersAuthGuard)
     @ApiOperation({ summary: 'Endpoint para crear un nuevo reporte' })
@@ -53,6 +54,7 @@ export class ReportsController {
     }
 
     @Put('/update/:reportId')
+    // TODO: Agregar red social id y titulo al dto
     @UseGuards(UsersAuthGuard)
     @ApiOperation({ summary: 'Endpoint para modificar un reporte' })
     @ApiResponse({
@@ -73,6 +75,7 @@ export class ReportsController {
         );
     }
 
+    // TODO: Mandar id titulo createdAt, categoria y status
     @Get('/history')
     @UseGuards(UsersAuthGuard)
     @ApiOperation({
@@ -119,6 +122,7 @@ export class ReportsController {
         return await this.reportsService.getUserHistory(req.user.id);
     }
 
+    // TODO: Agregar titulo y mandar social media como nombre
     @Get('/feed')
     @UseGuards(UsersAuthGuard)
     @ApiBearerAuth()
@@ -152,6 +156,7 @@ export class ReportsController {
         return await this.reportsService.getFeed(req.user.id);
     }
 
+    // TODO: Id fecha titulo y categoria
     @Get('/search/:search')
     @UseGuards(UsersAuthGuard)
     @ApiBearerAuth()
@@ -176,6 +181,7 @@ export class ReportsController {
         return await this.reportsService.searchReport(searchString);
     }
 
+    // TODO: id titulo categoria fecha y usuario
     @Get('/pending')
     @UseGuards(AdminsAuthGuard)
     @ApiOperation({
@@ -230,6 +236,7 @@ export class ReportsController {
         return await this.reportsService.getReportComments(reportId);
     }
 
+    // TODO: Agregar riesgo al evaluate
     @Patch('/evaluate')
     @ApiOperation({
         summary: 'Endpoint para cambiar el status de un reporte'
@@ -296,6 +303,7 @@ export class ReportsController {
         );
     }
 
+    // TODO: Lo mismo que en el feed sin likes ni comentarios
     @Get(':id/history')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo del historial'
@@ -332,6 +340,7 @@ export class ReportsController {
         );
     }
 
+    // TODO: Lo mismo que en feed pero sin likes ni comentarios
     @Get(':id/dashboard')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo del dashboard'
@@ -365,6 +374,7 @@ export class ReportsController {
         return await this.reportsService.getCompleteDashboardReport(id);
     }
 
+    // TODO: Lo mismo que en el feed
     @Get(':id/search')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo de busqueda'
@@ -405,6 +415,7 @@ export class ReportsController {
         );
     }
 
+    // TODO: tarjetitas chiquitas
     @Get('/dashboard/accepted')
     @ApiOperation({ summary: 'Endpoint para obtener el feed del dashboard' })
     @ApiResponse({
@@ -435,6 +446,7 @@ export class ReportsController {
         return await this.reportsService.getDashboardAccepted();
     }
 
+    // TODO: Tarjetitas chiquitas
     @Get('/dashboard/rejected')
     @ApiOperation({
         summary: 'Endpoint para obtener los reportes rechazados en el dashboard'
