@@ -115,11 +115,9 @@ export interface Comment {
 
 export interface SearchQueryReport {
     id: number;
+    createdAt: Date;
+    title: string;
     category: string;
-    website?: string;
-    socialMedia?: string;
-    email?: string;
-    phoneNumber?: string;
 }
 
 export interface SearchReport {

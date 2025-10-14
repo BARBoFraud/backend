@@ -214,17 +214,17 @@ export class ReportsRepository {
         const sql = `
             SELECT
                 r.id,
-                r.website,
-                r.social_media AS socialMedia,
-                r.email,
-                r.phone_number AS phoneNumber
+                r.created_at as createdAt,
+                r.title,
+                c.name as category
             FROM report r
-            INNER JOIN status s ON r.id_status = s.id
-            WHERE s.id = ?
+            INNER JOIN category c on r.id_category = c.id
+            WHERE r.id_status = ?
             AND (r.description LIKE ?
+            OR r.title LIKE ?
             OR r.url LIKE ?
             OR r.website LIKE ?
-            OR r.social_media LIKE ?
+            OR r.application LIKE ?
             OR r.phone_number LIKE ?
             OR r.username LIKE ?
             OR r.email LIKE ?)
@@ -234,6 +234,7 @@ export class ReportsRepository {
             .getPool()
             .query(sql, [
                 statusId,
+                `%${searchString}%`,
                 `%${searchString}%`,
                 `%${searchString}%`,
                 `%${searchString}%`,
