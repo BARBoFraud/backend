@@ -45,6 +45,7 @@ export class CreateReportDto {
         example: 'Instagram',
         description: 'Aplicacion en la que ocurrio la estafa'
     })
+    application: string;
     @ApiPropertyOptional({
         example: true,
         description: 'Si el correo es anonimo o no, el default es false'
