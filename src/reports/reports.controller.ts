@@ -352,7 +352,6 @@ export class ReportsController {
         return await this.reportsService.getCompleteDashboardReport(id);
     }
 
-    // TODO: Lo mismo que en el feed
     @Get(':id/search')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo de busqueda'
@@ -362,17 +361,18 @@ export class ReportsController {
         description: 'Reporte obtenido correctamente',
         example: {
             id: 3,
-            name: 'Diego',
-            lastName: 'Olmos',
+            name: 'Leonardo',
+            lastName: 'Perez',
             category: 'Página de internet',
-            createdAt: '2025-10-09T04:31:10.000Z',
-            description: 'Me estafaron ofreciendome un coche en 50 pesos.',
-            image: 'http://localhost:4000/public/uploads/1758854167272.jpeg',
-            url: 'https:cochesa50.com',
-            website: 'Coches a 50',
-            socialMedia: 'Instagram',
-            username: 'Laura Gomez',
-            email: 'DiegoOmos@tec.mx',
+            createdAt: '2025-10-14T05:11:00.000Z',
+            title: 'Estafa en instagram',
+            description: 'Sitio web fraudulento, me robaron 4000 pesos.',
+            image: 'http://localhost:4000/public/uploads/123132213123.png',
+            url: 'www.tennisgratis.com',
+            website: 'Tennis Gratis Mexico',
+            application: 'Fortnite',
+            username: 'Juan Perez',
+            email: 'tennisgratismx@gmail.com',
             phoneNumber: '5627452471',
             userLiked: 0,
             likesCount: 0,

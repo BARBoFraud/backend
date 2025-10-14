@@ -67,7 +67,7 @@ export interface FeedReport {
     image?: string;
     url?: string;
     website?: string;
-    socialMedia?: string;
+    application?: string;
     username?: string;
     email?: string;
     phoneNumber?: string;
@@ -123,11 +123,12 @@ export interface SearchReport {
     id: number;
     category: string;
     createdAt: Date;
+    title: string;
     description: string;
     image?: string;
     url?: string;
     website?: string;
-    socialMedia?: string;
+    application?: string;
     username?: string;
     email?: string;
     phoneNumber?: string;
