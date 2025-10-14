@@ -124,6 +124,7 @@ export interface SearchReport {
     lastName?: string;
     id: number;
     category: string;
+    riskLevel: string;
     createdAt: Date;
     title: string;
     description: string;

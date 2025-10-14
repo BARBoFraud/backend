@@ -182,6 +182,7 @@ export class ReportsRepository {
                 (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
                 c.name AS category,
                 r.created_at AS createdAt,
+                ri.level as riskLevel,
                 r.title,
                 r.description,
                 r.image,
@@ -198,6 +199,7 @@ export class ReportsRepository {
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
             INNER JOIN \`user\` u ON r.id_user = u.id
+            INNER JOIN risk ri on r.id_risk = ri.id
             LEFT JOIN \`like\` l_user ON l_user.id_report = r.id AND l_user.id_user = ?
             LEFT JOIN \`like\` l_count ON l_count.id_report = r.id
             LEFT JOIN comment com ON com.id_report = r.id

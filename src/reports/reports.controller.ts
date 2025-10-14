@@ -280,7 +280,6 @@ export class ReportsController {
         );
     }
 
-    // TODO: Lo mismo que en el feed sin likes ni comentarios
     @Get(':id/history')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo del historial'
@@ -365,6 +364,7 @@ export class ReportsController {
             lastName: 'Perez',
             category: 'Página de internet',
             createdAt: '2025-10-14T05:11:00.000Z',
+            riskLevel: 'Bajo',
             title: 'Estafa en instagram',
             description: 'Sitio web fraudulento, me robaron 4000 pesos.',
             image: 'http://localhost:4000/public/uploads/123132213123.png',
@@ -393,7 +393,6 @@ export class ReportsController {
         );
     }
 
-    // TODO: tarjetitas chiquitas
     @Get('/dashboard/accepted')
     @ApiOperation({ summary: 'Endpoint para obtener el feed del dashboard' })
     @ApiResponse({
@@ -424,7 +423,6 @@ export class ReportsController {
         return await this.reportsService.getDashboardAccepted();
     }
 
-    // TODO: Tarjetitas chiquitas
     @Get('/dashboard/rejected')
     @ApiOperation({
         summary: 'Endpoint para obtener los reportes rechazados en el dashboard'
