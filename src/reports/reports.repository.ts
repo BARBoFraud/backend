@@ -220,10 +220,12 @@ export class ReportsRepository {
             SELECT
                 r.id,
                 r.created_at as createdAt,
+                ri.level as riskLevel,
                 r.title,
                 c.name as category
             FROM report r
             INNER JOIN category c on r.id_category = c.id
+            INNER JOIN risk ri ON r.id_risk = ri.id
             WHERE r.id_status = ?
             AND (r.description LIKE ?
             OR r.title LIKE ?

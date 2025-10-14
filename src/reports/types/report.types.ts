@@ -115,6 +115,7 @@ export interface SearchQueryReport {
     id: number;
     createdAt: Date;
     title: string;
+    riskLevel: string;
     category: string;
 }
 
