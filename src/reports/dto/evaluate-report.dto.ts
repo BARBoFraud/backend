@@ -11,4 +11,9 @@ export class EvaluateReportDto {
         description: 'Id del status al que se quiere cambiar el reporte'
     })
     statusId: number;
+    @ApiProperty({
+        example: 2,
+        description: 'Id del riesgo al que se quiere asignar el reporte'
+    })
+    riskId: number;
 }

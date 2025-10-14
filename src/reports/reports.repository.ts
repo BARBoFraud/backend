@@ -284,12 +284,18 @@ export class ReportsRepository {
         return rows as FeedReport[];
     }
 
-    async evaluateReport(reportId: number, statusId: number): Promise<void> {
+    async evaluateReport(
+        reportId: number,
+        statusId: number,
+        riskId: number
+    ): Promise<void> {
         const sql = `
             UPDATE report
-            SET id_status = ?
+            SET 
+                id_status = ?,
+                id_risk = ?
             WHERE id = ?;`;
-        await this.db.getPool().query(sql, [statusId, reportId]);
+        await this.db.getPool().query(sql, [statusId, riskId, reportId]);
     }
 
     async getForDashboardByStatus(
@@ -312,5 +318,15 @@ export class ReportsRepository {
 
         const [rows] = await this.db.getPool().query(sql, [statusId]);
         return rows as ShortDashboardReport[];
+    }
+
+    async findById(reportId: number): Promise<{ id: number }> {
+        const sql = `
+            SELECT id 
+            FROM report 
+            WHERE id = ?;
+        `;
+        const [rows] = await this.db.getPool().query(sql, [reportId]);
+        return rows[0] || null;
     }
 }

@@ -119,9 +119,17 @@ export class ReportsService {
     }
 
     async evaluateReport(evaluateReportDto: EvaluateReportDto): Promise<void> {
+        const exists = await this.reportsRepository.findById(
+            evaluateReportDto.reportId
+        );
+        if (!exists) {
+            throw new NotFoundException('Reporte no encontrado');
+        }
+
         await this.reportsRepository.evaluateReport(
             evaluateReportDto.reportId,
-            evaluateReportDto.statusId
+            evaluateReportDto.statusId,
+            evaluateReportDto.riskId
         );
     }
 
