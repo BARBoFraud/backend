@@ -42,8 +42,7 @@ export class ImagesController {
                     cb(null, `${baseName}${ext}`);
                 }
             }),
-            // TODO: Agregar limite de tamanio para subida de archivos
-            // limits: { fileSize: 7 * 1024 * 1024 },
+            limits: { fileSize: 7 * 1024 * 1024 },
             fileFilter: (_req, file, cb) => {
                 if (!file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
                     return cb(
