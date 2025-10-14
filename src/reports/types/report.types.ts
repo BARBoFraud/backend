@@ -60,6 +60,7 @@ export interface FeedReport {
     name: string;
     lastName: string;
     id: number;
+    riskLevel: string;
     category: string;
     createdAt: Date;
     title: string;
