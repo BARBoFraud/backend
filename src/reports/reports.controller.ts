@@ -54,7 +54,6 @@ export class ReportsController {
     }
 
     @Put('/update/:reportId')
-    // TODO: Agregar red social id y titulo al dto
     @UseGuards(UsersAuthGuard)
     @ApiOperation({ summary: 'Endpoint para modificar un reporte' })
     @ApiResponse({
@@ -75,7 +74,6 @@ export class ReportsController {
         );
     }
 
-    // TODO: Mandar id titulo createdAt, categoria y status
     @Get('/history')
     @UseGuards(UsersAuthGuard)
     @ApiOperation({
@@ -86,28 +84,16 @@ export class ReportsController {
         description: 'Historial obtenido correctamente',
         example: [
             {
-                id: 4,
-                description: 'Fui estafado por este usuario en facebook.',
-                url: 'https:facebook.com',
-                website: 'Facebook',
-                socialMedia: 'Facebook',
-                phoneNumber: '5627452471',
-                createdAt: '2025-10-02T21:58:42.000Z',
-                username: 'Laura Gomez',
-                email: 'A01665462@tec.mx',
+                id: 3,
+                title: 'Estafa en instagram',
+                createdAt: '2025-10-14T05:11:00.000Z',
                 category: 'Página de internet',
                 status: 'Pendiente'
             },
             {
-                id: 3,
-                description: 'Fui estafado por esta pagina web.',
-                url: 'https:tennisgratis.com',
-                website: 'Tennis Gratis Mx',
-                socialMedia: 'Instagram',
-                phoneNumber: '5627452471',
-                createdAt: '2025-10-02T21:58:37.000Z',
-                username: 'Juan Perez',
-                email: 'A01665462@tec.mx',
+                id: 2,
+                title: 'Estafa en Facebook',
+                createdAt: '2025-10-14T03:53:31.000Z',
                 category: 'Página de internet',
                 status: 'Pendiente'
             }
@@ -132,21 +118,22 @@ export class ReportsController {
         description: 'Feed obtenido correctamente',
         example: [
             {
-                id: 4,
-                name: 'Diego',
-                lastName: 'Olmos',
+                id: 2,
+                name: 'Leonardo',
+                lastName: 'Perez',
                 category: 'Página de internet',
-                createdAt: '2025-10-09T04:31:12.000Z',
-                description: 'Esta tienda en linea me estafó.',
-                image: 'http://localhost:4000/public/uploads/1758854167272.jpeg',
-                url: 'https:tennisgratis.com',
-                website: 'Tennis Gratis MX',
-                socialMedia: 'Instagram',
+                createdAt: '2025-10-14T03:53:31.000Z',
+                title: 'Estafa en Facebook',
+                description: 'Sitio web fraudulento, me robaron 5000 pesos.',
+                image: 'http://localhost:4000/public/uploads/123132213123.png',
+                url: 'www.tennisgratis.com',
+                website: 'Tennis Gratis Mx',
+                application: 'Instagram',
                 username: 'Laura Gomez',
-                email: 'DiegoOmos@tec.mx',
+                email: 'tennisgratis@gmail.com',
                 phoneNumber: '5627452471',
-                userLiked: 0,
-                likesCount: 1,
+                userLiked: 1,
+                likesCount: 2,
                 commentsCount: 0
             }
         ]

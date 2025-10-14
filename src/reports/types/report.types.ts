@@ -34,13 +34,8 @@ export interface UpdateReportData {
 
 export interface ShortHistoryReport {
     id: number;
-    url?: string;
-    website?: string;
-    socialMedia?: string;
-    phoneNumber?: string;
-    createdAt?: Date;
-    username?: string;
-    email?: string;
+    title: string;
+    createdAt: Date;
     category: string;
     status: string;
 }
@@ -66,6 +61,7 @@ export interface FeedReport {
     id: number;
     category: string;
     createdAt: Date;
+    title: string;
     description: string;
     image?: string;
     url?: string;

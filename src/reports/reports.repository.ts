@@ -97,13 +97,8 @@ export class ReportsRepository {
     async getUserHistory(id: number): Promise<ShortHistoryReport[]> {
         const sql = `
             SELECT r.id,
-                r.url,
-                r.website,
-                r.social_media AS socialMedia,
-                r.phone_number AS phoneNumber,
+                r.title,
                 r.created_at AS createdAt,
-                r.username,
-                r.email,
                 c.name AS category,
                 s.name AS status
             FROM report r
@@ -261,11 +256,12 @@ export class ReportsRepository {
                 (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
                 c.name AS category,
                 r.created_at AS createdAt,
+                r.title,
                 r.description,
                 r.image,
                 r.url,
                 r.website,
-                r.social_media AS socialMedia,
+                r.application AS application,
                 r.username,
                 r.email,
                 r.phone_number AS phoneNumber,
