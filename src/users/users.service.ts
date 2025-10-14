@@ -1,8 +1,7 @@
 import {
     ConflictException,
     Injectable,
-    NotFoundException,
-    UnauthorizedException
+    NotFoundException
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { createHash, checkHash } from '../utils/hash/hash.util';
@@ -57,7 +56,7 @@ export class UsersService {
         const user = await this.usersRepository.findByEmail(email);
         if (!user) return null;
         const hashedPassword = user.password;
-        const success = checkHash(hashedPassword, password);
+        const success = await checkHash(hashedPassword, password);
         if (!success) return null;
         if (!user.active) return null;
         return user;
