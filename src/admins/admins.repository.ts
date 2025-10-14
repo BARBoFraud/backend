@@ -31,7 +31,7 @@ export class AdminsRepository {
         const sql = `SELECT id, username FROM admin WHERE id = ? LIMIT 1;`;
         const [rows] = await this.db.getPool().query(sql, [id]);
         const result = rows as AdminData[];
-        return result[0];
+        return result[0] || null;
     }
 
     async findById(id: number): Promise<AdminDb | null> {
