@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
-import { CategoryData, CountData } from './types/categories.types';
+import { CategoryData } from './types/categories.types';
+import { CountData } from 'src/common/types/graph.types';
 
 @Injectable()
 export class CategoriesRepository {

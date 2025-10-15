@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
 import { RiskData } from './types/risk.types';
+import { CountData } from 'src/common/types/graph.types';
 
 @Injectable()
 export class RiskRepository {
@@ -20,5 +21,19 @@ export class RiskRepository {
         const [rows] = await this.db.getPool().query(sql, [level]);
         const result = rows as RiskData[];
         return result[0] || null;
+    }
+
+    async getCounts(): Promise<CountData[]> {
+        const sql = `
+            SELECT
+                ri.level as name,
+                COALESCE(COUNT(r.id), 0) AS count
+            FROM risk ri
+            LEFT JOIN report r ON ri.id = r.id_risk
+            GROUP BY ri.id, ri.level
+        `;
+
+        const [rows] = await this.db.getPool().query(sql);
+        return rows as CountData[];
     }
 }

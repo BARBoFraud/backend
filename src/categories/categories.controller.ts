@@ -1,7 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
-import { CategoryData, CountData } from './types/categories.types';
+import { CategoryData } from './types/categories.types';
+import { CountData } from 'src/common/types/graph.types';
 
 @ApiTags('Modulo de utilidades de categorias')
 @Controller({ path: 'categories', version: '1' })

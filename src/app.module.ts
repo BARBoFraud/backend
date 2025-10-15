@@ -12,6 +12,7 @@ import { InitializationModule } from './initialization/initialization.module';
 import { DbModule } from './db/db.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { RiskModule } from './risk/risk.module';
 
 @Module({
     imports: [
@@ -36,7 +37,8 @@ import { APP_GUARD } from '@nestjs/core';
         StatusModule,
         CategoriesModule,
         InitializationModule,
-        DbModule
+        DbModule,
+        RiskModule
     ],
     providers: [
         {
