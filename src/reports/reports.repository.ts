@@ -193,8 +193,8 @@ export class ReportsRepository {
                 r.email,
                 r.phone_number AS phoneNumber,
                 (IF(l_user.id_user IS NULL, FALSE, TRUE)) AS userLiked,
-                COUNT(l_count.id_user) AS likesCount,
-                COUNT(com.id) AS commentsCount
+                COUNT(DISTINCT l_count.id_user) AS likesCount,
+                COUNT(DISTINCT com.id) AS commentsCount
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
@@ -277,8 +277,8 @@ export class ReportsRepository {
                 r.email,
                 r.phone_number AS phoneNumber,
                 (IF(l_user.id_user IS NULL, FALSE, TRUE)) AS userLiked,
-                COUNT(l_count.id_user) AS likesCount,
-                COUNT(com.id) AS commentsCount
+                COUNT(DISTINCT l_count.id_user) AS likesCount,
+                COUNT(DISTINCT com.id) AS commentsCount
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN status s ON r.id_status = s.id
