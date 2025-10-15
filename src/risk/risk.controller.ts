@@ -1,8 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { RiskService } from './risk.service';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CountData } from 'src/common/types/graph.types';
 
+@ApiTags('Modulo de riesgo')
 @Controller({ path: 'risk', version: '1' })
 export class RiskController {
     constructor(private readonly riskService: RiskService) {}
