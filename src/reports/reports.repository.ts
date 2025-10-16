@@ -5,6 +5,7 @@ import {
     DashboardReport,
     FeedReport,
     HistoryReport,
+    ReportDateInfo,
     SearchQueryReport,
     SearchReport,
     ShortDashboardReport,
@@ -339,5 +340,18 @@ export class ReportsRepository {
         `;
         const [rows] = await this.db.getPool().query(sql, [reportId]);
         return (rows[0] as { id: number }) || null;
+    }
+
+    async getWeeklyReports(): Promise<ReportDateInfo[]> {
+        const sql = `
+            SELECT 
+                DATE(created_at) AS date,
+                COUNT(id) AS num
+            FROM report
+            WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+            GROUP BY DATE(created_at);
+        `;
+        const [rows] = await this.db.getPool().query(sql);
+        return rows as ReportDateInfo[];
     }
 }

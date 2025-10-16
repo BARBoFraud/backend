@@ -28,6 +28,7 @@ import {
     DashboardReport,
     FeedReport,
     HistoryReport,
+    ReportDateInfo,
     SearchQueryReport,
     SearchReport,
     ShortDashboardReport,
@@ -439,5 +440,19 @@ export class ReportsController {
     @ApiBearerAuth()
     async getDashboardRejected(): Promise<ShortDashboardReport[]> {
         return await this.reportsService.getDashboardRejected();
+    }
+
+    @Get('/weekly')
+    @ApiOperation({
+        summary:
+            'Endpoint para obtener el numero de reportes por dia en la ultima semana'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Datos obtenidos correctamente',
+        example: [{ date: '2025-10-20', num: '10' }]
+    })
+    async getWeeklyReports(): Promise<ReportDateInfo[]> {
+        return await this.reportsService.getWeeklyReports();
     }
 }

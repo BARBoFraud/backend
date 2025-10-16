@@ -139,3 +139,8 @@ export interface SearchReport {
     commentsCount: number;
     userLiked: boolean;
 }
+
+export interface ReportDateInfo {
+    date: string;
+    num: number;
+}

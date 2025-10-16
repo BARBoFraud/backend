@@ -5,6 +5,7 @@ import {
     DashboardReport,
     FeedReport,
     HistoryReport,
+    ReportDateInfo,
     SearchQueryReport,
     SearchReport,
     ShortDashboardReport,
@@ -233,5 +234,35 @@ export class ReportsService {
             throw new NotFoundException('No existe un status con ese nombre');
         }
         return await this.reportsRepository.getForDashboardByStatus(status.id);
+    }
+
+    async getWeeklyReports(): Promise<ReportDateInfo[]> {
+        const reports = await this.reportsRepository.getWeeklyReports();
+        console.log(reports);
+
+        const today = new Date();
+        const days: string[] = [];
+
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(today.getDate() - i);
+            const dateStr = d.toISOString().split('T')[0];
+            days.push(dateStr);
+        }
+
+        const dataMap = new Map<string, number>(
+            reports.map((r) => {
+                const d = new Date(r.date);
+                const dateKey = d.toISOString().split('T')[0];
+                return [dateKey, r.num];
+            })
+        );
+
+        const completeData = days.map((day) => ({
+            date: day,
+            num: dataMap.get(day) || 0
+        }));
+
+        return completeData;
     }
 }
