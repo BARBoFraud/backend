@@ -1,7 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { 
+    Controller,
+    Get,
+    UseGuards, 
+    Param 
+} from '@nestjs/common';
+import { UsersAuthGuard } from '../common/guards/users-auth.guard';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
-import { CategoryData } from './types/categories.types';
+import { CategoryData, CategoryId } from './types/categories.types';
 import { CountData } from 'src/common/types/graph.types';
 
 @ApiTags('Modulo de utilidades de categorias')
@@ -44,12 +50,31 @@ export class CategoriesController {
         return await this.categoriesService.listCategories();
     }
 
-    @Get('counts')
+    @Get('/counts')
     @ApiOperation({
         summary: 'Endpoint para obtener el porcentaje de reportes por categoria'
     })
     @ApiResponse({ status: 200, description: 'Datos obtenidos correctamente' })
     async getCounts(): Promise<CountData[]> {
         return await this.categoriesService.getCounts();
+    }
+
+    @Get(':name')
+    @UseGuards(UsersAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({
+        summary: "Endpoint para obtener el ID de una categoria mediante el nombre"
+    })
+    @ApiResponse({ 
+        status: 200,
+        description: "ID obtenido correctamente",
+        example: {
+            id: 1
+        }
+    })
+    async getId(
+        @Param('name') name: string
+    ): Promise<CategoryId> {
+        return await this.categoriesService.getId(name);
     }
 }
