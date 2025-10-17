@@ -40,7 +40,7 @@ export class CategoriesRepository {
         return rows as CountData[];
     }
 
-    async getId(name: string): Promise<CategoryId> {
+    async getId(name: string): Promise<CategoryId | null> {
         const sql = `
             SELECT
                 c.id
@@ -49,6 +49,6 @@ export class CategoriesRepository {
         `;
         const [rows] = await this.db.getPool().query(sql, [name]);
 
-        return rows[0] || null;
+        return (rows[0] as CategoryId) || null;
     }
 }

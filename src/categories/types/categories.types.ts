@@ -10,4 +10,4 @@ export type CountData = {
 
 export type CategoryId = {
     id: number;
-}
+};

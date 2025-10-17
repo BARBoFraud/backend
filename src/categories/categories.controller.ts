@@ -1,11 +1,11 @@
-import { 
-    Controller,
-    Get,
-    UseGuards, 
-    Param 
-} from '@nestjs/common';
+import { Controller, Get, UseGuards, Param } from '@nestjs/common';
 import { UsersAuthGuard } from '../common/guards/users-auth.guard';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags
+} from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
 import { CategoryData, CategoryId } from './types/categories.types';
 import { CountData } from 'src/common/types/graph.types';
@@ -63,18 +63,17 @@ export class CategoriesController {
     @UseGuards(UsersAuthGuard)
     @ApiBearerAuth()
     @ApiOperation({
-        summary: "Endpoint para obtener el ID de una categoria mediante el nombre"
+        summary:
+            'Endpoint para obtener el ID de una categoria mediante el nombre'
     })
-    @ApiResponse({ 
+    @ApiResponse({
         status: 200,
-        description: "ID obtenido correctamente",
+        description: 'ID obtenido correctamente',
         example: {
             id: 1
         }
     })
-    async getId(
-        @Param('name') name: string
-    ): Promise<CategoryId> {
+    async getId(@Param('name') name: string): Promise<CategoryId> {
         return await this.categoriesService.getId(name);
     }
 }

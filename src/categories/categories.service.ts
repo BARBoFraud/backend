@@ -16,10 +16,10 @@ export class CategoriesService {
     }
 
     async getId(name: string) {
-        const result = this.categoriesRepository.getId(name);
+        const result = await this.categoriesRepository.getId(name);
 
         if (!result) {
-            throw new NotFoundException("Categoria no encontrada");
+            throw new NotFoundException('Categoria no encontrada');
         }
 
         return result;
