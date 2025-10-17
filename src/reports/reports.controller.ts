@@ -281,7 +281,7 @@ export class ReportsController {
         );
     }
 
-    @Get(':id/history')
+    @Get('/:id/history')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo del historial'
     })
@@ -318,7 +318,7 @@ export class ReportsController {
         );
     }
 
-    @Get(':id/dashboard')
+    @Get('/:id/dashboard')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo del dashboard'
     })
@@ -352,7 +352,7 @@ export class ReportsController {
         return await this.reportsService.getCompleteDashboardReport(id);
     }
 
-    @Get(':id/search')
+    @Get('/:id/search')
     @ApiOperation({
         summary: 'Endpoint para obtener un reporte completo de busqueda'
     })
