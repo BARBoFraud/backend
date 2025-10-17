@@ -150,6 +150,7 @@ export class ReportsRepository {
                 (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
                 r.id,
                 r.title,
+                ri.level as riskLevel,
                 r.description,
                 r.url,
                 r.website,
@@ -163,6 +164,7 @@ export class ReportsRepository {
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN \`user\` u ON r.id_user = u.id
+            INNER JOIN risk ri on r.id_risk = ri.id
             WHERE r.id = ?
             LIMIT 1;
         `;
