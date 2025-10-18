@@ -53,3 +53,12 @@ BASE_URL=http://localhost:4000
 DEFAULT_USER=<nombre_de_usuario_admin>
 DEFAULT_PASSWORD=<contraseña_admin>
 ```
+
+Usa un gestor de paquetes para instalar las dependencias del proyecto.
+
+```bash
+npm install
+yarn install
+pnpm install
+bun install
+```
