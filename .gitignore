@@ -5,6 +5,8 @@
 /tmp
 /public
 
+.DS_Store
+
 pnpm-lock.yaml
 bun.lock
 

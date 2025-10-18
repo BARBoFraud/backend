@@ -238,7 +238,6 @@ export class ReportsService {
 
     async getWeeklyReports(): Promise<ReportDateInfo[]> {
         const reports = await this.reportsRepository.getWeeklyReports();
-        console.log(reports);
 
         const today = new Date();
         const days: string[] = [];
