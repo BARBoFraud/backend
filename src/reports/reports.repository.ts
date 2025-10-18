@@ -144,13 +144,13 @@ export class ReportsRepository {
     async getCompleteDashboardReport(
         reportId: number
     ): Promise<DashboardReport> {
+        console.log(reportId)
         const sql = `
             SELECT 
                 (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
                 (IF(r.anonymous = TRUE, NULL, u.last_name_1)) AS lastName,
                 r.id,
                 r.title,
-                ri.level as riskLevel,
                 r.description,
                 r.url,
                 r.website,
@@ -164,12 +164,12 @@ export class ReportsRepository {
             FROM report r
             INNER JOIN category c ON r.id_category = c.id
             INNER JOIN \`user\` u ON r.id_user = u.id
-            INNER JOIN risk ri on r.id_risk = ri.id
             WHERE r.id = ?
             LIMIT 1;
         `;
 
         const [rows] = await this.db.getPool().query(sql, [reportId]);
+        console.log(rows)
         return (rows[0] as DashboardReport) || null;
     }
 
