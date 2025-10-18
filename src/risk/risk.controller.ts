@@ -28,7 +28,24 @@ export class RiskController {
     @ApiOperation({
         summary: 'Endpoint para obtener la lista de riesgos y su id'
     })
-    @ApiResponse({ status: 200, description: 'Datos obtenidos correctamente' })
+    @ApiResponse({
+        status: 200,
+        description: 'Datos obtenidos correctamente',
+        example: [
+            {
+                id: 1,
+                level: 'Alto'
+            },
+            {
+                id: 2,
+                level: 'Medio'
+            },
+            {
+                id: 3,
+                level: 'Bajo'
+            }
+        ]
+    })
     @ApiResponse({ status: 401, description: 'No autorizado por jwt' })
     @ApiBearerAuth()
     @UseGuards(AdminsAuthGuard)

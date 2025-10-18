@@ -92,6 +92,7 @@ export interface DashboardReport {
     id: number;
     category: string;
     createdAt: Date;
+    riskLevel?: string;
     title: string;
     description: string;
     image?: string;

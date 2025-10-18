@@ -330,6 +330,7 @@ export class ReportsController {
             lastName: 'Perez',
             id: 3,
             title: 'Estafa en instagram',
+            riskLevel: 'Alto',
             description: 'Sitio web fraudulento, me robaron 4000 pesos.',
             url: 'www.tennisgratis.com',
             website: 'Tennis Gratis Mexico',
