@@ -36,4 +36,16 @@ export class RiskRepository {
         const [rows] = await this.db.getPool().query(sql);
         return rows as CountData[];
     }
+
+    async getRiskList(): Promise<RiskData[]> {
+        const sql = `
+            SELECT
+                id,
+                level
+            FROM risk;
+        `;
+
+        const [rows] = await this.db.getPool().query(sql);
+        return rows as RiskData[];
+    }
 }
