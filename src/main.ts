@@ -4,15 +4,15 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { VersioningType } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'node:path';
-import morgan from 'morgan';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
-    app.use(morgan('dev'));
     app.useStaticAssets(join(__dirname, '..', 'public'), {
         prefix: '/public/'
     });
-    app.enableCors();
+    app.enableCors({
+        origin: ['http://localhost:3000']
+    });
     app.enableVersioning({
         type: VersioningType.URI
     });
