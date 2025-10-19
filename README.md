@@ -28,6 +28,9 @@ cd <tu-carpeta>
  mysql -h <ip-del-servidor-db> -P 3306 -u <usuario> -p < ./database/schema.sql
 ```
 
+> [!NOTE]
+> El archivo de schema.sql se encuentra en el repositorio, no tienes que descargarlo de ningún otro lado.
+
 3. Ingresa tu contraseña cuando MySQL la pida.
 
 ## Creación de ambiente de ejecución
@@ -54,12 +57,16 @@ DEFAULT_USER=<nombre_de_usuario_admin>
 DEFAULT_PASSWORD=<contraseña_admin>
 ```
 
-Usa un gestor de paquetes para instalar las dependencias del proyecto.
+Instala las dependencias del proyecto.
 
 ```bash
+# Instala las dependencias con tu gestor preferido
 npm install
+# o
 yarn install
+# o
 pnpm install
+# o
 bun install
 ```
 
@@ -73,7 +80,7 @@ app.enableCors({
 
 ## Ejecución del codigo
 
-Para empezar la ejecución del codigo sigue los siguientes pasos:
+Para iniciar la ejecución del codigo sigue los siguientes pasos:
 
 Ejecuta estos comandos en tu terminal
 
@@ -86,4 +93,22 @@ bun run build
 
 ```bash
 node dist/main.js
+```
+
+## Verificación de la Instalación
+
+Para probar el estado del servidor, puedes ejecutar el siguiente comando:
+
+```bash
+curl http://<ip-del-servidor-api>:4000/v1/status/list
+```
+
+Y deberias de ver un output parecido a este:
+
+```json
+[
+    { "id": 2, "name": "Aceptado" },
+    { "id": 1, "name": "Pendiente" },
+    { "id": 3, "name": "Rechazado" }
+]
 ```
