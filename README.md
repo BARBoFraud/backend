@@ -85,10 +85,14 @@ Para iniciar la ejecución del codigo sigue los siguientes pasos:
 Ejecuta estos comandos en tu terminal
 
 ```bash
-npm run build
-pnpm run build
-yarn run build
-bun run build
+# Usa tu gestor preferido
+npm install
+# o
+yarn install
+# o
+pnpm install
+# o
+bun install
 ```
 
 ```bash
