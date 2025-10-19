@@ -4,7 +4,6 @@ import {
     IsEmail,
     IsNumber,
     IsOptional,
-    IsPhoneNumber,
     IsString,
     IsUrl,
     MaxLength
