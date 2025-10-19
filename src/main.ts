@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'node:path';
 
@@ -10,6 +10,7 @@ async function bootstrap() {
     app.useStaticAssets(join(__dirname, '..', 'public'), {
         prefix: '/public/'
     });
+    app.useGlobalPipes(new ValidationPipe());
     app.enableCors({
         origin: ['http://localhost:3000']
     });
