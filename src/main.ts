@@ -5,10 +5,12 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'node:path';
 import helmet from 'helmet';
+import morgan from 'morgan';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.disable('x-powered-by');
+    app.use(morgan('dev'));
     app.use(helmet());
     app.useStaticAssets(join(__dirname, '..', 'public'), {
         prefix: '/public/'

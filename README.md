@@ -86,16 +86,17 @@ Ejecuta estos comandos en tu terminal
 
 ```bash
 # Usa tu gestor preferido
-npm install
+npm run build
 # o
-yarn install
+yarn run build
 # o
-pnpm install
+pnpm run build
 # o
-bun install
+bun run build
 ```
 
 ```bash
+# Inicia la api
 node dist/main.js
 ```
 
@@ -115,4 +116,35 @@ Y deberias de ver un output parecido a este:
     { "id": 1, "name": "Pendiente" },
     { "id": 3, "name": "Rechazado" }
 ]
+```
+
+## Problemas de conexion a servidor SQL remoto.
+
+- Asegurate de que tu usuario de MySQL pueda aceptar conexiones de IP's externas.
+
+```sql
+CREATE USER 'tu_usuario'@'%' IDENTIFIED BY 'tu_contraseña';
+GRANT ALL PRIVILEGES ON *.* TO 'tu_usuario'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+```
+
+En el archivo mysqld.cnf (por lo general en /etc/mysql/mysql.conf.d/)
+Cambia la linea
+
+```bash
+bind-address = 127.0.0.1
+```
+
+Por
+
+```bash
+bind-address = 0.0.0.0
+```
+
+Y reinicia tu servicio de mysql
+
+- Abre el puerto de mysql en tu host.
+
+```bash
+sudo ufw allow 3306/tcp
 ```
