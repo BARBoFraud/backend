@@ -148,3 +148,9 @@ Y reinicia tu servicio de mysql
 ```bash
 sudo ufw allow 3306/tcp
 ```
+
+## Recomendaciones finales
+
+1. No subas el archivo .env a tu repositorio remoto.
+2. No uses el usuario root para manejar la base de datos.
+3. Usa contraseñas seguras, puedes generarlas con keepass o algun otro gestor de contraseñas.
