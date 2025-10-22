@@ -21,7 +21,7 @@ async function bootstrap() {
     });
     app.useGlobalPipes(new ValidationPipe());
     app.enableCors({
-        origin: ['http://localhost:3000']
+        origin: ['http://localhost:8080', 'http://localhost:3000']
     });
     app.enableVersioning({
         type: VersioningType.URI
@@ -33,6 +33,6 @@ async function bootstrap() {
         .build();
     const doc = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('/docs', app, doc);
-    await app.listen(process.env.PORT ?? 4000);
+    await app.listen(process.env.PORT ?? 4000, '0.0.0.0');
 }
 void bootstrap();
