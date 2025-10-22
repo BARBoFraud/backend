@@ -144,7 +144,6 @@ export class ReportsRepository {
     async getCompleteDashboardReport(
         reportId: number
     ): Promise<DashboardReport> {
-        console.log(reportId);
         const sql = `
             SELECT 
                 (IF(r.anonymous = TRUE, NULL, u.name)) AS name,
@@ -171,7 +170,6 @@ export class ReportsRepository {
         `;
 
         const [rows] = await this.db.getPool().query(sql, [reportId]);
-        console.log(rows);
         return (rows[0] as DashboardReport) || null;
     }
 
