@@ -185,7 +185,7 @@ export class ReportsService {
             throw new NotFoundException('Report no encontrado');
         }
 
-        if (!report.image) {
+        if (report.image) {
             const baseUrl = process.env.BASE_URL;
             report.image = `${baseUrl}/public/uploads/${report.image}`;
         }
