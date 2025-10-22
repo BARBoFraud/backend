@@ -11,7 +11,11 @@ async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.disable('x-powered-by');
     app.use(morgan('dev'));
-    app.use(helmet());
+    app.use(
+        helmet({
+            crossOriginResourcePolicy: { policy: 'cross-origin' }
+        })
+    );
     app.useStaticAssets(join(__dirname, '..', 'public'), {
         prefix: '/public/'
     });
