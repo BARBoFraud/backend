@@ -3,7 +3,9 @@
 ## Prerequisitos
 
 - MySQL >= 8.0 en tu servidor de base de datos.
-- Nodejs >= 24.7.0 en tu servidor del api.
+- Nodejs >= 18.0.0 en tu servidor del api.
+
+## Instalación
 
 1. Clona el repositorio
 
@@ -35,26 +37,11 @@ cd <tu-carpeta>
 
 ## Creación de ambiente de ejecución
 
-Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+Copia y configura el archivo `.env.example` usando los siguientes comandos:
 
-```env
-DB_PORT=3306
-DB_HOST=<ip-del-servidor-db>
-DB_USER=<usuario-db>
-DB_PASSWORD="<contraseña_del_usuario>"
-DB_NAME=ofraud
-
-# JWT Configuration
-JWT_SECRET=<genera_con_openssl_rand_-base64_32>
-JWT_EXPIRES_ACCESS=<número><s|m|h>     # Ejemplo: 15m
-JWT_EXPIRES_REFRESH=<número><s|m|h>    # Ejemplo: 7d
-
-# API Configuration
-BASE_URL=http://<ip-del-servidor-api>:4000
-
-# Default Admin User
-DEFAULT_USER=<nombre_de_usuario_admin>
-DEFAULT_PASSWORD=<contraseña_admin>
+```bash
+cp .env.example .env
+vi .env
 ```
 
 Instala las dependencias del proyecto.
